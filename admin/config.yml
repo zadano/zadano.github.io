@@ -1,20 +1,12 @@
-backend:
-  name: github
-  repo: zadano/zadano.github.io
-  branch: main
-  base_url: https://sveltia-cms-auth.n7ycgcn5jd.workers.dev
-
-media_folder: "assets/uploads"
-public_folder: "/assets/uploads"
-
 collections:
   - name: "gdz"
     label: "ГДЗ"
     folder: "gdz"
     create: true
-    slug: "{{class}}-{{subject}}-{{slug}}"
+    slug: "{{date}}-{{subject}}-{{task}}"  # Имя файла будет: 2026-09-26-алгебра-234.md
     fields:
-      - { label: "Класс", name: "class", widget: "string" }
-      - { label: "Предмет", name: "subject", widget: "string" }
+      - { label: "Класс", name: "class", widget: "string", default: "7" }
+      - { label: "Предмет", name: "subject", widget: "select", options: ["Алгебра", "Геометрия", "Русский язык", "Английский язык", "Биология", "История", "Физика", "Информатика"] }
+      - { label: "Дата", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "DD.MM.YYYY", time_format: false }
       - { label: "Номер задания", name: "task", widget: "string" }
       - { label: "Решение", name: "body", widget: "markdown" }
