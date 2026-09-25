@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zadano | ГДЗ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --accent: #4f46e5;
+      --accent-light: #eef2ff;
+      --accent-dark: #3730a3;
+      --bg: #f7f7fb;
+      --card: #ffffff;
+      --text: #0f0f14;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --radius: 16px;
+      --radius-sm: 12px;
+      --shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(15,15,20,0.04);
+      --shadow-hover: 0 4px 8px rgba(0,0,0,0.05), 0 12px 24px rgba(79,70,229,0.12);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Шапка ── */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.5rem;
+      position: sticky;
+      top: 0;
+      background: rgba(247,247,251,0.85);
+      backdrop-filter: saturate(180%) blur(12px);
+      -webkit-backdrop-filter: saturate(180%) blur(12px);
+      z-index: 100;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hamburger {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      background: var(--card);
+      border: 1px solid var(--border);
+      transition: all 0.2s ease;
+    }
+
+    .hamburger:hover {
+      background: var(--accent-light);
+      border-color: var(--accent);
+    }
+
+    .hamburger:active { transform: scale(0.94); }
+
+    .hamburger span {
+      display: block;
+      height: 2px;
+      width: 18px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: 0.2s;
+    }
+
+    .hamburger:hover span { background: var(--accent); }
+
+    .logo {
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent), #8b5cf6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 800;
+      font-size: 1rem;
+      box-shadow: 0 4px 10px rgba(79,70,229,0.3);
+    }
+
+    .logo span {
+      font-weight: 400;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    /* ── Контейнер ── */
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 1.5rem 1.5rem 4rem;
+      width: 100%;
+      flex: 1;
+    }
+
+    /* ── Секции ── */
+    .section-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+      font-weight: 700;
+      margin-top: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .section-title:first-child { margin-top: 0; }
+
+    .section-title::before {
+      content: '';
+      width: 4px;
+      height: 14px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+
+    /* ── Таблица расписания ── */
+    .table-wrap {
+      background: var(--card);
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      margin-bottom: 1rem;
+    }
+
+    .schedule-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    .schedule-table th, .schedule-table td {
+      padding: 0.75rem 1rem;
+      text-align: left;
+    }
+
+    .schedule-table th {
+      background: var(--accent-light);
+      color: var(--accent-dark);
+      font-weight: 700;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .schedule-table tbody tr {
+      border-top: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+
+    .schedule-table tbody tr:hover { background: #fafafe; }
+
+    .schedule-table td:first-child {
+      font-weight: 700;
+      color: var(--accent);
+      width: 60px;
+    }
+
+    /* ── Список предметов ── */
+    .subject-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .subject-item {
+      padding: 1rem 1.2rem;
+      background: var(--card);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      text-decoration: none;
+      color: var(--text);
+      box-shadow: var(--shadow);
+    }
+
+    .subject-item:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+      box-shadow: var(--shadow-hover);
+      color: var(--accent);
+    }
+
+    .subject-item:active { transform: translateY(0); }
+
+    .subject-item .arrow {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--accent-light);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .subject-item:hover .arrow {
+      background: var(--accent);
+      color: #fff;
+      transform: translateX(4px);
+    }
+
+    /* ── Нижние ссылки ── */
+    .extra-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .extra-link {
+      padding: 0.9rem 1.2rem;
+      background: var(--card);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      color: var(--text);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+    }
+
+    .extra-link:hover {
+      border-color: var(--accent);
+      background: #fafafe;
+    }
+
+    .extra-link .badge {
+      font-size: 0.7rem;
+      color: var(--accent);
+      background: var(--accent-light);
+      padding: 0.25rem 0.6rem;
+      border-radius: 20px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .extra-link .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 0 3px rgba(34,197,94,0.2);
+    }
+
+    /* ── Футер ── */
+    .footer {
+      text-align: center;
+      padding: 2rem 1.5rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      background: var(--card);
+    }
+
+    /* ── Полноэкранное меню ── */
+    .full-menu {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(160deg, #ffffff 0%, #f5f3ff 100%);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+      padding-left: 8%;
+      padding-right: 2rem;
+    }
+
+    .full-menu.active {
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 0.35s ease, visibility 0s linear 0s;
+    }
+
+    .close-menu {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      padding: 0.6rem 1rem;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .close-menu:hover {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    .menu-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .menu-link {
+      font-size: 2.5rem;
+      font-weight: 800;
+      text-decoration: none;
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .menu-link::before {
+      content: '';
+      width: 0;
+      height: 4px;
+      background: var(--accent);
+      border-radius: 2px;
+      transition: width 0.25s ease;
+    }
+
+    .menu-link:hover { color: var(--accent); }
+    .menu-link:hover::before { width: 30px; }
+
+    .full-menu.active .menu-link {
+      animation: fadeSlideUp 0.35s forwards;
+      opacity: 0;
+      transform: translateY(12px);
+    }
+
+    .full-menu.active .menu-link:nth-child(1) { animation-delay: 0.05s; }
+    .full-menu.active .menu-link:nth-child(2) { animation-delay: 0.1s; }
+    .full-menu.active .menu-link:nth-child(3) { animation-delay: 0.15s; }
+    .full-menu.active .menu-link:nth-child(4) { animation-delay: 0.2s; }
+
+    @keyframes fadeSlideUp {
+      0% { opacity: 0; transform: translateY(14px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    body.no-scroll { overflow: hidden; }
+
+    /* ── Страницы SPA ── */
+    .page { display: none; }
+    .page.active { display: block; animation: fadeIn 0.3s ease; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Страница ГДЗ ── */
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 1.5rem;
+      font-size: 0.85rem;
+      text-decoration: none;
+      color: var(--muted);
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0.5rem 0.9rem;
+      border-radius: 10px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+    }
+
+    .back-btn:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: var(--accent-light);
+    }
+
+    .page-title {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.3rem;
+    }
+
+    .page-subtitle {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .gd-item {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.4rem;
+      margin-bottom: 0.9rem;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .gd-item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: linear-gradient(180deg, var(--accent), #8b5cf6);
+    }
+
+    .gd-item:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--accent);
+    }
+
+    .gd-item .task-title {
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 0.6rem;
+      color: var(--accent-dark);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .gd-item .task-title::before {
+      content: '№';
+      color: var(--accent);
+      font-weight: 800;
+    }
+
+    .gd-item .task-desc {
+      font-size: 0.9rem;
+      color: #374151;
+      line-height: 1.7;
+      font-family: 'Inter', monospace;
+    }
+
+    /* ── Адаптив ── */
+    @media (max-width: 600px) {
+      .menu-link { font-size: 2rem; }
+      .full-menu { padding-left: 6%; }
+      .schedule-table { font-size: 0.82rem; }
+      .schedule-table th, .schedule-table td { padding: 0.55rem 0.7rem; }
+      .page-title { font-size: 1.6rem; }
+      .container { padding: 1.25rem 1rem 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Шапка -->
+  <header class="header">
+    <div class="hamburger" id="openMenuBtn" aria-label="Открыть меню">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="logo">
+      <div class="logo-mark">Z</div>
+      Zadano <span>(gdz)</span>
+    </div>
+  </header>
+
+  <!-- Меню -->
+  <div class="full-menu" id="fullMenu">
+    <button class="close-menu" id="closeMenuBtn">✕ закрыть</button>
+    <nav class="menu-nav">
+      <a class="menu-link" data-page="home">главная</a>
+      <a class="menu-link" data-page="algebra">алгебра</a>
+      <a class="menu-link" data-page="schedule">расписание</a>
+      <a class="menu-link" data-page="about">о сайте</a>
+    </nav>
+  </div>
+
+  <!-- ═══════════════ КОНТЕНТ ═══════════════ -->
+  <div class="container">
+
+    <!-- ── ГЛАВНАЯ ── -->
+    <section class="page active" id="page-home">
+
+      <div class="section-title">Расписание</div>
+      <div class="table-wrap">
+        <table class="schedule-table">
+          <thead>
+            <tr>
+              <th>День</th>
+              <th>Уроки</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Пн</td>
+              <td>Русский, Литература, Алгебра, География, Информатика</td>
+            </tr>
+            <tr>
+              <td>Вт</td>
+              <td>Английский, Биология, Алгебра, Физкультура, История</td>
+            </tr>
+            <tr>
+              <td>Ср</td>
+              <td>Геометрия, Русский, Физика, Музыка</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="section-title">Список предметов</div>
+      <div class="subject-list">
+        <a class="subject-item" data-page="algebra">
+          Алгебра <span class="arrow">→</span>
+        </a>
+        <div class="subject-item" onclick="alert('Страница в разработке')">
+          Геометрия <span class="arrow">→</span>
+        </div>
+        <div class="subject-item" onclick="alert('Страница в разработке')">
+          Русский язык <span class="arrow">→</span>
+        </div>
+        <div class="subject-item" onclick="alert('Страница в разработке')">
+          Английский язык <span class="arrow">→</span>
+        </div>
+      </div>
+
+      <div class="section-title">Полезное</div>
+      <div class="extra-links">
+        <div class="extra-link">
+          Список дз <span class="badge">скоро</span>
+        </div>
+        <a href="#" class="extra-link">
+          Telegram канал <span class="dot"></span>
+        </a>
+        <div class="extra-link">
+          Новости решений <span class="arrow" style="color:var(--muted);font-size:1rem;">→</span>
+        </div>
+        <div class="extra-link">
+          Полезные материалы <span class="badge">скоро</span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ── СТРАНИЦА ГДЗ ПО АЛГЕБРЕ ── -->
+    <section class="page" id="page-algebra">
+      <a class="back-btn" data-page="home">← назад</a>
+      <h1 class="page-title">ГДЗ по алгебре</h1>
+      <p class="page-subtitle">Решения и ответы · актуальное</p>
+
+      <div class="gd-item">
+        <div class="task-title">234 (а, б)</div>
+        <div class="task-desc">
+          а) 2x + 5 = 15 → 2x = 10 → x = 5<br>
+          б) 3y − 7 = 11 → 3y = 18 → y = 6
+        </div>
+      </div>
+
+      <div class="gd-item">
+        <div class="task-title">235</div>
+        <div class="task-desc">
+          4a − 3 = 2a + 9 → 2a = 12 → a = 6
+        </div>
+      </div>
+
+      <div class="gd-item">
+        <div class="task-title">240 (в)</div>
+        <div class="task-desc">
+          x² − 9 = 0 → x² = 9 → x = ±3
+        </div>
+      </div>
+
+      <div class="gd-item">
+        <div class="task-title">245</div>
+        <div class="task-desc">
+          Система:<br>
+          2x + y = 7<br>
+          x − y = 2<br>
+          Сложим: 3x = 9 → x = 3, y = 1
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ── РАСПИСАНИЕ ── -->
+    <section class="page" id="page-schedule">
+      <a class="back-btn" data-page="home">← назад</a>
+      <h1 class="page-title">Расписание</h1>
+      <p class="page-subtitle">Полная неделя</p>
+
+      <div class="table-wrap">
+        <table class="schedule-table">
+          <thead>
+            <tr><th>День</th><th>Уроки</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Пн</td><td>Русский, Литература, Алгебра, География, Информатика</td></tr>
+            <tr><td>Вт</td><td>Английский, Биология, Алгебра, Физкультура, История</td></tr>
+            <tr><td>Ср</td><td>Геометрия, Русский, Физика, Музыка</td></tr>
+            <tr><td>Чт</td><td>История, Обществознание, Химия, Геометрия</td></tr>
+            <tr><td>Пт</td><td>Алгебра, Русский, Литература, Физкультура</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── О САЙТЕ ── -->
+    <section class="page" id="page-about">
+      <a class="back-btn" data-page="home">← назад</a>
+      <h1 class="page-title">О сайте</h1>
+      <p class="page-subtitle">Минималистичный помощник с ДЗ</p>
+      <div class="gd-item">
+        <div class="task-desc" style="font-family:'Inter',sans-serif; font-size:0.95rem;">
+          Zadano — сайт с готовыми домашними заданиями. Выбирай предмет, смотри решения.
+          Ничего лишнего: только то, что нужно для школы.
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Футер -->
+  <footer class="footer">
+    Zadano © 2026 · сделано для школы
+  </footer>
+
+  <script>
+    (function () {
+      const openBtn = document.getElementById('openMenuBtn');
+      const closeBtn = document.getElementById('closeMenuBtn');
+      const menu = document.getElementById('fullMenu');
+      const bodyEl = document.body;
+      const links = document.querySelectorAll('.menu-link');
+      const pages = document.querySelectorAll('.page');
+      const subjectLinks = document.querySelectorAll('.subject-item[data-page]');
+      const backBtns = document.querySelectorAll('.back-btn[data-page]');
+
+      function openFullMenu() {
+        menu.classList.add('active');
+        bodyEl.classList.add('no-scroll');
+      }
+
+      function closeFullMenu() {
+        menu.classList.remove('active');
+        bodyEl.classList.remove('no-scroll');
+      }
+
+      openBtn.addEventListener('click', openFullMenu);
+      closeBtn.addEventListener('click', closeFullMenu);
+
+      menu.addEventListener('click', function (e) {
+        if (!e.target.closest('.menu-link') && !e.target.closest('.close-menu')) {
+          closeFullMenu();
+        }
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && menu.classList.contains('active')) {
+          closeFullMenu();
+        }
+      });
+
+      function showPage(pageId) {
+        pages.forEach(p => p.classList.remove('active'));
+        const target = document.getElementById('page-' + pageId);
+        if (target) target.classList.add('active');
+
+        links.forEach(l => l.classList.remove('active-page'));
+        const activeLink = document.querySelector(`.menu-link[data-page="${pageId}"]`);
+        if (activeLink) activeLink.classList.add('active-page');
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      links.forEach(link => {
+        link.addEventListener('click', function () {
+          showPage(this.dataset.page);
+          closeFullMenu();
+        });
+      });
+
+      subjectLinks.forEach(link => {
+        link.addEventListener('click', function (e) {
+          e.preventDefault();
+          showPage(this.dataset.page);
+        });
+      });
+
+      backBtns.forEach(btn => {
+        btn.addEventListener('click', function () {
+          showPage(this.dataset.page);
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
