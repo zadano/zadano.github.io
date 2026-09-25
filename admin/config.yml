@@ -1,0 +1,20 @@
+backend:
+  name: github
+  repo: zadano/zadano.github.io
+  branch: main
+  base_url: https://sveltia-cms-auth.n7ycgcn5jd.workers.dev
+
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
+
+collections:
+  - name: "gdz"
+    label: "ГДЗ"
+    folder: "gdz"
+    create: true
+    slug: "{{class}}-{{subject}}-{{slug}}"
+    fields:
+      - { label: "Класс", name: "class", widget: "string" }
+      - { label: "Предмет", name: "subject", widget: "string" }
+      - { label: "Номер задания", name: "task", widget: "string" }
+      - { label: "Решение", name: "body", widget: "markdown" }
