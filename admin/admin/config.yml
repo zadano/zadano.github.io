@@ -1,7 +1,0 @@
-backend:
-  name: github
-  repo: repo: zadano/zadano.github.io # Замените на ваш логин
-  branch: main
-  base_url: https://sveltia-cms-auth.n7ycgcn5jd.workers.dev # Заполним на шаге 3
-media_folder: "assets/uploads"
-public_folder: "/assets/uploads"
