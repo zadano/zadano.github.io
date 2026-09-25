@@ -8,7 +8,7 @@ media_folder: "assets/uploads"
 public_folder: "/assets/uploads"
 
 collections:
-  # ── Коллекция ГДЗ ──
+  # ── ГДЗ ──
   - name: "gdz"
     label: "ГДЗ"
     label_singular: "Решение"
@@ -21,12 +21,28 @@ collections:
       - label: "Предмет"
         name: "subject"
         widget: "select"
-        options: ["Алгебра", "Геометрия", "Русский язык", "Английский язык", "Биология", "История", "Физика", "Информатика"]
+        options:
+          - "Литература"
+          - "Алгебра"
+          - "Геометрия"
+          - "Вероятность и статистика"
+          - "Информатика"
+          - "История"
+          - "Обществознание"
+          - "География"
+          - "Биология"
+          - "Физика"
+          - "Химия"
+          - "Иностранный язык"
+          - "Основы безопасности жизнедеятельности"
+          - "Физическая культура"
+          - "Искусство"
+          - "Технология"
       - { label: "Дата", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "DD.MM.YYYY", time_format: false }
       - { label: "Номер задания", name: "task", widget: "string" }
       - { label: "Решение", name: "body", widget: "markdown" }
 
-  # ── Коллекция статей ──
+  # ── СТАТЬИ ──
   - name: "articles"
     label: "Статьи"
     label_singular: "Статья"
@@ -35,6 +51,45 @@ collections:
     slug: "{{slug}}"
     fields:
       - { label: "Название", name: "title", widget: "string" }
-      - { label: "Скрыть из меню", name: "hidden", widget: "boolean", default: false, hint: "Если включено — статья не появится в меню, но будет доступна по прямой ссылке." }
-      - { label: "Короткий адрес (slug)", name: "slug", widget: "string", hint: "Латиница, без пробелов. Например: kak-delat-gdz. По нему статья будет доступна по ссылке." }
+      - { label: "Скрыть из меню", name: "hidden", widget: "boolean", default: false }
+      - { label: "Короткий адрес (slug)", name: "slug", widget: "string", hint: "Латиница, без пробелов. Например: kak-delat-gdz" }
       - { label: "Текст статьи", name: "body", widget: "markdown" }
+
+  # ── РАСПИСАНИЕ ──
+  - name: "schedule"
+    label: "Расписание"
+    label_singular: "День"
+    folder: "schedule"
+    create: true
+    slug: "{{date}}"
+    sortable_fields: ["date"]
+    fields:
+      - { label: "Дата", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "DD.MM.YYYY", time_format: false }
+      - { label: "День недели", name: "day", widget: "string", hint: "Например: Пятница", required: false }
+      - label: "Уроки"
+        name: "lessons"
+        widget: "list"
+        summary: "{{fields.time}} · {{fields.subject}} · каб. {{fields.room}}"
+        fields:
+          - { label: "Время", name: "time", widget: "string", hint: "Например: 08:30 – 09:15" }
+          - label: "Предмет"
+            name: "subject"
+            widget: "select"
+            options:
+              - "Литература"
+              - "Алгебра"
+              - "Геометрия"
+              - "Вероятность и статистика"
+              - "Информатика"
+              - "История"
+              - "Обществознание"
+              - "География"
+              - "Биология"
+              - "Физика"
+              - "Химия"
+              - "Иностранный язык"
+              - "Основы безопасности жизнедеятельности"
+              - "Физическая культура"
+              - "Искусство"
+              - "Технология"
+          - { label: "Кабинет", name: "room", widget: "string" }
