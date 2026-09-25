@@ -202,7 +202,6 @@ mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-we
       let val = line.slice(idx+1).trim();
 
       if(val === ""){
-        // возможно, это список
         const items = [];
         i++;
         while(i < lines.length && lines[i].startsWith("  -")){
@@ -212,7 +211,6 @@ mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-we
             const objKey = itemRaw.slice(0,itemIdx).trim();
             let objVal = itemRaw.slice(itemIdx+1).trim();
             objVal = unquote(objVal);
-            // читаем вложенные поля
             const obj = {[objKey]: objVal};
             i++;
             while(i < lines.length && lines[i].startsWith("    ") && !lines[i].startsWith("  -")){
@@ -372,7 +370,6 @@ mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-we
       String(today.getDate()).padStart(2,"0");
     let entry = DATA.schedule.find(s=>s.date === iso);
     if(!entry){
-      // берём ближайшее будущее, иначе самое свежее
       const sorted = [...DATA.schedule].sort((a,b)=>a.date.localeCompare(b.date));
       entry = sorted.find(s=>s.date >= iso) || sorted[sorted.length - 1];
     }
@@ -400,7 +397,6 @@ mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-we
 
   /* ═══ ГЛАВНАЯ ═══ */
   function renderHome(){
-    // ── Расписание ──
     const sch = getTodaySchedule();
     let scheduleHtml = "";
     if(sch && sch.lessons && sch.lessons.length){
@@ -418,7 +414,6 @@ mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-we
         '<div class="empty-state visible"><span class="icon">🗓️</span>Расписание пока не добавлено.</div>';
     }
 
-    // ── Предметы ──
     const subjectsHtml = SUBJECTS.map(s=>{
       const count = gdzBySubject(s).length;
       return '<a class="subject-item" href="#page/subject/' + subjectSlug(s) + '">' +
@@ -426,7 +421,6 @@ mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-we
         '<span class="arrow">→</span></a>';
     }).join("");
 
-    // ── Статьи ──
     const articlesHtml = DATA.articles.filter(a=>!a.hidden).map(a=>
       '<a class="subject-item" href="#article/' + esc(a.slug) + '">' +
       '<span>' + esc(a.title) + '</span><span class="arrow">→</span></a>'
