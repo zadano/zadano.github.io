@@ -1,0 +1,7 @@
+backend:
+  name: github
+  repo: <ваш-логин>/<ваш-логин>.github.io # Замените на ваш логин
+  branch: main
+  base_url: https://<имя-воркера>.<ваш-субдомен>.workers.dev # Заполним на шаге 3
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
