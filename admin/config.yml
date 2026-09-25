@@ -1,12 +1,40 @@
+backend:
+  name: github
+  repo: zadano/zadano.github.io
+  branch: main
+  base_url: https://sveltia-cms-auth.n7ycgcn5jd.workers.dev
+
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
+
 collections:
+  # ── Коллекция ГДЗ ──
   - name: "gdz"
     label: "ГДЗ"
+    label_singular: "Решение"
     folder: "gdz"
     create: true
-    slug: "{{date}}-{{subject}}-{{task}}"  # Имя файла будет: 2026-09-26-алгебра-234.md
+    slug: "{{date}}-{{subject}}-{{task}}"
+    sortable_fields: ["date", "subject", "task"]
     fields:
       - { label: "Класс", name: "class", widget: "string", default: "7" }
-      - { label: "Предмет", name: "subject", widget: "select", options: ["Алгебра", "Геометрия", "Русский язык", "Английский язык", "Биология", "История", "Физика", "Информатика"] }
+      - label: "Предмет"
+        name: "subject"
+        widget: "select"
+        options: ["Алгебра", "Геометрия", "Русский язык", "Английский язык", "Биология", "История", "Физика", "Информатика"]
       - { label: "Дата", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "DD.MM.YYYY", time_format: false }
       - { label: "Номер задания", name: "task", widget: "string" }
       - { label: "Решение", name: "body", widget: "markdown" }
+
+  # ── Коллекция статей ──
+  - name: "articles"
+    label: "Статьи"
+    label_singular: "Статья"
+    folder: "articles"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Название", name: "title", widget: "string" }
+      - { label: "Скрыть из меню", name: "hidden", widget: "boolean", default: false, hint: "Если включено — статья не появится в меню, но будет доступна по прямой ссылке." }
+      - { label: "Короткий адрес (slug)", name: "slug", widget: "string", hint: "Латиница, без пробелов. Например: kak-delat-gdz. По нему статья будет доступна по ссылке." }
+      - { label: "Текст статьи", name: "body", widget: "markdown" }
