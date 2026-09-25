@@ -8,14 +8,14 @@ media_folder: "assets/uploads"
 public_folder: "/assets/uploads"
 
 collections:
-  # ── ГДЗ ──
+  # ==========================================
+  # ГДЗ
+  # ==========================================
   - name: "gdz"
     label: "ГДЗ"
-    label_singular: "Решение"
     folder: "gdz"
     create: true
     slug: "{{class}}-{{subject}}-{{task}}"
-    sortable_fields: ["date", "subject", "task"]
     fields:
       - label: "Класс"
         name: "class"
@@ -32,80 +32,75 @@ collections:
           - "9"
           - "10"
           - "11"
+
       - label: "Предмет"
         name: "subject"
         widget: "select"
         options:
-          - "Литература"
           - "Алгебра"
           - "Геометрия"
-          - "Вероятность и статистика"
-          - "Информатика"
-          - "История"
-          - "Обществознание"
-          - "География"
-          - "Биология"
+          - "Русский язык"
+          - "Литература"
+          - "Английский язык"
+          - "Немецкий язык"
           - "Физика"
           - "Химия"
-          - "Иностранный язык"
-          - "Основы безопасности жизнедеятельности"
-          - "Физическая культура"
-          - "Искусство"
-          - "Технология"
-      - { label: "ОКНО", name: "okno", widget: "string", required: false }
-      - { label: "РОВ", name: "rov", widget: "string", required: false }
-      - { label: "Дата", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "DD.MM.YYYY", time_format: false }
+          - "Биология"
+          - "История"
+          - "География"
+          - "Информатика"
+          - "Обществознание"
+          - "Окружающий мир"
+
       - { label: "Номер задания", name: "task", widget: "string" }
       - { label: "Решение", name: "body", widget: "markdown" }
 
-  # ── СТАТЬИ ──
-  - name: "articles"
-    label: "Статьи"
-    label_singular: "Статья"
-    folder: "articles"
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - { label: "Название", name: "title", widget: "string" }
-      - { label: "Скрыть из меню", name: "hidden", widget: "boolean", default: false }
-      - { label: "Короткий адрес (slug)", name: "slug", widget: "string", hint: "Латиница, без пробелов. Например: kak-delat-gdz" }
-      - { label: "Текст статьи", name: "body", widget: "markdown" }
-
-  # ── РАСПИСАНИЕ ──
+  # ==========================================
+  # РАСПИСАНИЕ (тут есть РОВ и Окно)
+  # ==========================================
   - name: "schedule"
     label: "Расписание"
-    label_singular: "День"
     folder: "schedule"
     create: true
-    slug: "{{date}}"
-    sortable_fields: ["date"]
+    slug: "{{day}}-{{lesson}}"
     fields:
-      - { label: "Дата", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "DD.MM.YYYY", time_format: false }
-      - { label: "День недели", name: "day", widget: "string", hint: "Например: Пятница", required: false }
-      - label: "Уроки"
-        name: "lessons"
-        widget: "list"
-        summary: "{{fields.time}} · {{fields.subject}} · каб. {{fields.room}}"
-        fields:
-          - { label: "Время", name: "time", widget: "string", hint: "Например: 08:30 – 09:15" }
-          - label: "Предмет"
-            name: "subject"
-            widget: "select"
-            options:
-              - "Литература"
-              - "Алгебра"
-              - "Геометрия"
-              - "Вероятность и статистика"
-              - "Информатика"
-              - "История"
-              - "Обществознание"
-              - "География"
-              - "Биология"
-              - "Физика"
-              - "Химия"
-              - "Иностранный язык"
-              - "Основы безопасности жизнедеятельности"
-              - "Физическая культура"
-              - "Искусство"
-              - "Технология"
-          - { label: "Кабинет", name: "room", widget: "string" }
+      - label: "День недели"
+        name: "day"
+        widget: "select"
+        options:
+          - "Понедельник"
+          - "Вторник"
+          - "Среда"
+          - "Четверг"
+          - "Пятница"
+          - "Суббота"
+
+      - { label: "Номер урока", name: "lesson", widget: "string" }
+
+      - label: "Предмет"
+        name: "subject"
+        widget: "select"
+        options:
+          - "Алгебра"
+          - "Геометрия"
+          - "Русский язык"
+          - "Литература"
+          - "Английский язык"
+          - "Немецкий язык"
+          - "Физика"
+          - "Химия"
+          - "Биология"
+          - "История"
+          - "География"
+          - "Информатика"
+          - "Обществознание"
+          - "Окружающий мир"
+          - "РОВ"
+          - "Окно"
+          - "Физкультура"
+          - "Музыка"
+          - "ИЗО"
+          - "Технология"
+
+      - { label: "Кабинет", name: "room", widget: "string", required: false }
+      - { label: "Заметки", name: "body", widget: "markdown", required: false }
