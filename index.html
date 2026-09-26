@@ -4,177 +4,706 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>Zadano | ГДЗ 7 класс</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/marked@12/marked.min.js"></script>
 <style>
-:root{--accent:#FFD400;--accent-dark:#000;--accent-soft:#FFF9DB;--bg:#f7f7fb;--card:#fff;--text:#0f0f14;--muted:#6b7280;--border:#e5e7eb;--radius:16px;--radius-sm:12px;--shadow:0 1px 2px rgba(0,0,0,.04),0 4px 12px rgba(15,15,20,.04);--shadow-hover:0 4px 8px rgba(0,0,0,.05),0 12px 24px rgba(255,212,0,.35)}
+:root{
+  /* ═══ 60/30/10 ═══ */
+  --bg:#F5F7FA;
+  --sch-bg:#EEF3FA;
+  --card:#FFFFFF;
+  --card-soft:#F7F9FC;
+  --border:#E1E8F0;
+  --border-soft:#EDF1F6;
+  --accent:#2563EB;
+  --accent-soft:#DBE7FB;
+  --accent-glow:rgba(37,99,235,.25);
+  --warm:#F59E0B;
+  --warm-soft:#FEF3C7;
+  --ink:#0F1B3D;
+  --ink-2:#2A3654;
+  --muted:#6B7A94;
+  --radius-lg:28px;
+  --radius-md:20px;
+  --radius-sm:14px;
+  --ease:cubic-bezier(.2,.9,.4,1.1);
+}
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased}
-.header{display:flex;align-items:center;gap:.8rem;padding:.9rem 1.5rem;position:sticky;top:0;background:rgba(247,247,251,.85);backdrop-filter:saturate(180%) blur(12px);-webkit-backdrop-filter:saturate(180%) blur(12px);z-index:100;border-bottom:1px solid var(--border)}
-.hamburger{width:42px;height:42px;border-radius:12px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;cursor:pointer;background:var(--card);border:1px solid var(--border);transition:all .2s ease;flex-shrink:0}
-.hamburger:hover{background:var(--accent-soft);border-color:var(--accent)}
+body{
+  font-family:'Inter',system-ui,sans-serif;
+  background:var(--bg);color:var(--ink);
+  min-height:100vh;-webkit-font-smoothing:antialiased;padding:1rem;
+}
+body.no-scroll{overflow:hidden}
+
+/* ═══ HEADER ═══ */
+.header{
+  display:flex;align-items:center;gap:.8rem;
+  padding:.6rem 1rem;max-width:1280px;margin:0 auto 1rem;
+}
+.hamburger{
+  width:44px;height:44px;border-radius:50%;
+  border:1px solid var(--border);background:var(--card);
+  cursor:pointer;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:4px;
+  transition:all .2s;flex-shrink:0;
+}
+.hamburger:hover{border-color:var(--accent);background:var(--accent-soft)}
 .hamburger:active{transform:scale(.94)}
-.hamburger span{display:block;height:2px;width:18px;background:var(--text);border-radius:2px}
-.logo{font-size:1.35rem;font-weight:800;letter-spacing:-.04em;color:var(--text);flex-shrink:0;display:flex;align-items:center;text-decoration:none}
-.logo::after{content:'.';color:var(--accent);font-size:1.6rem;line-height:1;margin-left:1px}
-.search-wrap{flex:1;max-width:380px;margin-left:auto;position:relative}
-.search-input{width:100%;padding:.7rem 2.6rem .7rem 2.6rem;border-radius:12px;border:1px solid var(--border);background:var(--card);font-family:'Inter',sans-serif;font-size:.92rem;color:var(--text);outline:none;transition:all .2s ease}
-.search-input::placeholder{color:#9ca3af}
-.search-input:focus{border-color:var(--accent);background:#fff;box-shadow:0 0 0 4px rgba(255,212,0,.25)}
-.search-icon{position:absolute;left:.9rem;top:50%;transform:translateY(-50%);width:16px;height:16px;stroke:#9ca3af;fill:none;stroke-width:2;pointer-events:none}
-.search-clear{position:absolute;right:.6rem;top:50%;transform:translateY(-50%);width:24px;height:24px;border-radius:50%;background:var(--bg);border:none;cursor:pointer;display:none;align-items:center;justify-content:center;font-size:.75rem;color:var(--muted)}
+.hamburger span{display:block;width:18px;height:2px;background:var(--ink);border-radius:2px}
+.logo{
+  font-size:1.4rem;font-weight:900;letter-spacing:-.05em;
+  color:var(--ink);text-decoration:none;display:flex;align-items:center;
+}
+.logo::after{content:'.';color:var(--accent);font-size:1.7rem;line-height:1;margin-left:1px}
+
+/* ═══ ПОИСК ═══ */
+.search{flex:1;max-width:420px;margin-left:auto;position:relative}
+.search-input{
+  width:100%;padding:.65rem 2.4rem .65rem 2.4rem;
+  border-radius:40px;border:1px solid var(--border);
+  background:var(--card);font-family:inherit;font-size:.88rem;
+  color:var(--ink);outline:none;transition:all .2s;font-weight:500;
+}
+.search-input::placeholder{color:var(--muted);font-weight:400}
+.search-input:focus{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-glow)}
+.search-icon{
+  position:absolute;left:.85rem;top:50%;transform:translateY(-50%);
+  width:15px;height:15px;stroke:var(--muted);fill:none;stroke-width:2;
+  pointer-events:none;
+}
+.search-input:focus + .search-icon{stroke:var(--accent)}
+.search-clear{
+  position:absolute;right:.6rem;top:50%;transform:translateY(-50%);
+  width:24px;height:24px;border-radius:50%;background:var(--card-soft);
+  border:none;cursor:pointer;display:none;align-items:center;
+  justify-content:center;font-size:.7rem;color:var(--muted);
+}
 .search-clear.visible{display:flex}
-.search-results{display:none;position:absolute;top:calc(100% + 8px);left:0;right:0;background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.12);max-height:60vh;overflow-y:auto;z-index:200}
+.search-results{
+  display:none;position:absolute;top:calc(100% + 8px);left:0;right:0;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:14px;box-shadow:0 8px 30px rgba(15,27,61,.1);
+  max-height:60vh;overflow-y:auto;z-index:200;
+}
 .search-results.visible{display:block}
-.search-result{padding:.8rem 1rem;border-bottom:1px solid var(--border);cursor:pointer;font-size:.88rem}
+.search-result{
+  padding:.8rem 1rem;border-bottom:1px solid var(--border-soft);
+  cursor:pointer;font-size:.88rem;transition:background .15s;
+}
 .search-result:last-child{border-bottom:none}
 .search-result:hover{background:var(--accent-soft)}
-.search-result .sr-type{font-size:.7rem;text-transform:uppercase;color:var(--muted);font-weight:700;letter-spacing:.06em;margin-bottom:.15rem}
-.search-result .sr-title{font-weight:600;color:var(--text)}
+.search-result .sr-type{
+  font-size:.65rem;text-transform:uppercase;color:var(--accent);
+  font-weight:700;letter-spacing:.08em;margin-bottom:.15rem;
+}
+.search-result .sr-title{font-weight:600;color:var(--ink)}
 .search-result .sr-sub{font-size:.8rem;color:var(--muted);margin-top:.1rem}
-.search-no{display:none;padding:1.5rem 1rem;text-align:center;color:var(--muted);font-size:.9rem}
+.search-no{
+  display:none;padding:1.5rem 1rem;text-align:center;
+  color:var(--muted);font-size:.9rem;
+}
 .search-no.visible{display:block}
-.full-menu{position:fixed;top:0;left:0;width:100%;height:100%;background:#fff;z-index:1000;display:flex;flex-direction:column;justify-content:flex-start;align-items:flex-start;opacity:0;visibility:hidden;transition:opacity .3s cubic-bezier(.2,.9,.4,1.1),visibility 0s linear .3s;padding:4rem 2rem 2rem 8%;overflow-y:auto}
-.full-menu.active{opacity:1;visibility:visible;transition:opacity .35s ease,visibility 0s linear 0s}
-.menu-nav{display:flex;flex-direction:column;align-items:flex-start;gap:1.1rem;width:100%;max-width:700px}
-.menu-link{font-family:'Inter',sans-serif;font-size:1.9rem;font-weight:550;text-decoration:none;color:#000;padding:.1rem 0;transition:opacity .2s;text-align:left;letter-spacing:-.02em;line-height:1.15;cursor:pointer;background:none;border:none}
-.menu-link:hover{opacity:.55}
-.close-menu{position:fixed;top:2rem;right:2rem;background:transparent;border:none;font-family:'Inter',sans-serif;font-size:1rem;font-weight:450;color:#000;cursor:pointer;padding:.5rem 1rem;display:flex;align-items:center;gap:6px;z-index:1001}
+
+/* ═══ МЕНЮ ═══ */
+.full-menu{
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  background:var(--bg);z-index:1000;
+  display:flex;flex-direction:column;justify-content:center;
+  align-items:flex-start;
+  padding:4rem 2rem 2rem 8%;
+  opacity:0;visibility:hidden;
+  transition:opacity .35s ease,visibility 0s linear .35s;
+  overflow-y:auto;
+}
+.full-menu.active{
+  opacity:1;visibility:visible;
+  transition:opacity .35s ease,visibility 0s linear 0s;
+}
+.menu-nav{
+  display:flex;flex-direction:column;align-items:flex-start;
+  gap:1.2rem;width:100%;max-width:800px;
+}
+.menu-link{
+  font-family:inherit;font-size:1.8rem;font-weight:600;
+  text-decoration:none;color:var(--ink);
+  letter-spacing:-.03em;line-height:1.15;
+  cursor:pointer;background:none;border:none;
+  text-align:left;padding:0;transition:color .2s;
+}
+.menu-link:hover{color:var(--accent)}
+.close-menu{
+  position:fixed;top:1.6rem;right:1.6rem;
+  background:transparent;border:none;
+  font-family:inherit;font-size:1rem;font-weight:500;
+  color:var(--ink);cursor:pointer;padding:.5rem 1rem;
+  display:flex;align-items:center;gap:6px;
+  transition:opacity .2s;z-index:1001;
+}
 .close-menu:hover{opacity:.55}
-body.no-scroll{overflow:hidden}
-.container{max-width:760px;margin:0 auto;padding:1.5rem 1.5rem 4rem;width:100%;flex:1}
-.section-title{font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:.75rem;font-weight:700;margin-top:2rem;display:flex;align-items:center;gap:.5rem}
-.section-title:first-child{margin-top:0}
-.section-title::before{content:'';width:4px;height:14px;background:var(--accent);border-radius:2px}
-.table-wrap{background:var(--card);border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);box-shadow:var(--shadow);margin-bottom:1rem}
-.schedule-table{width:100%;border-collapse:collapse;font-size:.9rem}
-.schedule-table th,.schedule-table td{padding:.75rem 1rem;text-align:left}
-.schedule-table th{background:var(--accent);color:#000;font-weight:700;font-size:.75rem;text-transform:uppercase;letter-spacing:.06em}
-.schedule-table tbody tr{border-top:1px solid var(--border)}
-.schedule-table td:first-child{font-weight:700;color:var(--accent-dark);width:130px;white-space:nowrap}
-.schedule-table td:nth-child(2){font-weight:600}
-.schedule-table td:nth-child(3){color:var(--muted);font-weight:500;width:80px}
-.subject-list{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1rem}
-.subject-item{padding:1rem 1.2rem;background:var(--card);border-radius:var(--radius-sm);border:1px solid var(--border);font-size:1rem;font-weight:600;cursor:pointer;transition:all .2s ease;display:flex;justify-content:space-between;align-items:center;text-decoration:none;color:var(--text);box-shadow:var(--shadow)}
-.subject-item:hover{transform:translateY(-2px);border-color:var(--accent);box-shadow:var(--shadow-hover)}
-.subject-item.hidden{display:none}
-.subject-item .arrow{width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent-dark);display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:600;transition:all .2s ease;flex-shrink:0}
-.subject-item:hover .arrow{background:var(--accent);color:#000;transform:translateX(4px)}
-.subject-item .count{font-size:.75rem;color:var(--muted);font-weight:600;background:var(--bg);padding:.15rem .5rem;border-radius:20px;margin-right:.5rem}
-mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-weight:inherit}
-.empty-state{display:none;padding:2.5rem 1rem;text-align:center;color:var(--muted);font-size:.95rem;background:var(--card);border-radius:var(--radius);border:1px dashed var(--border)}
-.empty-state.visible{display:block}
-.empty-state .icon{font-size:2rem;display:block;margin-bottom:.5rem;opacity:.4}
-.extra-links{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1rem}
-.extra-link{padding:.9rem 1.2rem;background:var(--card);border-radius:var(--radius-sm);border:1px solid var(--border);font-size:.9rem;font-weight:500;text-decoration:none;color:var(--text);display:flex;justify-content:space-between;align-items:center;transition:all .2s ease;cursor:pointer;box-shadow:var(--shadow)}
-.extra-link:hover{border-color:var(--accent);background:#fffdf0}
-.extra-link .badge{font-size:.7rem;color:#000;background:var(--accent);padding:.25rem .6rem;border-radius:20px;font-weight:700}
-.footer{text-align:center;padding:2rem 1.5rem;font-size:.8rem;color:var(--muted);border-top:1px solid var(--border);background:var(--card);margin-top:auto}
-.footer a{color:var(--muted);text-decoration:none;margin:0 .5rem}
-.footer a:hover{color:var(--accent-dark)}
+
+/* ═══ ОБЁРТКА ═══ */
+.wrap{
+  max-width:1280px;margin:0 auto;
+  display:flex;flex-direction:column;gap:1rem;
+}
+
+/* ═══ РАСПИСАНИЕ ═══ */
+.schedule-bar{
+  background:var(--sch-bg);color:var(--ink);
+  border-radius:var(--radius-lg);
+  padding:1.4rem 1.6rem 1.4rem;
+  display:flex;flex-direction:column;gap:1rem;
+  position:relative;overflow:hidden;
+  border:1px solid var(--border);
+}
+.schedule-bar::before{
+  content:'';position:absolute;top:-50%;right:-10%;
+  width:400px;height:400px;border-radius:50%;
+  background:radial-gradient(circle,rgba(37,99,235,.07),transparent 70%);
+  pointer-events:none;
+}
+.schedule-head{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:1rem;flex-wrap:wrap;position:relative;z-index:1;
+  padding-bottom:.9rem;border-bottom:1px solid var(--border);
+}
+.schedule-title{
+  font-size:1rem;font-weight:800;letter-spacing:-.02em;
+  display:flex;align-items:center;gap:.6rem;color:var(--ink);
+}
+.schedule-title .dot{
+  width:8px;height:8px;border-radius:50%;background:var(--accent);
+  box-shadow:0 0 0 4px var(--accent-soft);
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{
+  0%,100%{box-shadow:0 0 0 4px var(--accent-soft)}
+  50%{box-shadow:0 0 0 8px rgba(37,99,235,.08)}
+}
+.schedule-title .day-name{color:var(--accent);font-weight:700;font-size:.85rem}
+.schedule-tabs{
+  display:flex;gap:.25rem;background:#fff;
+  padding:.25rem;border-radius:30px;
+  border:1px solid var(--border);
+}
+.schedule-tab{
+  font-family:inherit;font-size:.78rem;font-weight:700;
+  padding:.45rem .9rem;border-radius:20px;border:none;
+  background:none;color:var(--muted);
+  cursor:pointer;transition:all .2s;white-space:nowrap;
+}
+.schedule-tab:hover{color:var(--accent)}
+.schedule-tab.active{background:var(--accent);color:#fff}
+.schedule-arrows{display:flex;gap:.35rem}
+.schedule-arrow{
+  width:34px;height:34px;border-radius:50%;border:1px solid var(--border);
+  background:#fff;color:var(--ink);font-size:.95rem;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:all .2s;
+}
+.schedule-arrow:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.schedule-arrow:disabled{opacity:.35;cursor:not-allowed}
+.schedule-arrow:disabled:hover{background:#fff;color:var(--ink);border-color:var(--border)}
+.day-progress{
+  display:flex;align-items:center;gap:.6rem;
+  font-size:.72rem;color:var(--muted);
+  font-weight:600;position:relative;z-index:1;
+}
+.day-progress-bar{
+  flex:1;height:3px;background:var(--border);
+  border-radius:3px;overflow:hidden;
+}
+.day-progress-fill{
+  height:100%;background:var(--accent);
+  transition:width .8s var(--ease);
+}
+.lessons-strip{
+  display:flex;gap:.6rem;overflow-x:auto;padding-bottom:.4rem;
+  scroll-snap-type:x mandatory;scrollbar-width:none;
+  position:relative;z-index:1;
+}
+.lessons-strip::-webkit-scrollbar{display:none}
+.lesson-card{
+  flex:0 0 auto;scroll-snap-align:start;
+  background:#fff;border:1px solid var(--border);
+  border-radius:16px;padding:.9rem 1.1rem;min-width:150px;
+  display:flex;flex-direction:column;gap:.35rem;
+  text-decoration:none;color:var(--ink);
+  transition:all .22s var(--ease);
+  position:relative;cursor:pointer;
+}
+.lesson-card:hover{
+  border-color:var(--accent);transform:translateY(-2px);
+  box-shadow:0 6px 16px rgba(37,99,235,.12);
+}
+.lesson-card .time{
+  font-size:.72rem;font-weight:700;letter-spacing:.03em;
+  color:var(--accent);font-variant-numeric:tabular-nums;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+.lesson-card .name{
+  font-size:.95rem;font-weight:700;letter-spacing:-.01em;line-height:1.2;
+  color:var(--ink);
+}
+.lesson-card .room{
+  font-size:.7rem;color:var(--muted);font-weight:600;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+.lesson-card.has-gdz{
+  background:#fff;border-color:var(--warm);border-width:1.5px;
+}
+.lesson-card.has-gdz::after{
+  content:'';position:absolute;top:.75rem;right:.85rem;
+  width:6px;height:6px;border-radius:50%;background:var(--warm);
+}
+.lesson-card .gdz-hint{
+  position:absolute;bottom:.65rem;right:.85rem;
+  font-size:.6rem;font-weight:800;color:var(--warm);
+  letter-spacing:.02em;
+}
+.lesson-card.current{
+  background:var(--accent);color:#fff;
+  border-color:var(--accent);
+  box-shadow:0 6px 18px rgba(37,99,235,.25);
+}
+.lesson-card.current .time,
+.lesson-card.current .room{color:rgba(255,255,255,.75)}
+.lesson-card.current .name{color:#fff}
+.lesson-card.current .gdz-hint{color:#FEF3C7}
+.lesson-card.current::before{
+  content:'идёт';position:absolute;top:-8px;left:12px;
+  background:var(--accent);color:#fff;
+  font-size:.58rem;font-weight:800;letter-spacing:.08em;
+  padding:.2rem .5rem;border-radius:20px;text-transform:uppercase;
+}
+.lesson-card.current.has-gdz{border-color:var(--accent);background:var(--accent)}
+.lesson-card.current.has-gdz::after{background:#FEF3C7}
+.lesson-empty{
+  padding:1.2rem;border-radius:16px;background:#fff;
+  font-size:.82rem;color:var(--muted);
+  text-align:center;width:100%;
+  border:1px solid var(--border);
+}
+
+/* ═══ BENTO ═══ */
+.bento{
+  display:grid;grid-template-columns:repeat(6,1fr);
+  grid-auto-rows:minmax(140px,auto);gap:1rem;
+}
+.tile{
+  border-radius:var(--radius-lg);padding:1.6rem 1.8rem;
+  position:relative;overflow:hidden;display:flex;flex-direction:column;
+  transition:transform .3s var(--ease),box-shadow .3s;
+  background:var(--card);
+  border:1px solid var(--border);
+}
+.tile.clickable{cursor:pointer}
+.tile.clickable:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(15,27,61,.06)}
+.tile.latest{grid-column:span 3;grid-row:span 2;padding:1.6rem 1.6rem}
+.section-head{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:1rem;
+}
+.section-title{font-size:1rem;font-weight:800;letter-spacing:-.02em;color:var(--ink)}
+.section-more{
+  font-size:.72rem;color:var(--accent);
+  text-decoration:none;font-weight:700;transition:opacity .2s;
+  cursor:pointer;background:none;border:none;font-family:inherit;
+}
+.section-more:hover{opacity:.7}
+.latest-list{display:flex;flex-direction:column;gap:.5rem;flex:1}
+.latest-item{
+  display:flex;align-items:center;gap:.7rem;
+  padding:.65rem .8rem;
+  background:var(--card-soft);border-radius:12px;
+  text-decoration:none;color:var(--ink);transition:all .2s;
+  border:1px solid var(--border-soft);
+}
+.latest-item:hover{background:var(--accent-soft);border-color:var(--accent-soft);transform:translateX(3px)}
+.latest-item .dot{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--warm);flex-shrink:0;
+}
+.latest-item .info{flex:1;min-width:0}
+.latest-item .name{
+  font-size:.85rem;font-weight:600;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;
+  color:var(--ink);
+}
+.latest-item .meta{
+  font-size:.68rem;color:var(--muted);
+  font-weight:500;display:block;margin-top:.1rem;
+}
+.latest-item .task{
+  font-size:.72rem;font-weight:800;color:#fff;
+  background:var(--warm);padding:.2rem .5rem;border-radius:6px;flex-shrink:0;
+}
+.tile.subjects{grid-column:span 3;grid-row:span 2;padding:1.6rem 1.8rem}
+.subjects-head{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:1rem;
+}
+.subjects-title{font-size:1.1rem;font-weight:800;letter-spacing:-.02em;color:var(--ink)}
+.subjects-count{font-size:.72rem;color:var(--muted);font-weight:600}
+.subjects-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  gap:.5rem;flex:1;
+}
+.subject-chip{
+  display:flex;align-items:center;gap:.7rem;
+  padding:.7rem 1rem;background:var(--card-soft);
+  border-radius:12px;text-decoration:none;color:var(--ink);
+  font-size:.88rem;font-weight:600;
+  transition:all .2s var(--ease);border:1px solid var(--border-soft);
+}
+.subject-chip:hover{
+  background:var(--accent-soft);border-color:var(--accent);
+  transform:translateX(3px);
+}
+.subject-chip .icon{
+  width:22px;height:22px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--accent);
+}
+.subject-chip .icon svg{
+  width:100%;height:100%;stroke:currentColor;fill:none;
+  stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;
+}
+.subject-chip .name{flex:1}
+.subject-chip .n{
+  font-size:.68rem;font-weight:800;color:var(--muted);
+  background:#fff;padding:.2rem .5rem;border-radius:20px;
+  min-width:24px;text-align:center;
+  border:1px solid var(--border-soft);
+}
+.subject-chip:hover .n{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tile.articles{grid-column:span 3;grid-row:span 2;padding:1.6rem 1.6rem}
+.articles-list{display:flex;flex-direction:column;gap:.5rem;flex:1}
+.article-item{
+  display:flex;align-items:flex-start;gap:.6rem;
+  padding:.75rem .85rem;background:var(--card-soft);
+  border-radius:12px;text-decoration:none;color:var(--ink);
+  transition:all .2s;border:1px solid var(--border-soft);
+}
+.article-item:hover{background:var(--accent-soft);border-color:var(--accent);transform:translateX(3px)}
+.article-item .info{flex:1;min-width:0}
+.article-item .name{
+  font-size:.85rem;font-weight:600;line-height:1.3;
+  overflow:hidden;display:-webkit-box;
+  -webkit-line-clamp:2;-webkit-box-orient:vertical;
+  color:var(--ink);
+}
+.article-item .meta{font-size:.68rem;color:var(--muted);font-weight:500;margin-top:.2rem}
+.article-item .arrow{color:var(--accent);font-weight:800;font-size:1rem;line-height:1}
+.tile.feedback{
+  grid-column:span 3;grid-row:span 1;
+  padding:1.4rem 1.6rem;flex-direction:row;
+  align-items:center;gap:1rem;min-height:110px;
+}
+.feedback-icon{
+  width:52px;height:52px;border-radius:50%;
+  background:var(--accent-soft);color:var(--accent);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.5rem;flex-shrink:0;
+  transition:transform .3s var(--ease);
+}
+.tile.feedback:hover .feedback-icon{transform:rotate(-12deg) scale(1.05);background:var(--accent);color:#fff}
+.feedback-text{flex:1}
+.feedback-title{font-size:1.1rem;font-weight:800;letter-spacing:-.02em;margin-bottom:.15rem;color:var(--ink)}
+.feedback-sub{font-size:.82rem;color:var(--muted)}
+.feedback-badge{
+  background:var(--accent);color:#fff;
+  font-size:.68rem;font-weight:800;padding:.3rem .7rem;
+  border-radius:20px;letter-spacing:.04em;flex-shrink:0;
+}
+.tile.about{
+  grid-column:span 3;grid-row:span 1;
+  padding:1.4rem 1.6rem;flex-direction:row;
+  align-items:center;gap:1rem;justify-content:space-between;
+  min-height:110px;
+}
+.about-text{flex:1}
+.about-title{font-size:1.1rem;font-weight:800;letter-spacing:-.02em;margin-bottom:.15rem;color:var(--ink)}
+.about-sub{font-size:.82rem;color:var(--muted);line-height:1.4}
+.about-arrow{
+  width:46px;height:46px;border-radius:50%;
+  background:var(--ink);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;font-weight:800;flex-shrink:0;
+  transition:transform .3s var(--ease);
+}
+.tile.about:hover .about-arrow{transform:translateX(5px) rotate(-45deg);background:var(--accent)}
+
+/* ═══ ВНУТРЕННИЕ СТРАНИЦЫ ═══ */
 .page{display:none}
 .page.active{display:block;animation:fadeIn .3s ease}
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-.back-btn{display:inline-flex;align-items:center;gap:6px;margin-bottom:1.5rem;font-size:.85rem;text-decoration:none;color:var(--muted);font-weight:600;cursor:pointer;padding:.5rem .9rem;border-radius:10px;background:var(--card);border:1px solid var(--border);transition:all .2s;font-family:inherit}
-.back-btn:hover{color:#000;border-color:var(--accent);background:var(--accent-soft)}
-.page-title{font-size:2rem;font-weight:800;letter-spacing:-.03em;margin-bottom:.3rem}
+
+.inner{
+  max-width:900px;margin:0 auto;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius-lg);padding:2rem 2.2rem 2.4rem;
+}
+@media(max-width:640px){
+  .inner{padding:1.4rem 1.2rem 1.8rem;border-radius:20px}
+}
+
+.back-btn{
+  display:inline-flex;align-items:center;gap:6px;margin-bottom:1.5rem;
+  font-size:.85rem;text-decoration:none;color:var(--muted);
+  font-weight:600;cursor:pointer;padding:.5rem .9rem;border-radius:10px;
+  background:var(--card-soft);border:1px solid var(--border);
+  transition:all .2s;font-family:inherit;
+}
+.back-btn:hover{color:var(--accent);border-color:var(--accent);background:var(--accent-soft)}
+.page-title{font-size:2rem;font-weight:800;letter-spacing:-.03em;margin-bottom:.3rem;color:var(--ink)}
 .page-subtitle{font-size:.9rem;color:var(--muted);margin-bottom:1.5rem}
+
+.subject-list{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1rem}
+.subject-item{
+  padding:1rem 1.2rem;background:var(--card-soft);
+  border-radius:var(--radius-sm);border:1px solid var(--border-soft);
+  font-size:1rem;font-weight:600;cursor:pointer;transition:all .2s ease;
+  display:flex;justify-content:space-between;align-items:center;
+  text-decoration:none;color:var(--ink);
+}
+.subject-item:hover{
+  transform:translateY(-2px);border-color:var(--accent);
+  background:var(--accent-soft);
+}
+.subject-item .arrow{
+  width:28px;height:28px;border-radius:50%;
+  background:var(--accent-soft);color:var(--accent);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1rem;font-weight:600;transition:all .2s ease;flex-shrink:0;
+}
+.subject-item:hover .arrow{background:var(--accent);color:#fff;transform:translateX(4px)}
+.subject-item .count{
+  font-size:.75rem;color:var(--muted);font-weight:600;
+  background:#fff;padding:.15rem .5rem;border-radius:20px;margin-right:.5rem;
+  border:1px solid var(--border-soft);
+}
+
 .date-list{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1rem}
-.date-item{padding:1rem 1.2rem;background:var(--card);border-radius:var(--radius-sm);border:1px solid var(--border);font-size:1rem;font-weight:600;cursor:pointer;transition:all .2s ease;display:flex;justify-content:space-between;align-items:center;text-decoration:none;color:var(--text);box-shadow:var(--shadow)}
-.date-item:hover{transform:translateY(-2px);border-color:var(--accent);box-shadow:var(--shadow-hover)}
-.date-item .count{font-size:.75rem;color:var(--muted);font-weight:600;background:var(--bg);padding:.15rem .5rem;border-radius:20px}
-.solution-block{margin-bottom:1.5rem}
-.solution-block .task-title{font-weight:700;font-size:1rem;margin-bottom:.6rem;color:#000;display:flex;align-items:center;gap:.5rem}
-.solution-block .task-title::before{content:'№';color:var(--accent-dark);font-weight:800}
-.error-report{margin-top:2rem;font-size:.8rem;color:var(--muted);padding-top:1.2rem;border-top:1px dashed var(--border)}
-.error-report a{color:var(--accent-dark);text-decoration:none;font-weight:600;cursor:pointer}
+.date-item{
+  padding:1rem 1.2rem;background:var(--card-soft);
+  border-radius:var(--radius-sm);border:1px solid var(--border-soft);
+  font-size:1rem;font-weight:600;cursor:pointer;transition:all .2s ease;
+  display:flex;justify-content:space-between;align-items:center;
+  text-decoration:none;color:var(--ink);
+}
+.date-item:hover{transform:translateY(-2px);border-color:var(--accent);background:var(--accent-soft)}
+.date-item .count{
+  font-size:.75rem;color:var(--muted);font-weight:600;
+  background:#fff;padding:.15rem .5rem;border-radius:20px;
+  border:1px solid var(--border-soft);
+}
+
+.solution-block{margin-bottom:1.75rem}
+.solution-block .task-title{
+  font-weight:700;font-size:1.1rem;margin-bottom:.7rem;color:var(--ink);
+  display:flex;align-items:center;gap:.5rem;
+}
+.solution-block .task-title::before{
+  content:'№';color:var(--accent);font-weight:800;
+  background:var(--accent-soft);padding:.15rem .5rem;
+  border-radius:6px;font-size:.85rem;
+}
+.error-report{
+  margin-top:2rem;font-size:.8rem;color:var(--muted);
+  padding-top:1.2rem;border-top:1px dashed var(--border);
+}
+.error-report a{color:var(--accent);text-decoration:none;font-weight:600}
 .error-report a:hover{text-decoration:underline}
-.loader{display:flex;justify-content:center;padding:3rem 1rem;color:var(--muted);font-size:.9rem}
-.loader::after{content:'';display:inline-block;width:16px;height:16px;margin-left:.5rem;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+
+.empty-state{
+  display:none;padding:2.5rem 1rem;text-align:center;
+  color:var(--muted);font-size:.95rem;background:var(--card-soft);
+  border-radius:var(--radius);border:1px dashed var(--border);
+}
+.empty-state.visible{display:block}
+.empty-state .icon{font-size:2rem;display:block;margin-bottom:.5rem;opacity:.4}
+
+.loader{
+  display:flex;justify-content:center;padding:3rem 1rem;
+  color:var(--muted);font-size:.9rem;
+}
+.loader::after{
+  content:'';display:inline-block;width:16px;height:16px;margin-left:.5rem;
+  border:2px solid var(--border);border-top-color:var(--accent);
+  border-radius:50%;animation:spin .8s linear infinite;
+}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* ═══ MARKDOWN в решениях ═══ */
-.solution-block .task-desc{font-size:.95rem;color:#374151;line-height:1.8}
+/* ═══ MARKDOWN ═══ */
+.solution-block .task-desc,
+.article-body{font-size:.95rem;color:var(--ink-2);line-height:1.75}
 .solution-block .task-desc h1,
 .solution-block .task-desc h2,
 .solution-block .task-desc h3,
-.solution-block .task-desc h4{
-  color:#000;font-weight:700;letter-spacing:-.01em;
+.solution-block .task-desc h4,
+.article-body h1,
+.article-body h2,
+.article-body h3,
+.article-body h4{
+  color:var(--ink);font-weight:700;letter-spacing:-.01em;
   margin:1.2rem 0 .5rem;line-height:1.3;
 }
-.solution-block .task-desc h1{font-size:1.2rem}
-.solution-block .task-desc h2{font-size:1.1rem}
-.solution-block .task-desc h3{font-size:1rem}
-.solution-block .task-desc h4{font-size:.95rem}
+.solution-block .task-desc h1,.article-body h1{font-size:1.25rem}
+.solution-block .task-desc h2,.article-body h2{font-size:1.15rem}
+.solution-block .task-desc h3,.article-body h3{font-size:1.05rem}
 .solution-block .task-desc > :first-child{margin-top:0}
-.solution-block .task-desc p{margin-bottom:.7rem}
+.solution-block .task-desc p,
+.article-body p{margin-bottom:.7rem}
 .solution-block .task-desc p:last-child{margin-bottom:0}
 .solution-block .task-desc ul,
-.solution-block .task-desc ol{margin:.4rem 0 .8rem 1.4rem;padding-left:0}
-.solution-block .task-desc li{margin-bottom:.25rem}
-.solution-block .task-desc li::marker{color:var(--muted)}
-.solution-block .task-desc code{
+.solution-block .task-desc ol,
+.article-body ul,
+.article-body ol{margin:.4rem 0 .8rem 1.4rem;padding-left:0}
+.solution-block .task-desc li,
+.article-body li{margin-bottom:.25rem}
+.solution-block .task-desc li::marker,
+.article-body li::marker{color:var(--muted)}
+.solution-block .task-desc code,
+.article-body code{
   background:var(--bg);padding:.1rem .35rem;border-radius:4px;
   font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-  font-size:.88em;color:#0f0f14;
+  font-size:.88em;color:var(--ink);
 }
-.solution-block .task-desc pre{
-  background:#0f0f14;color:#fff;padding:1rem 1.1rem;border-radius:10px;
+.solution-block .task-desc pre,
+.article-body pre{
+  background:#0F1B3D;color:#E8EEF9;padding:1rem 1.1rem;border-radius:10px;
   overflow-x:auto;margin:.8rem 0;font-size:.85rem;line-height:1.6;
 }
-.solution-block .task-desc pre code{background:none;color:inherit;padding:0}
-.solution-block .task-desc blockquote{
+.solution-block .task-desc pre code,
+.article-body pre code{background:none;color:inherit;padding:0}
+.solution-block .task-desc blockquote,
+.article-body blockquote{
   border-left:3px solid var(--accent);padding-left:1rem;
   color:var(--muted);margin:.8rem 0;font-style:italic;
 }
 .solution-block .task-desc blockquote p{margin-bottom:.3rem}
-.solution-block .task-desc hr{border:none;border-top:1px solid var(--border);margin:1rem 0}
-.solution-block .task-desc a{color:var(--accent-dark);font-weight:600}
-.solution-block .task-desc a:hover{text-decoration:underline}
-.solution-block .task-desc img{max-width:100%;border-radius:10px;margin:.5rem 0}
-.solution-block .task-desc strong{font-weight:700;color:#0f0f14}
-.solution-block .task-desc em{font-style:italic}
-.solution-block .task-desc del{color:var(--muted)}
-.solution-block .task-desc table{border-collapse:collapse;width:100%;margin:.8rem 0;font-size:.9rem}
-.solution-block .task-desc th,
-.solution-block .task-desc td{border:1px solid var(--border);padding:.5rem .75rem;text-align:left}
-.solution-block .task-desc th{background:var(--accent-soft);font-weight:700}
-
-/* ═══ MARKDOWN в статьях ═══ */
-.article-body{font-size:.95rem;line-height:1.75;color:#374151}
-.article-body h2{font-size:1.3rem;margin:1.5rem 0 .6rem;color:#000;font-weight:700}
-.article-body h3{font-size:1.1rem;margin:1.2rem 0 .5rem;color:#000;font-weight:600}
-.article-body p{margin-bottom:.8rem}
-.article-body ul,.article-body ol{margin:.5rem 0 .8rem 1.4rem;padding-left:0}
-.article-body li{margin-bottom:.3rem}
-.article-body li::marker{color:var(--muted)}
-.article-body code{background:var(--bg);padding:.1rem .35rem;border-radius:4px;font-size:.85em}
-.article-body pre{
-  background:#0f0f14;color:#fff;padding:1rem 1.1rem;border-radius:10px;
-  overflow-x:auto;margin:.8rem 0;font-size:.85rem;line-height:1.6;
-}
-.article-body pre code{background:none;color:inherit;padding:0}
-.article-body blockquote{border-left:3px solid var(--accent);padding-left:1rem;color:var(--muted);margin:.8rem 0}
-.article-body img{max-width:100%;border-radius:10px;margin:.5rem 0}
-.article-body del{color:var(--muted)}
+.solution-block .task-desc hr,
 .article-body hr{border:none;border-top:1px solid var(--border);margin:1rem 0}
+.solution-block .task-desc a,
+.article-body a{color:var(--accent);font-weight:600}
+.solution-block .task-desc a:hover,
+.article-body a:hover{text-decoration:underline}
+.solution-block .task-desc img,
+.article-body img{max-width:100%;border-radius:10px;margin:.5rem 0}
+.solution-block .task-desc strong,
+.article-body strong{font-weight:700;color:var(--ink)}
+.solution-block .task-desc em,
+.article-body em{font-style:italic}
+.solution-block .task-desc del,
+.article-body del{color:var(--muted)}
+.solution-block .task-desc table,
 .article-body table{border-collapse:collapse;width:100%;margin:.8rem 0;font-size:.9rem}
-.article-body th,.article-body td{border:1px solid var(--border);padding:.5rem .75rem;text-align:left}
-.article-body th{background:var(--accent-soft);font-weight:700}
-.article-body a{color:var(--accent-dark);font-weight:600}
+.solution-block .task-desc th,
+.solution-block .task-desc td,
+.article-body th,
+.article-body td{border:1px solid var(--border);padding:.5rem .75rem;text-align:left}
+.solution-block .task-desc th,
+.article-body th{background:var(--card-soft);font-weight:700}
 
-@media(max-width:800px){.menu-link{font-size:1.6rem}.menu-nav{gap:.9rem}}
-@media(max-width:700px){.search-wrap{max-width:200px}}
-@media(max-width:550px){.header{padding:.7rem 1rem;gap:.5rem}.logo{font-size:1.15rem}.hamburger{width:38px;height:38px}.search-input{font-size:.85rem;padding:.6rem 2.2rem}.menu-link{font-size:1.35rem}.full-menu{padding:3.5rem 1.5rem 2rem 7%}.schedule-table{font-size:.82rem}.schedule-table th,.schedule-table td{padding:.55rem .7rem}.schedule-table td:first-child{width:105px}.page-title{font-size:1.6rem}.container{padding:1.25rem 1rem 3rem}.close-menu{top:1.2rem;right:1.2rem;font-size:.85rem}}
+/* ═══ FOOTER ═══ */
+.footer{
+  max-width:1280px;margin:2rem auto 0;
+  padding:1.5rem 1rem 2rem;
+  text-align:center;
+  font-size:.78rem;color:var(--muted);
+  border-top:1px solid var(--border);
+}
+.footer a{color:var(--muted);text-decoration:none;margin:0 .5rem;transition:color .2s}
+.footer a:hover{color:var(--accent)}
+
+/* ═══ АДАПТИВ ═══ */
+@media(max-width:900px){
+  .tile.latest{grid-column:span 4}
+  .tile.subjects{grid-column:span 4}
+  .tile.articles{grid-column:span 4}
+  .tile.feedback{grid-column:span 4}
+  .tile.about{grid-column:span 4}
+}
+@media(max-width:640px){
+  body{padding:.6rem}
+  .header{padding:.4rem .4rem;gap:.5rem;margin-bottom:.6rem}
+  .hamburger{width:40px;height:40px}
+  .logo{font-size:1.2rem}
+  .search{max-width:none;flex:1}
+  .search-input{font-size:.82rem;padding:.55rem 2rem .55rem 2.2rem}
+  .search-icon{left:.75rem;width:14px;height:14px}
+  .schedule-bar{padding:1.1rem 1.1rem 1rem;border-radius:22px;gap:.8rem}
+  .schedule-head{gap:.5rem;padding-bottom:.7rem}
+  .schedule-title{font-size:.9rem;flex-basis:100%}
+  .schedule-title .day-name{font-size:.75rem}
+  .schedule-tabs{order:2;flex:1;justify-content:center}
+  .schedule-tab{font-size:.7rem;padding:.4rem .7rem;flex:1}
+  .schedule-arrows{order:1}
+  .schedule-arrow{width:30px;height:30px;font-size:.85rem}
+  .lesson-card{min-width:130px;padding:.75rem .95rem;border-radius:14px}
+  .lesson-card .name{font-size:.86rem}
+  .lesson-card .time{font-size:.66rem}
+  .lesson-card .room{font-size:.62rem}
+  .lesson-card .gdz-hint{font-size:.55rem;bottom:.55rem;right:.7rem}
+  .bento{grid-template-columns:repeat(2,1fr);gap:.6rem}
+  .tile{border-radius:20px;padding:1.1rem 1.2rem;min-height:auto}
+  .tile.latest{grid-column:span 2;padding:1.2rem}
+  .latest-item{padding:.55rem .7rem}
+  .latest-item .name{font-size:.82rem}
+  .tile.subjects{grid-column:span 2;padding:1.2rem}
+  .subjects-grid{grid-template-columns:repeat(2,1fr);gap:.4rem}
+  .subject-chip{
+    padding:.6rem .8rem;font-size:.82rem;
+    flex-direction:column;align-items:flex-start;gap:.3rem;
+    position:relative;padding-right:2rem;
+  }
+  .subject-chip .icon{width:20px;height:20px}
+  .subject-chip .name{font-size:.8rem;width:100%}
+  .subject-chip .n{
+    position:absolute;top:.5rem;right:.6rem;
+    font-size:.62rem;padding:.15rem .4rem;
+  }
+  .tile.articles{grid-column:span 2;padding:1.2rem}
+  .article-item{padding:.6rem .7rem}
+  .article-item .name{font-size:.82rem}
+  .tile.feedback{
+    grid-column:span 1;flex-direction:column;align-items:flex-start;
+    gap:.6rem;padding:1rem;min-height:120px;
+  }
+  .feedback-icon{width:40px;height:40px;font-size:1.2rem}
+  .feedback-title{font-size:.9rem}
+  .feedback-sub{font-size:.7rem}
+  .feedback-badge{display:none}
+  .tile.about{
+    grid-column:span 1;flex-direction:column;align-items:flex-start;
+    gap:.6rem;padding:1rem;min-height:120px;
+  }
+  .about-title{font-size:.9rem}
+  .about-sub{font-size:.7rem;line-height:1.35}
+  .about-arrow{
+    width:36px;height:36px;font-size:1rem;
+    align-self:flex-end;margin-top:auto;
+  }
+  .full-menu{padding:3.5rem 1.5rem 2rem 7%}
+  .menu-link{font-size:1.4rem}
+  .menu-nav{gap:.9rem}
+  .close-menu{top:1.2rem;right:1.2rem;font-size:.85rem}
+  .page-title{font-size:1.5rem}
+  .inner{padding:1.4rem 1.2rem 1.8rem;border-radius:20px}
+}
 </style>
 </head>
 <body>
 
 <header class="header">
-  <div class="hamburger" id="openMenuBtn" aria-label="Открыть меню"><span></span><span></span><span></span></div>
+  <button class="hamburger" id="openMenuBtn" aria-label="Открыть меню" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
   <a class="logo" href="#page/home">Zadano</a>
-  <div class="search-wrap">
+  <div class="search">
     <input type="text" class="search-input" id="searchInput" placeholder="Поиск по заданиям и статьям..." autocomplete="off">
     <svg class="search-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="16.5" y1="16.5" x2="21" y2="21"></line></svg>
     <button class="search-clear" id="searchClear" aria-label="Очистить">✕</button>
@@ -182,19 +711,22 @@ mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-we
   </div>
 </header>
 
-<div class="full-menu" id="fullMenu" role="dialog" aria-modal="true">
-  <button class="close-menu" id="closeMenuBtn"><span>✕</span> закрыть</button>
+<div class="full-menu" id="fullMenu" role="dialog" aria-modal="true" aria-label="Навигация">
+  <button class="close-menu" id="closeMenuBtn" aria-label="Закрыть меню">
+    <span>✕</span> закрыть
+  </button>
   <nav class="menu-nav" id="menuNav"></nav>
 </div>
 
-<div class="container" id="mainContainer">
-  <div class="loader" id="globalLoader">Загрузка данных</div>
+<div class="wrap" id="mainContainer">
+  <div class="loader" id="globalLoader" style="grid-column:1/-1;background:var(--card);border-radius:var(--radius-lg);border:1px solid var(--border)">Загрузка данных</div>
 </div>
 
 <footer class="footer">
   <div>
     <a href="#page/home">Главная</a>
     <a href="#page/about">О сайте</a>
+    <a href="/legal.html">Соглашение</a>
   </div>
   <div style="margin-top:.6rem">Zadano © 2026 · для 7 класса</div>
 </footer>
@@ -217,22 +749,30 @@ mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-we
     "Физическая культура","Искусство","Технология"
   ];
   const SUBJECT_SLUGS = {
-    "Литература":"literature",
-    "Алгебра":"algebra",
-    "Геометрия":"geometry",
-    "Вероятность и статистика":"probability",
-    "Информатика":"cs",
-    "История":"history",
-    "Обществознание":"social",
-    "География":"geography",
-    "Биология":"biology",
-    "Физика":"physics",
-    "Химия":"chemistry",
-    "Иностранный язык":"foreign",
-    "Основы безопасности жизнедеятельности":"obzh",
-    "Физическая культура":"pe",
-    "Искусство":"art",
-    "Технология":"tech"
+    "Литература":"literature","Алгебра":"algebra","Геометрия":"geometry",
+    "Вероятность и статистика":"probability","Информатика":"cs","История":"history",
+    "Обществознание":"social","География":"geography","Биология":"biology",
+    "Физика":"physics","Химия":"chemistry","Иностранный язык":"foreign",
+    "Основы безопасности жизнедеятельности":"obzh","Физическая культура":"pe",
+    "Искусство":"art","Технология":"tech"
+  };
+  const SUBJECT_ICONS = {
+    "Литература":'<path d="M4 19V5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2z"/><path d="M8 7h6M8 11h6"/>',
+    "Алгебра":'<path d="M5 5l14 14M19 5L5 19"/>',
+    "Геометрия":'<path d="M3 20l9-16 9 16H3z"/><circle cx="12" cy="14" r="2"/>',
+    "Вероятность и статистика":'<path d="M4 20V4M4 20h16"/><rect x="8" y="14" width="3" height="6"/><rect x="13" y="10" width="3" height="10"/>',
+    "Информатика":'<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>',
+    "История":'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>',
+    "Обществознание":'<circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5"/><path d="M14 15c2 0 5 1 5 4"/>',
+    "География":'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>',
+    "Биология":'<path d="M12 21c0-8 5-13 9-13-1 5-5 9-9 9"/>',
+    "Физика":'<circle cx="12" cy="12" r="3"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(45 12 12)"/>',
+    "Химия":'<path d="M9 3h6v4l4 12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2l4-12V3z"/><path d="M7 14h10"/>',
+    "Иностранный язык":'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>',
+    "Основы безопасности жизнедеятельности":'<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3z"/><path d="M9 12l2 2 4-4"/>',
+    "Физическая культура":'<circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/>',
+    "Искусство":'<path d="M12 3a9 9 0 1 0 0 18c1 0 1.5-.7 1.5-1.5 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.1 0-.8.7-1.5 1.5-1.5H16a5 5 0 0 0 5-5c0-4-4-7.7-9-7.7z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7.5" r="1"/><circle cx="14.5" cy="8" r="1"/><circle cx="17" cy="11.5" r="1"/>',
+    "Технология":'<path d="M14 3l7 7-4 4-7-7 4-4zM9 10l-6 6v5h5l6-6"/>'
   };
 
   const container = document.getElementById("mainContainer");
@@ -244,7 +784,7 @@ mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-we
 
   let DATA = { gdz: [], articles: [], schedule: [] };
 
-  /* ═══ ПАРСИНГ FRONTMATTER (вложенные списки) ═══ */
+  /* ═══ ПАРСИНГ FRONTMATTER ═══ */
   function parseFrontmatter(text){
     const m = text.match(/^---\s*\n([\s\S]*?)\n---\s*\n?([\s\S]*)$/);
     if(!m) return {meta:{}, body:text};
@@ -261,10 +801,7 @@ mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-we
         const line = lines[i];
         if(line.trim() === ""){ blockLines.push(""); i++; continue; }
         const cur = line.match(/^(\s*)/)[1].length;
-        if(indent === null){
-          if(cur === 0) break;
-          indent = cur;
-        }
+        if(indent === null){ if(cur === 0) break; indent = cur; }
         if(cur < indent) break;
         blockLines.push(line.slice(indent));
         i++;
@@ -277,17 +814,12 @@ mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-we
       const line = lines[i];
       if(!line.trim()){ i++; continue; }
       if(/^\s/.test(line)){ i++; continue; }
-
       const idx = line.indexOf(":");
       if(idx === -1){ i++; continue; }
-
       const key = line.slice(0, idx).trim();
       let val = line.slice(idx + 1).trim();
 
-      if(val === "|" || val === ">"){
-        meta[key] = readBlockScalar(i);
-        continue;
-      }
+      if(val === "|" || val === ">"){ meta[key] = readBlockScalar(i); continue; }
 
       if(val === ""){
         i++;
@@ -297,25 +829,19 @@ mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-we
           if(cur.trim() === ""){ i++; continue; }
           if(!/^\s/.test(cur)) break;
           if(!/^\s*-\s/.test(cur)) break;
-
           const itemContent = cur.replace(/^\s*-\s*/, "");
           const itemIdx = itemContent.indexOf(":");
-
           if(itemIdx === -1){
-            items.push(unquote(itemContent.trim()));
-            i++;
+            items.push(unquote(itemContent.trim())); i++;
           } else {
             const obj = {};
             let firstKey = itemContent.slice(0, itemIdx).trim();
             let firstVal = itemContent.slice(itemIdx + 1).trim();
-
             if(firstVal === "|" || firstVal === ">"){
               obj[firstKey] = readBlockScalar(i);
             } else {
-              obj[firstKey] = unquote(firstVal);
-              i++;
+              obj[firstKey] = unquote(firstVal); i++;
             }
-
             const dashIndent = cur.match(/^(\s*)-/)[1].length;
             while(i < lines.length){
               const next = lines[i];
@@ -323,18 +849,13 @@ mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-we
               const nextIndent = next.match(/^(\s*)/)[1].length;
               if(nextIndent <= dashIndent) break;
               if(/^\s*-\s/.test(next) && next.match(/^(\s*)-/)[1].length === dashIndent) break;
-
               const kv = next.trim();
               const kIdx = kv.indexOf(":");
               if(kIdx === -1){ i++; continue; }
               const k = kv.slice(0, kIdx).trim();
               const v = kv.slice(kIdx + 1).trim();
-              if(v === "|" || v === ">"){
-                obj[k] = readBlockScalar(i);
-              } else {
-                obj[k] = unquote(v);
-                i++;
-              }
+              if(v === "|" || v === ">"){ obj[k] = readBlockScalar(i); }
+              else { obj[k] = unquote(v); i++; }
             }
             items.push(obj);
           }
@@ -342,11 +863,9 @@ mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-we
         meta[key] = items;
         continue;
       }
-
       meta[key] = unquote(val);
       i++;
     }
-
     return {meta, body: m[2]};
   }
 
@@ -358,30 +877,20 @@ mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-we
     return v;
   }
 
-  /* ═══ MARKDOWN (через marked) ═══ */
+  /* ═══ MARKDOWN ═══ */
   if(window.marked){
-    marked.setOptions({
-      gfm: true,
-      breaks: true,
-      headerIds: false,
-      mangle: false
-    });
+    marked.setOptions({ gfm: true, breaks: true, headerIds: false, mangle: false });
   }
 
   function mdToHtml(md){
     if(!md) return "";
     const src = String(md);
-
     if(!window.marked){
-      // фоллбэк, если CDN не загрузился
       return "<p>" + src
         .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
         .replace(/\n/g,"<br>") + "</p>";
     }
-
     let html = marked.parse(src);
-
-    // лёгкий санитайз
     html = html
       .replace(/<script[\s\S]*?<\/script>/gi, "")
       .replace(/\son\w+\s*=\s*"[^"]*"/gi, "")
@@ -389,7 +898,6 @@ mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-we
       .replace(/\son\w+\s*=\s*[^\s>]+/gi, "")
       .replace(/href\s*=\s*"javascript:[^"]*"/gi, 'href="#"')
       .replace(/href\s*=\s*'javascript:[^']*'/gi, "href='#'");
-
     return html;
   }
 
@@ -398,6 +906,16 @@ mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-we
     const [y,m,d] = String(iso).split("-");
     return d + "." + m + "." + y;
   }
+  function todayIso(){
+    const t = new Date();
+    return t.getFullYear()+"-"+String(t.getMonth()+1).padStart(2,"0")+"-"+String(t.getDate()).padStart(2,"0");
+  }
+  function esc(s){
+    return String(s == null ? "" : s).replace(/[&<>"']/g, c=>({
+      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+    }[c]));
+  }
+  function subjectSlug(name){ return SUBJECT_SLUGS[name] || name.toLowerCase().replace(/\s+/g,"-"); }
 
   /* ═══ ЗАГРУЗКА ═══ */
   async function fetchDir(path){
@@ -406,7 +924,6 @@ mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-we
     const items = await r.json();
     return items.filter(i=>i.type === "file" && i.name.endsWith(".md"));
   }
-
   async function fetchFile(path){
     const r = await fetch(RAW + path);
     if(!r.ok) return null;
@@ -423,7 +940,6 @@ mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-we
       const txt = await fetchFile("gdz/" + f.name);
       if(!txt) continue;
       const {meta, body} = parseFrontmatter(txt);
-
       let tasks = [];
       if(Array.isArray(meta.tasks) && meta.tasks.length){
         tasks = meta.tasks.map(t=>({
@@ -431,14 +947,9 @@ mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-we
           body: String(t.solution || t.body || "").trim()
         })).filter(t=>t.task || t.body);
       }
-
       if(!tasks.length && (meta.task || body.trim())){
-        tasks = [{
-          task: String(meta.task || "").trim(),
-          body: body.trim()
-        }];
+        tasks = [{ task: String(meta.task || "").trim(), body: body.trim() }];
       }
-
       gdz.push({
         file: f.name,
         class: meta.class || "7",
@@ -458,8 +969,7 @@ mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-we
         file: f.name,
         title: meta.title || slug,
         hidden: meta.hidden === true,
-        slug: slug,
-        body: body.trim()
+        slug, body: body.trim()
       });
     }
 
@@ -495,26 +1005,14 @@ mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-we
     return await loadAll();
   }
 
-  /* ═══ УТИЛЫ ═══ */
-  function esc(s){
-    return String(s == null ? "" : s).replace(/[&<>"']/g, c=>({
-      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-    }[c]));
-  }
-  function subjectSlug(name){ return SUBJECT_SLUGS[name] || name.toLowerCase().replace(/\s+/g,"-"); }
-
+  /* ═══ УТИЛЫ ДАННЫХ ═══ */
   function flatTasks(){
     const out = [];
     DATA.gdz.forEach(g=>{
       (g.tasks || []).forEach((t, idx)=>{
         out.push({
-          file: g.file,
-          class: g.class,
-          subject: g.subject,
-          date: g.date,
-          task: t.task,
-          body: t.body,
-          idx
+          file: g.file, class: g.class, subject: g.subject,
+          date: g.date, task: t.task, body: t.body, idx
         });
       });
     });
@@ -527,18 +1025,18 @@ mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-we
     gdzTasksBySubject(subj).forEach(t=>{ if(t.date) set.add(t.date); });
     return [...set].sort((a,b)=>b.localeCompare(a));
   }
-
-  function getTodaySchedule(){
-    const today = new Date();
-    const iso = today.getFullYear() + "-" +
-      String(today.getMonth()+1).padStart(2,"0") + "-" +
-      String(today.getDate()).padStart(2,"0");
-    let entry = DATA.schedule.find(s=>s.date === iso);
-    if(!entry){
-      const sorted = [...DATA.schedule].sort((a,b)=>a.date.localeCompare(b.date));
-      entry = sorted.find(s=>s.date >= iso) || sorted[sorted.length - 1];
-    }
-    return entry;
+  function gdzDatesFor(subject){
+    return [...new Set(flatTasks().filter(t=>t.subject === subject).map(t=>t.date))].sort();
+  }
+  function resolveGdzLink(subject, date){
+    const s = subjectSlug(subject);
+    const dates = gdzDatesFor(subject);
+    if(dates.includes(date)) return "#page/gdz/" + s + "/" + date;
+    const past = dates.filter(d=>d < date).sort().reverse();
+    if(past.length) return "#page/gdz/" + s + "/" + past[0];
+    const future = dates.filter(d=>d > date).sort();
+    if(future.length) return "#page/gdz/" + s + "/" + future[0];
+    return "#page/subject/" + s;
   }
 
   /* ═══ РОУТИНГ ═══ */
@@ -553,7 +1051,6 @@ mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-we
     closeMenu();
     if(route === "page/home") return renderHome();
     if(route === "page/about") return renderAbout();
-    if(route === "page/errors") return renderErrors();
     if(route.startsWith("page/subject/")) return renderSubject(route.slice("page/subject/".length));
     if(route.startsWith("page/gdz/")) return renderGdzPage(route.slice("page/gdz/".length));
     if(route.startsWith("article/")) return renderArticle(route.slice("article/".length));
@@ -562,47 +1059,276 @@ mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-we
 
   /* ═══ ГЛАВНАЯ ═══ */
   function renderHome(){
-    const sch = getTodaySchedule();
-    let scheduleHtml = "";
-    if(sch && sch.lessons && sch.lessons.length){
-      const header = 'Расписание на ' + fmtDate(sch.date) + (sch.day ? " · " + esc(sch.day) : "");
-      scheduleHtml =
-        '<div class="section-title">' + header + '</div>' +
-        '<div class="table-wrap"><table class="schedule-table">' +
-        '<thead><tr><th>Время</th><th>Урок</th><th>Каб.</th></tr></thead><tbody>' +
-        sch.lessons.map(l=>
-          '<tr><td>' + esc(l.time||"") + '</td><td>' + esc(l.subject||"") + '</td><td>' + esc(l.room||"") + '</td></tr>'
-        ).join("") +
-        '</tbody></table></div>';
+    // расписание
+    const ALL_DATES = [...new Set(DATA.schedule.map(s=>s.date))].sort();
+    const today = todayIso();
+    let currentIdx = ALL_DATES.indexOf(today);
+    if(currentIdx === -1){
+      currentIdx = ALL_DATES.findIndex(d=>d >= today);
+      if(currentIdx === -1) currentIdx = ALL_DATES.length - 1;
+    }
+    const currentDate = ALL_DATES[currentIdx];
+    const entry = DATA.schedule.find(s=>s.date === currentDate);
+
+    let scheduleHtml = '';
+    if(entry && entry.lessons.length){
+      scheduleHtml = buildScheduleHtml(entry, currentDate, ALL_DATES, currentIdx);
     } else {
-      scheduleHtml = '<div class="section-title">Расписание</div>' +
-        '<div class="empty-state visible"><span class="icon">🗓️</span>Расписание пока не добавлено.</div>';
+      scheduleHtml =
+        '<section class="schedule-bar">' +
+          '<div class="schedule-head">' +
+            '<div class="schedule-title"><span class="dot"></span>Расписание</div>' +
+          '</div>' +
+          '<div class="lesson-empty">Расписание пока не добавлено</div>' +
+        '</section>';
     }
 
-    const subjectsHtml = SUBJECTS.map(s=>{
-      const count = gdzTasksBySubject(s).length;
-      return '<a class="subject-item" href="#page/subject/' + subjectSlug(s) + '">' +
-        '<span>' + esc(s) + (count ? ' <span class="count">' + count + '</span>' : '') + '</span>' +
-        '<span class="arrow">→</span></a>';
+    // свежее
+    const latest = [...flatTasks()]
+      .filter(t=>t.date)
+      .sort((a,b)=>b.date.localeCompare(a.date))
+      .slice(0,4);
+
+    const latestHtml = latest.map(t=>{
+      const href = "#page/gdz/" + subjectSlug(t.subject) + "/" + t.date;
+      return '<a class="latest-item" href="' + href + '">' +
+        '<span class="dot"></span>' +
+        '<span class="info">' +
+          '<span class="name">' + esc(t.subject) + '</span>' +
+          '<span class="meta">' + fmtDate(t.date) + '</span>' +
+        '</span>' +
+        '<span class="task">№' + esc(t.task) + '</span>' +
+      '</a>';
     }).join("");
 
-    const articlesHtml = DATA.articles.filter(a=>!a.hidden).map(a=>
-      '<a class="subject-item" href="#article/' + esc(a.slug) + '">' +
-      '<span>' + esc(a.title) + '</span><span class="arrow">→</span></a>'
+    // предметы
+    const subjectsHtml = SUBJECTS.map(s=>{
+      const count = gdzTasksBySubject(s).length;
+      const icon = SUBJECT_ICONS[s] || '';
+      return '<a class="subject-chip" href="#page/subject/' + subjectSlug(s) + '">' +
+        '<span class="icon"><svg viewBox="0 0 24 24">' + icon + '</svg></span>' +
+        '<span class="name">' + esc(s) + '</span>' +
+        '<span class="n">' + count + '</span>' +
+      '</a>';
+    }).join("");
+
+    // статьи
+    const visibleArticles = DATA.articles.filter(a=>!a.hidden).slice(0,3);
+    const articlesHtml = visibleArticles.map(a=>
+      '<a class="article-item" href="#article/' + esc(a.slug) + '">' +
+        '<span class="info"><span class="name">' + esc(a.title) + '</span>' +
+        '<span class="meta">статья</span></span>' +
+        '<span class="arrow">→</span>' +
+      '</a>'
     ).join("");
 
     container.innerHTML =
-      '<section class="page active">' +
-        scheduleHtml +
-        '<div class="section-title">Список предметов</div>' +
-        '<div class="subject-list">' + subjectsHtml + '</div>' +
-        (articlesHtml ? '<div class="section-title">Статьи</div><div class="subject-list">' + articlesHtml + '</div>' : '') +
-        '<div class="section-title">Полезное</div>' +
-        '<div class="extra-links">' +
-          '<div class="extra-link">Список дз <span class="badge">скоро</span></div>' +
-          '<a href="#" class="extra-link">Telegram канал <span class="badge">скоро</span></a>' +
+      scheduleHtml +
+      '<main class="bento">' +
+
+        '<section class="tile latest">' +
+          '<div class="section-head">' +
+            '<span class="section-title">Свежее</span>' +
+          '</div>' +
+          '<div class="latest-list">' +
+            (latestHtml || '<div class="latest-item"><span class="info"><span class="name">Пока нет решений</span></span></div>') +
+          '</div>' +
+        '</section>' +
+
+        '<section class="tile subjects">' +
+          '<div class="subjects-head">' +
+            '<span class="subjects-title">Предметы</span>' +
+            '<span class="subjects-count">' + SUBJECTS.length + '</span>' +
+          '</div>' +
+          '<div class="subjects-grid">' + subjectsHtml + '</div>' +
+        '</section>' +
+
+        '<section class="tile articles">' +
+          '<div class="section-head">' +
+            '<span class="section-title">Статьи</span>' +
+          '</div>' +
+          '<div class="articles-list">' +
+            (articlesHtml || '<div class="article-item"><span class="info"><span class="name">Статей пока нет</span></span></div>') +
+          '</div>' +
+        '</section>' +
+
+        '<section class="tile feedback clickable" id="feedbackTile">' +
+          '<div class="feedback-icon">🐞</div>' +
+          '<div class="feedback-text">' +
+            '<div class="feedback-title">Нашли ошибку?</div>' +
+            '<div class="feedback-sub">Напишите — исправим</div>' +
+          '</div>' +
+          '<span class="feedback-badge">Telegram</span>' +
+        '</section>' +
+
+        '<section class="tile about clickable" id="aboutTile">' +
+          '<div class="about-text">' +
+            '<div class="about-title">О сайте</div>' +
+            '<div class="about-sub">Zadano — ГДЗ-помощник для 7 класса.</div>' +
+          '</div>' +
+          '<span class="about-arrow">→</span>' +
+        '</section>' +
+
+      '</main>';
+
+    // обработчики
+    document.getElementById("aboutTile").addEventListener("click", ()=>navigate("page/about"));
+    document.getElementById("feedbackTile").addEventListener("click", ()=>{
+      // TODO: заменить на Telegram/Worker. Пока — заглушка
+      alert("Напишите нам в Telegram: @zadano_feedback");
+    });
+
+    bindSchedule();
+  }
+
+  function buildScheduleHtml(entry, currentDate, ALL_DATES, currentIdx){
+    const today = todayIso();
+    const modeLabel = currentDate === today ? "Сегодня" : "Завтра";
+    const cur = getCurrentLessonIdx(entry.lessons, currentDate);
+
+    const lessonsHtml = entry.lessons.map((l, i)=>{
+      const hasGdz = gdzDatesFor(l.subject).includes(currentDate);
+      const href = resolveGdzLink(l.subject, currentDate);
+      const isCur = i === cur;
+      const dates = gdzDatesFor(l.subject);
+      const lastDate = dates.filter(d=>d <= currentDate).sort().reverse()[0] || dates.sort()[0];
+      const hint = hasGdz ? "есть ГДЗ" : (lastDate ? "→ " + fmtDate(lastDate) : "");
+
+      return '<a class="lesson-card' + (hasGdz ? " has-gdz" : "") + (isCur ? " current" : "") + '" href="' + href + '">' +
+        '<span class="time">' + esc(l.time || "") + '</span>' +
+        '<span class="name">' + esc(l.subject || "") + '</span>' +
+        '<span class="room">' + esc(l.room || "—") + '</span>' +
+        (hint ? '<span class="gdz-hint">' + esc(hint) + '</span>' : '') +
+      '</a>';
+    }).join("");
+
+    let done = 0;
+    if(cur >= 0) done = cur + 1;
+    else {
+      const now = new Date();
+      const mins = now.getHours()*60 + now.getMinutes();
+      entry.lessons.forEach(l=>{
+        if(!l.time) return;
+        const [h,m] = l.time.split(":").map(Number);
+        if(h*60+m+45 < mins) done++;
+      });
+      if(currentDate !== today) done = 0;
+    }
+    const progressPct = entry.lessons.length ? (done/entry.lessons.length)*100 : 0;
+
+    return '<section class="schedule-bar" data-idx="' + currentIdx + '" data-dates="' + ALL_DATES.join(",") + '">' +
+      '<div class="schedule-head">' +
+        '<div class="schedule-title">' +
+          '<span class="dot"></span>' +
+          '<span id="schLabel">' + modeLabel + ' · ' + fmtDate(currentDate) + '</span>' +
+          '<span class="day-name" id="schDay">' + esc(entry.day || "") + '</span>' +
         '</div>' +
-      '</section>';
+        '<div class="schedule-tabs" id="schTabs">' +
+          '<button class="schedule-tab active" data-day="today">сегодня</button>' +
+          '<button class="schedule-tab" data-day="tomorrow">завтра</button>' +
+        '</div>' +
+        '<div class="schedule-arrows">' +
+          '<button class="schedule-arrow" id="schPrev" ' + (currentIdx === 0 ? "disabled" : "") + ' aria-label="Назад">←</button>' +
+          '<button class="schedule-arrow" id="schNext" ' + (currentIdx === ALL_DATES.length - 1 ? "disabled" : "") + ' aria-label="Вперёд">→</button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="day-progress">' +
+        '<span id="progressText">' + done + ' из ' + entry.lessons.length + ' уроков</span>' +
+        '<div class="day-progress-bar"><div class="day-progress-fill" id="progressFill" style="width:' + progressPct + '%"></div></div>' +
+      '</div>' +
+      '<div class="lessons-strip" id="lessonsStrip">' + lessonsHtml + '</div>' +
+    '</section>';
+  }
+
+  function bindSchedule(){
+    const bar = container.querySelector(".schedule-bar");
+    if(!bar) return;
+    const ALL_DATES = (bar.dataset.dates || "").split(",").filter(Boolean);
+    let idx = parseInt(bar.dataset.idx || "0", 10);
+
+    const prevBtn = document.getElementById("schPrev");
+    const nextBtn = document.getElementById("schNext");
+    const tabs = document.getElementById("schTabs");
+
+    function rerender(newIdx){
+      idx = Math.max(0, Math.min(ALL_DATES.length - 1, newIdx));
+      const date = ALL_DATES[idx];
+      const entry = DATA.schedule.find(s=>s.date === date);
+      if(!entry) return;
+
+      // перерисовываем только содержимое
+      const today = todayIso();
+      const modeLabel = date === today ? "Сегодня" : "Завтра";
+      const cur = getCurrentLessonIdx(entry.lessons, date);
+
+      document.getElementById("schLabel").textContent = modeLabel + " · " + fmtDate(date);
+      document.getElementById("schDay").textContent = entry.day || "";
+
+      const strip = document.getElementById("lessonsStrip");
+      strip.innerHTML = entry.lessons.map((l, i)=>{
+        const hasGdz = gdzDatesFor(l.subject).includes(date);
+        const href = resolveGdzLink(l.subject, date);
+        const isCur = i === cur;
+        const dates = gdzDatesFor(l.subject);
+        const lastDate = dates.filter(d=>d <= date).sort().reverse()[0] || dates.sort()[0];
+        const hint = hasGdz ? "есть ГДЗ" : (lastDate ? "→ " + fmtDate(lastDate) : "");
+        return '<a class="lesson-card' + (hasGdz ? " has-gdz" : "") + (isCur ? " current" : "") + '" href="' + href + '">' +
+          '<span class="time">' + esc(l.time || "") + '</span>' +
+          '<span class="name">' + esc(l.subject || "") + '</span>' +
+          '<span class="room">' + esc(l.room || "—") + '</span>' +
+          (hint ? '<span class="gdz-hint">' + esc(hint) + '</span>' : '') +
+        '</a>';
+      }).join("");
+
+      let done = 0;
+      if(cur >= 0) done = cur + 1;
+      else {
+        const now = new Date();
+        const mins = now.getHours()*60 + now.getMinutes();
+        entry.lessons.forEach(l=>{
+          if(!l.time) return;
+          const [h,m] = l.time.split(":").map(Number);
+          if(h*60+m+45 < mins) done++;
+        });
+        if(date !== today) done = 0;
+      }
+      document.getElementById("progressText").textContent = done + " из " + entry.lessons.length + " уроков";
+      document.getElementById("progressFill").style.width = (entry.lessons.length ? (done/entry.lessons.length)*100 : 0) + "%";
+
+      prevBtn.disabled = idx === 0;
+      nextBtn.disabled = idx === ALL_DATES.length - 1;
+      strip.scrollLeft = 0;
+    }
+
+    prevBtn.addEventListener("click", ()=>rerender(idx - 1));
+    nextBtn.addEventListener("click", ()=>rerender(idx + 1));
+
+    tabs.querySelectorAll(".schedule-tab").forEach(tab=>{
+      tab.addEventListener("click", ()=>{
+        const target = tab.dataset.day === "today" ? todayIso() : (()=>{
+          const t = new Date(); t.setDate(t.getDate()+1);
+          return t.getFullYear()+"-"+String(t.getMonth()+1).padStart(2,"0")+"-"+String(t.getDate()).padStart(2,"0");
+        })();
+        const ti = ALL_DATES.indexOf(target);
+        if(ti !== -1){
+          tabs.querySelectorAll(".schedule-tab").forEach(x=>x.classList.toggle("active", x === tab));
+          rerender(ti);
+        }
+      });
+    });
+  }
+
+  function getCurrentLessonIdx(lessons, date){
+    if(date !== todayIso()) return -1;
+    const now = new Date();
+    const mins = now.getHours()*60 + now.getMinutes();
+    for(let i=0; i<lessons.length; i++){
+      if(!lessons[i].time) continue;
+      const [h,m] = lessons[i].time.split(":").map(Number);
+      const s = h*60+m, e = s+45;
+      if(mins >= s && mins < e) return i;
+    }
+    return -1;
   }
 
   /* ═══ ПРЕДМЕТ ═══ */
@@ -611,8 +1337,10 @@ mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-we
     if(!subj) return renderHome();
 
     const dates = datesForSubject(subj);
-    let html = '<a class="back-btn" href="#page/home">← назад</a>' +
-      '<h1 class="page-title">' + esc(subj) + '</h1>';
+    let html = '<div class="inner">' +
+      '<a class="back-btn" href="#page/home">← назад</a>' +
+      '<h1 class="page-title">' + esc(subj) + '</h1>' +
+      '<p class="page-subtitle">' + gdzTasksBySubject(subj).length + ' решений</p>';
 
     if(!dates.length){
       html += '<div class="empty-state visible"><span class="icon">📭</span>Пока решений нет. Скоро появятся.</div>';
@@ -626,6 +1354,7 @@ mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-we
       });
       html += '</div>';
     }
+    html += '</div>';
     container.innerHTML = '<section class="page active">' + html + '</section>';
   }
 
@@ -640,14 +1369,15 @@ mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-we
     const items = gdzTasksBySubjectDate(subj, date);
     const backHref = "#page/subject/" + slug;
 
-    let html = '<a class="back-btn" href="' + backHref + '">← назад</a>' +
+    let html = '<div class="inner">' +
+      '<a class="back-btn" href="' + backHref + '">← назад</a>' +
       '<h1 class="page-title">' + esc(fmtDate(date)) + '</h1>' +
       '<p class="page-subtitle">' + esc(subj) + '</p>';
 
     if(!items.length){
       html += '<div class="empty-state visible"><span class="icon">📭</span>Нет решений на эту дату.</div>';
     } else {
-      items.forEach((item, idx)=>{
+      items.forEach((item)=>{
         const pageUrl = location.origin + location.pathname + "#page/gdz/" + slug + "/" + date;
         const errTitle = encodeURIComponent("Ошибка: " + subj + ", №" + item.task + ", " + fmtDate(item.date));
         const errBody = encodeURIComponent(
@@ -666,62 +1396,36 @@ mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-we
         '</div>';
       });
     }
+    html += '</div>';
     container.innerHTML = '<section class="page active">' + html + '</section>';
+    window.scrollTo({top:0, behavior:'instant'});
   }
 
   /* ═══ СТАТЬЯ ═══ */
   function renderArticle(slug){
     const art = DATA.articles.find(a=>a.slug === slug);
     if(!art){
-      container.innerHTML = '<section class="page active"><a class="back-btn" href="#page/home">← назад</a><h1 class="page-title">Статья не найдена</h1></section>';
+      container.innerHTML = '<section class="page active"><div class="inner"><a class="back-btn" href="#page/home">← назад</a><h1 class="page-title">Статья не найдена</h1></div></section>';
       return;
     }
     container.innerHTML =
-      '<section class="page active">' +
+      '<section class="page active"><div class="inner">' +
         '<a class="back-btn" href="#page/home">← назад</a>' +
         '<h1 class="page-title">' + esc(art.title) + '</h1>' +
         '<div class="article-body">' + mdToHtml(art.body) + '</div>' +
-      '</section>';
+      '</div></section>';
+    window.scrollTo({top:0, behavior:'instant'});
   }
 
   /* ═══ О САЙТЕ ═══ */
   function renderAbout(){
     container.innerHTML =
-      '<section class="page active">' +
+      '<section class="page active"><div class="inner">' +
         '<a class="back-btn" href="#page/home">← назад</a>' +
         '<h1 class="page-title">О сайте</h1>' +
         '<p class="page-subtitle">Коротко</p>' +
-        '<div class="article-body"><p>Zadano — минималистичный ГДЗ-помощник для 7 класса. Выбирай предмет — смотри решения.</p></div>' +
-      '</section>';
-  }
-
-  /* ═══ СООБЩЕНИЯ (приватная страница) ═══ */
-  async function renderErrors(){
-    container.innerHTML = '<section class="page active"><div class="loader">Загрузка сообщений</div></section>';
-    try{
-      const r = await fetch("https://api.github.com/repos/" + REPO + "/issues?state=all&per_page=30");
-      if(!r.ok) throw new Error("API error");
-      const issues = await r.json();
-      let html = '<a class="back-btn" href="#page/home">← назад</a>' +
-        '<h1 class="page-title">Сообщения об ошибках</h1>' +
-        '<p class="page-subtitle">' + issues.length + ' шт.</p>';
-
-      if(!issues.length){
-        html += '<div class="empty-state visible"><span class="icon">✅</span>Пока сообщений нет.</div>';
-      } else {
-        html += '<div class="subject-list">';
-        issues.forEach(iss=>{
-          const state = iss.state === "open" ? "🟢" : "⚪";
-          html += '<a class="subject-item" href="' + iss.html_url + '" target="_blank" rel="noopener">' +
-            '<span>' + state + ' ' + esc(iss.title) + '</span>' +
-            '<span class="count">#' + iss.number + '</span></a>';
-        });
-        html += '</div>';
-      }
-      container.innerHTML = '<section class="page active">' + html + '</section>';
-    }catch(e){
-      container.innerHTML = '<section class="page active"><a class="back-btn" href="#page/home">← назад</a><h1 class="page-title">Не удалось загрузить</h1></section>';
-    }
+        '<div class="article-body"><p>Zadano — минималистичный ГДЗ-помощник для 7 класса. Выбирай предмет — смотри решения. Все материалы предоставлены для самопроверки.</p><p>Нашли ошибку — сообщите, исправим.</p></div>' +
+      '</div></section>';
   }
 
   /* ═══ МЕНЮ ═══ */
@@ -748,6 +1452,12 @@ mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-we
   function closeMenu(){ menu.classList.remove("active"); document.body.classList.remove("no-scroll"); }
   document.getElementById("openMenuBtn").addEventListener("click", openMenu);
   document.getElementById("closeMenuBtn").addEventListener("click", closeMenu);
+  menu.addEventListener("click", e=>{
+    if(!e.target.closest(".menu-link") && !e.target.closest(".close-menu")) closeMenu();
+  });
+  document.addEventListener("keydown", e=>{
+    if(e.key === "Escape" && menu.classList.contains("active")) closeMenu();
+  });
 
   /* ═══ ПОИСК ═══ */
   function performSearch(q){
@@ -760,12 +1470,11 @@ mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-we
     flatTasks().forEach(t=>{
       const hay = (t.subject + " " + t.task + " " + t.body).toLowerCase();
       if(!hay.includes(q)) return;
-      const slug = subjectSlug(t.subject);
       results.push({
         type:"ГДЗ",
         title:t.subject + " · №" + t.task,
         sub:fmtDate(t.date),
-        href:"#page/gdz/" + slug + "/" + t.date
+        href:"#page/gdz/" + subjectSlug(t.subject) + "/" + t.date
       });
     });
 
@@ -803,8 +1512,8 @@ mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-we
 
   searchInput.addEventListener("input", e=>performSearch(e.target.value));
   searchClear.addEventListener("click", ()=>{ searchInput.value=""; performSearch(""); searchInput.focus(); });
-  searchInput.addEventListener("keydown", e=>{ if(e.key === "Esc" || e.key === "Escape"){ searchInput.value=""; performSearch(""); searchInput.blur(); }});
-  document.addEventListener("click", e=>{ if(!e.target.closest(".search-wrap")) searchResults.classList.remove("visible"); });
+  searchInput.addEventListener("keydown", e=>{ if(e.key === "Escape"){ searchInput.value=""; performSearch(""); searchInput.blur(); }});
+  document.addEventListener("click", e=>{ if(!e.target.closest(".search")) searchResults.classList.remove("visible"); });
 
   /* ═══ СТАРТ ═══ */
   async function init(){
