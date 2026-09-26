@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>Zadano | ГДЗ 7 класс</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/marked@12/marked.min.js"></script>
 <style>
 :root{--accent:#FFD400;--accent-dark:#000;--accent-soft:#FFF9DB;--bg:#f7f7fb;--card:#fff;--text:#0f0f14;--muted:#6b7280;--border:#e5e7eb;--radius:16px;--radius-sm:12px;--shadow:0 1px 2px rgba(0,0,0,.04),0 4px 12px rgba(15,15,20,.04);--shadow-hover:0 4px 8px rgba(0,0,0,.05),0 12px 24px rgba(255,212,0,.35)}
 *{margin:0;padding:0;box-sizing:border-box}
@@ -86,25 +87,83 @@ mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-we
 .solution-block{margin-bottom:1.5rem}
 .solution-block .task-title{font-weight:700;font-size:1rem;margin-bottom:.6rem;color:#000;display:flex;align-items:center;gap:.5rem}
 .solution-block .task-title::before{content:'№';color:var(--accent-dark);font-weight:800}
-.solution-block .task-desc{font-size:.95rem;color:#374151;line-height:1.8}
-.solution-block .task-desc p{margin-bottom:.5rem}
-.error-report{margin-top:2.5rem;font-size:.8rem;color:var(--muted);padding-top:1.5rem;border-top:1px dashed var(--border)}
+.error-report{margin-top:2rem;font-size:.8rem;color:var(--muted);padding-top:1.2rem;border-top:1px dashed var(--border)}
 .error-report a{color:var(--accent-dark);text-decoration:none;font-weight:600;cursor:pointer}
 .error-report a:hover{text-decoration:underline}
 .loader{display:flex;justify-content:center;padding:3rem 1rem;color:var(--muted);font-size:.9rem}
 .loader::after{content:'';display:inline-block;width:16px;height:16px;margin-left:.5rem;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
+
+/* ═══ MARKDOWN в решениях ═══ */
+.solution-block .task-desc{font-size:.95rem;color:#374151;line-height:1.8}
+.solution-block .task-desc h1,
+.solution-block .task-desc h2,
+.solution-block .task-desc h3,
+.solution-block .task-desc h4{
+  color:#000;font-weight:700;letter-spacing:-.01em;
+  margin:1.2rem 0 .5rem;line-height:1.3;
+}
+.solution-block .task-desc h1{font-size:1.2rem}
+.solution-block .task-desc h2{font-size:1.1rem}
+.solution-block .task-desc h3{font-size:1rem}
+.solution-block .task-desc h4{font-size:.95rem}
+.solution-block .task-desc > :first-child{margin-top:0}
+.solution-block .task-desc p{margin-bottom:.7rem}
+.solution-block .task-desc p:last-child{margin-bottom:0}
+.solution-block .task-desc ul,
+.solution-block .task-desc ol{margin:.4rem 0 .8rem 1.4rem;padding-left:0}
+.solution-block .task-desc li{margin-bottom:.25rem}
+.solution-block .task-desc li::marker{color:var(--muted)}
+.solution-block .task-desc code{
+  background:var(--bg);padding:.1rem .35rem;border-radius:4px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:.88em;color:#0f0f14;
+}
+.solution-block .task-desc pre{
+  background:#0f0f14;color:#fff;padding:1rem 1.1rem;border-radius:10px;
+  overflow-x:auto;margin:.8rem 0;font-size:.85rem;line-height:1.6;
+}
+.solution-block .task-desc pre code{background:none;color:inherit;padding:0}
+.solution-block .task-desc blockquote{
+  border-left:3px solid var(--accent);padding-left:1rem;
+  color:var(--muted);margin:.8rem 0;font-style:italic;
+}
+.solution-block .task-desc blockquote p{margin-bottom:.3rem}
+.solution-block .task-desc hr{border:none;border-top:1px solid var(--border);margin:1rem 0}
+.solution-block .task-desc a{color:var(--accent-dark);font-weight:600}
+.solution-block .task-desc a:hover{text-decoration:underline}
+.solution-block .task-desc img{max-width:100%;border-radius:10px;margin:.5rem 0}
+.solution-block .task-desc strong{font-weight:700;color:#0f0f14}
+.solution-block .task-desc em{font-style:italic}
+.solution-block .task-desc del{color:var(--muted)}
+.solution-block .task-desc table{border-collapse:collapse;width:100%;margin:.8rem 0;font-size:.9rem}
+.solution-block .task-desc th,
+.solution-block .task-desc td{border:1px solid var(--border);padding:.5rem .75rem;text-align:left}
+.solution-block .task-desc th{background:var(--accent-soft);font-weight:700}
+
+/* ═══ MARKDOWN в статьях ═══ */
 .article-body{font-size:.95rem;line-height:1.75;color:#374151}
 .article-body h2{font-size:1.3rem;margin:1.5rem 0 .6rem;color:#000;font-weight:700}
 .article-body h3{font-size:1.1rem;margin:1.2rem 0 .5rem;color:#000;font-weight:600}
 .article-body p{margin-bottom:.8rem}
-.article-body ul,.article-body ol{margin:.5rem 0 .8rem 1.4rem}
+.article-body ul,.article-body ol{margin:.5rem 0 .8rem 1.4rem;padding-left:0}
 .article-body li{margin-bottom:.3rem}
+.article-body li::marker{color:var(--muted)}
 .article-body code{background:var(--bg);padding:.1rem .35rem;border-radius:4px;font-size:.85em}
-.article-body pre{background:#0f0f14;color:#fff;padding:1rem;border-radius:10px;overflow-x:auto;margin:.8rem 0;font-size:.85rem}
+.article-body pre{
+  background:#0f0f14;color:#fff;padding:1rem 1.1rem;border-radius:10px;
+  overflow-x:auto;margin:.8rem 0;font-size:.85rem;line-height:1.6;
+}
 .article-body pre code{background:none;color:inherit;padding:0}
 .article-body blockquote{border-left:3px solid var(--accent);padding-left:1rem;color:var(--muted);margin:.8rem 0}
 .article-body img{max-width:100%;border-radius:10px;margin:.5rem 0}
+.article-body del{color:var(--muted)}
+.article-body hr{border:none;border-top:1px solid var(--border);margin:1rem 0}
+.article-body table{border-collapse:collapse;width:100%;margin:.8rem 0;font-size:.9rem}
+.article-body th,.article-body td{border:1px solid var(--border);padding:.5rem .75rem;text-align:left}
+.article-body th{background:var(--accent-soft);font-weight:700}
+.article-body a{color:var(--accent-dark);font-weight:600}
+
 @media(max-width:800px){.menu-link{font-size:1.6rem}.menu-nav{gap:.9rem}}
 @media(max-width:700px){.search-wrap{max-width:200px}}
 @media(max-width:550px){.header{padding:.7rem 1rem;gap:.5rem}.logo{font-size:1.15rem}.hamburger{width:38px;height:38px}.search-input{font-size:.85rem;padding:.6rem 2.2rem}.menu-link{font-size:1.35rem}.full-menu{padding:3.5rem 1.5rem 2rem 7%}.schedule-table{font-size:.82rem}.schedule-table th,.schedule-table td{padding:.55rem .7rem}.schedule-table td:first-child{width:105px}.page-title{font-size:1.6rem}.container{padding:1.25rem 1rem 3rem}.close-menu{top:1.2rem;right:1.2rem;font-size:.85rem}}
@@ -148,7 +207,7 @@ mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-we
   const BRANCH = "main";
   const API = "https://api.github.com/repos/" + REPO + "/contents/";
   const RAW = "https://raw.githubusercontent.com/" + REPO + "/" + BRANCH + "/";
-  const CACHE_KEY = "zadano_data_v2";
+  const CACHE_KEY = "zadano_data_v3";
   const CACHE_TTL = 60 * 60 * 1000;
 
   const SUBJECTS = [
@@ -185,57 +244,110 @@ mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-we
 
   let DATA = { gdz: [], articles: [], schedule: [] };
 
-  /* ═══ ПАРСИНГ FRONTMATTER ═══ */
+  /* ═══ ПАРСИНГ FRONTMATTER (вложенные списки) ═══ */
   function parseFrontmatter(text){
     const m = text.match(/^---\s*\n([\s\S]*?)\n---\s*\n?([\s\S]*)$/);
     if(!m) return {meta:{}, body:text};
-    const raw = m[1];
+
+    const lines = m[1].split("\n");
     const meta = {};
-    const lines = raw.split("\n");
     let i = 0;
+
+    function readBlockScalar(startIdx){
+      const blockLines = [];
+      i = startIdx + 1;
+      let indent = null;
+      while(i < lines.length){
+        const line = lines[i];
+        if(line.trim() === ""){ blockLines.push(""); i++; continue; }
+        const cur = line.match(/^(\s*)/)[1].length;
+        if(indent === null){
+          if(cur === 0) break;
+          indent = cur;
+        }
+        if(cur < indent) break;
+        blockLines.push(line.slice(indent));
+        i++;
+      }
+      while(blockLines.length && blockLines[blockLines.length-1] === "") blockLines.pop();
+      return blockLines.join("\n");
+    }
+
     while(i < lines.length){
       const line = lines[i];
-      if(!line.trim() || line.startsWith("  ")) { i++; continue; }
+      if(!line.trim()){ i++; continue; }
+      if(/^\s/.test(line)){ i++; continue; }
+
       const idx = line.indexOf(":");
       if(idx === -1){ i++; continue; }
-      const key = line.slice(0,idx).trim();
-      let val = line.slice(idx+1).trim();
+
+      const key = line.slice(0, idx).trim();
+      let val = line.slice(idx + 1).trim();
+
+      if(val === "|" || val === ">"){
+        meta[key] = readBlockScalar(i);
+        continue;
+      }
 
       if(val === ""){
-        const items = [];
         i++;
-        while(i < lines.length && lines[i].startsWith("  -")){
-          const itemRaw = lines[i].trim().slice(1).trim();
-          const itemIdx = itemRaw.indexOf(":");
-          if(itemIdx > -1){
-            const objKey = itemRaw.slice(0,itemIdx).trim();
-            let objVal = itemRaw.slice(itemIdx+1).trim();
-            objVal = unquote(objVal);
-            const obj = {[objKey]: objVal};
+        const items = [];
+        while(i < lines.length){
+          const cur = lines[i];
+          if(cur.trim() === ""){ i++; continue; }
+          if(!/^\s/.test(cur)) break;
+          if(!/^\s*-\s/.test(cur)) break;
+
+          const itemContent = cur.replace(/^\s*-\s*/, "");
+          const itemIdx = itemContent.indexOf(":");
+
+          if(itemIdx === -1){
+            items.push(unquote(itemContent.trim()));
             i++;
-            while(i < lines.length && lines[i].startsWith("    ") && !lines[i].startsWith("  -")){
-              const subRaw = lines[i].trim();
-              const subIdx = subRaw.indexOf(":");
-              if(subIdx > -1){
-                const sk = subRaw.slice(0,subIdx).trim();
-                let sv = subRaw.slice(subIdx+1).trim();
-                obj[sk] = unquote(sv);
-              }
+          } else {
+            const obj = {};
+            let firstKey = itemContent.slice(0, itemIdx).trim();
+            let firstVal = itemContent.slice(itemIdx + 1).trim();
+
+            if(firstVal === "|" || firstVal === ">"){
+              obj[firstKey] = readBlockScalar(i);
+            } else {
+              obj[firstKey] = unquote(firstVal);
               i++;
             }
+
+            const dashIndent = cur.match(/^(\s*)-/)[1].length;
+            while(i < lines.length){
+              const next = lines[i];
+              if(next.trim() === ""){ i++; continue; }
+              const nextIndent = next.match(/^(\s*)/)[1].length;
+              if(nextIndent <= dashIndent) break;
+              if(/^\s*-\s/.test(next) && next.match(/^(\s*)-/)[1].length === dashIndent) break;
+
+              const kv = next.trim();
+              const kIdx = kv.indexOf(":");
+              if(kIdx === -1){ i++; continue; }
+              const k = kv.slice(0, kIdx).trim();
+              const v = kv.slice(kIdx + 1).trim();
+              if(v === "|" || v === ">"){
+                obj[k] = readBlockScalar(i);
+              } else {
+                obj[k] = unquote(v);
+                i++;
+              }
+            }
             items.push(obj);
-          } else {
-            items.push(unquote(itemRaw));
-            i++;
           }
         }
         meta[key] = items;
         continue;
       }
+
       meta[key] = unquote(val);
       i++;
     }
-    return {meta, body:m[2]};
+
+    return {meta, body: m[2]};
   }
 
   function unquote(v){
@@ -246,24 +358,44 @@ mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-we
     return v;
   }
 
+  /* ═══ MARKDOWN (через marked) ═══ */
+  if(window.marked){
+    marked.setOptions({
+      gfm: true,
+      breaks: true,
+      headerIds: false,
+      mangle: false
+    });
+  }
+
   function mdToHtml(md){
     if(!md) return "";
-    let html = md
-      .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
-      .replace(/^### (.+)$/gm,"<h3>$1</h3>")
-      .replace(/^## (.+)$/gm,"<h2>$1</h2>")
-      .replace(/^# (.+)$/gm,"<h2>$1</h2>")
-      .replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>")
-      .replace(/\*(.+?)\*/g,"<em>$1</em>")
-      .replace(/`([^`]+)`/g,"<code>$1</code>")
-      .replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>');
-    html = html.replace(/\n\n/g,"</p><p>").replace(/\n/g,"<br>");
-    return "<p>" + html + "</p>";
+    const src = String(md);
+
+    if(!window.marked){
+      // фоллбэк, если CDN не загрузился
+      return "<p>" + src
+        .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+        .replace(/\n/g,"<br>") + "</p>";
+    }
+
+    let html = marked.parse(src);
+
+    // лёгкий санитайз
+    html = html
+      .replace(/<script[\s\S]*?<\/script>/gi, "")
+      .replace(/\son\w+\s*=\s*"[^"]*"/gi, "")
+      .replace(/\son\w+\s*=\s*'[^']*'/gi, "")
+      .replace(/\son\w+\s*=\s*[^\s>]+/gi, "")
+      .replace(/href\s*=\s*"javascript:[^"]*"/gi, 'href="#"')
+      .replace(/href\s*=\s*'javascript:[^']*'/gi, "href='#'");
+
+    return html;
   }
 
   function fmtDate(iso){
     if(!iso) return "";
-    const [y,m,d] = iso.split("-");
+    const [y,m,d] = String(iso).split("-");
     return d + "." + m + "." + y;
   }
 
@@ -291,13 +423,28 @@ mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-we
       const txt = await fetchFile("gdz/" + f.name);
       if(!txt) continue;
       const {meta, body} = parseFrontmatter(txt);
+
+      let tasks = [];
+      if(Array.isArray(meta.tasks) && meta.tasks.length){
+        tasks = meta.tasks.map(t=>({
+          task: String(t.number || t.task || "").trim(),
+          body: String(t.solution || t.body || "").trim()
+        })).filter(t=>t.task || t.body);
+      }
+
+      if(!tasks.length && (meta.task || body.trim())){
+        tasks = [{
+          task: String(meta.task || "").trim(),
+          body: body.trim()
+        }];
+      }
+
       gdz.push({
         file: f.name,
         class: meta.class || "7",
         subject: meta.subject || "—",
         date: meta.date || "",
-        task: meta.task || "",
-        body: body.trim()
+        tasks
       });
     }
 
@@ -355,11 +502,29 @@ mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-we
     }[c]));
   }
   function subjectSlug(name){ return SUBJECT_SLUGS[name] || name.toLowerCase().replace(/\s+/g,"-"); }
-  function gdzBySubject(subj){ return DATA.gdz.filter(g=>g.subject === subj); }
-  function gdzBySubjectDate(subj, date){ return DATA.gdz.filter(g=>g.subject === subj && g.date === date); }
+
+  function flatTasks(){
+    const out = [];
+    DATA.gdz.forEach(g=>{
+      (g.tasks || []).forEach((t, idx)=>{
+        out.push({
+          file: g.file,
+          class: g.class,
+          subject: g.subject,
+          date: g.date,
+          task: t.task,
+          body: t.body,
+          idx
+        });
+      });
+    });
+    return out;
+  }
+  function gdzTasksBySubject(subj){ return flatTasks().filter(t=>t.subject === subj); }
+  function gdzTasksBySubjectDate(subj, date){ return flatTasks().filter(t=>t.subject === subj && t.date === date); }
   function datesForSubject(subj){
     const set = new Set();
-    gdzBySubject(subj).forEach(g=>{ if(g.date) set.add(g.date); });
+    gdzTasksBySubject(subj).forEach(t=>{ if(t.date) set.add(t.date); });
     return [...set].sort((a,b)=>b.localeCompare(a));
   }
 
@@ -415,7 +580,7 @@ mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-we
     }
 
     const subjectsHtml = SUBJECTS.map(s=>{
-      const count = gdzBySubject(s).length;
+      const count = gdzTasksBySubject(s).length;
       return '<a class="subject-item" href="#page/subject/' + subjectSlug(s) + '">' +
         '<span>' + esc(s) + (count ? ' <span class="count">' + count + '</span>' : '') + '</span>' +
         '<span class="arrow">→</span></a>';
@@ -454,7 +619,7 @@ mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-we
     } else {
       html += '<div class="date-list">';
       dates.forEach(d=>{
-        const items = gdzBySubjectDate(subj, d);
+        const items = gdzTasksBySubjectDate(subj, d);
         html += '<a class="date-item" href="#page/gdz/' + subjectSlug(subj) + '/' + d + '">' +
           '<span>' + esc(fmtDate(d)) + '</span>' +
           '<span class="count">' + items.length + '</span></a>';
@@ -472,7 +637,7 @@ mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-we
     const subj = SUBJECTS.find(s=>subjectSlug(s) === slug);
     if(!subj) return renderHome();
 
-    const items = gdzBySubjectDate(subj, date);
+    const items = gdzTasksBySubjectDate(subj, date);
     const backHref = "#page/subject/" + slug;
 
     let html = '<a class="back-btn" href="' + backHref + '">← назад</a>' +
@@ -482,9 +647,9 @@ mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-we
     if(!items.length){
       html += '<div class="empty-state visible"><span class="icon">📭</span>Нет решений на эту дату.</div>';
     } else {
-      items.forEach(item=>{
-        const errTitle = encodeURIComponent("Ошибка: " + subj + ", №" + item.task + ", " + fmtDate(item.date));
+      items.forEach((item, idx)=>{
         const pageUrl = location.origin + location.pathname + "#page/gdz/" + slug + "/" + date;
+        const errTitle = encodeURIComponent("Ошибка: " + subj + ", №" + item.task + ", " + fmtDate(item.date));
         const errBody = encodeURIComponent(
           "**Страница:** " + pageUrl + "\n" +
           "**Предмет:** " + subj + "\n" +
@@ -592,15 +757,16 @@ mark{background:var(--accent);color:#000;padding:0 2px;border-radius:3px;font-we
 
     const results = [];
 
-    DATA.gdz.forEach(g=>{
-      const hay = (g.subject + " " + g.task + " " + g.body).toLowerCase();
-      if(hay.includes(q)){
-        const slug = subjectSlug(g.subject);
-        results.push({
-          type:"ГДЗ", title:g.subject + " · №" + g.task,
-          sub:fmtDate(g.date), href:"#page/gdz/" + slug + "/" + g.date
-        });
-      }
+    flatTasks().forEach(t=>{
+      const hay = (t.subject + " " + t.task + " " + t.body).toLowerCase();
+      if(!hay.includes(q)) return;
+      const slug = subjectSlug(t.subject);
+      results.push({
+        type:"ГДЗ",
+        title:t.subject + " · №" + t.task,
+        sub:fmtDate(t.date),
+        href:"#page/gdz/" + slug + "/" + t.date
+      });
     });
 
     DATA.articles.forEach(a=>{
