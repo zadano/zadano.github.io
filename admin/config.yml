@@ -179,3 +179,55 @@ collections:
       - label: "Текст"
         name: "body"
         widget: "markdown"
+
+  # ==========================================
+  # БАННЕРЫ
+  # ==========================================
+  - name: "banners"
+    label: "Баннеры"
+    label_singular: "Баннер"
+    folder: "banners"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    summary: "{{title}}"
+    sortable_fields: ["date", "active"]
+    fields:
+      - label: "Заголовок"
+        name: "title"
+        widget: "string"
+
+      - label: "Текст"
+        name: "text"
+        widget: "text"
+        required: false
+
+      - label: "Иконка (эмодзи)"
+        name: "icon"
+        widget: "string"
+        required: false
+        hint: "Например: 🎉 или 🚀. Оставьте пустым — покажем стандартную."
+
+      - label: "Кнопка: текст"
+        name: "button_text"
+        widget: "string"
+        required: false
+        hint: "Если пусто — кнопки не будет."
+
+      - label: "Кнопка: ссылка"
+        name: "button_url"
+        widget: "string"
+        required: false
+        hint: "https://t.me/... или #page/about"
+
+      - label: "Показывать"
+        name: "active"
+        widget: "boolean"
+        default: true
+        hint: "Снимите галочку, чтобы скрыть баннер без удаления."
+
+      - label: "Дата (для сортировки)"
+        name: "date"
+        widget: "datetime"
+        date_format: "YYYY-MM-DD"
+        time_format: false
+        format: "YYYY-MM-DD"
