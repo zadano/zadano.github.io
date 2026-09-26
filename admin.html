@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Admin · Zadano</title>
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet">
+<script src="/ga.js" async></script>
+<style>
+:root{
+  --bg:#F5F7FA;
+  --card:#FFFFFF;
+  --card-soft:#F7F9FC;
+  --border:#E1E8F0;
+  --border-soft:#EDF1F6;
+  --accent:#2563EB;
+  --accent-soft:#DBE7FB;
+  --accent-glow:rgba(37,99,235,.25);
+  --warm:#F59E0B;
+  --ink:#0F1B3D;
+  --ink-2:#2A3654;
+  --muted:#6B7A94;
+  --radius-lg:28px;
+  --radius-md:20px;
+  --radius-sm:14px;
+  --ease:cubic-bezier(.2,.9,.4,1.1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Inter',system-ui,sans-serif;
+  background:var(--bg);color:var(--ink);
+  min-height:100vh;-webkit-font-smoothing:antialiased;
+  padding:1rem;
+}
+
+/* HEADER */
+.header{
+  max-width:900px;margin:0 auto 1rem;
+  display:flex;align-items:center;gap:.8rem;
+  padding:.6rem .4rem;
+}
+.logo{
+  font-size:1.3rem;font-weight:900;letter-spacing:-.05em;
+  color:var(--ink);text-decoration:none;display:flex;align-items:center;
+}
+.logo::after{content:'.';color:var(--accent);font-size:1.6rem;line-height:1;margin-left:1px}
+.header .badge{
+  margin-left:auto;font-size:.68rem;font-weight:800;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--accent);background:var(--accent-soft);
+  padding:.35rem .7rem;border-radius:20px;
+}
+.logout{
+  background:none;border:1px solid var(--border);
+  color:var(--muted);font-family:inherit;font-size:.78rem;
+  font-weight:600;padding:.5rem .9rem;border-radius:20px;
+  cursor:pointer;transition:all .2s;
+}
+.logout:hover{border-color:var(--ink);color:var(--ink)}
+
+/* WRAP */
+.wrap{max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:1rem}
+
+/* HERO */
+.hero{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius-lg);padding:1.8rem 1.8rem 1.6rem;
+}
+.hero h1{
+  font-size:1.6rem;font-weight:800;letter-spacing:-.03em;
+  margin-bottom:.3rem;
+}
+.hero p{font-size:.9rem;color:var(--muted)}
+
+/* КНОПКИ-ДЕЙСТВИЯ */
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+.action{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius-md);padding:1.2rem 1.2rem;
+  display:flex;flex-direction:column;gap:.5rem;
+  text-decoration:none;color:var(--ink);
+  transition:all .2s var(--ease);cursor:pointer;
+}
+.action:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:0 8px 24px rgba(37,99,235,.08)}
+.action .ico{
+  width:42px;height:42px;border-radius:12px;
+  background:var(--accent-soft);color:var(--accent);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;margin-bottom:.3rem;
+}
+.action .title{font-size:1rem;font-weight:800;letter-spacing:-.01em}
+.action .desc{font-size:.8rem;color:var(--muted);line-height:1.4}
+.action .arrow{
+  margin-top:.4rem;font-size:.78rem;font-weight:700;
+  color:var(--accent);
+}
+
+/* СЧЁТЧИКИ */
+.stats{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius-lg);padding:1.4rem 1.6rem 1.4rem;
+}
+.stats-head{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:1rem;margin-bottom:1rem;flex-wrap:wrap;
+}
+.stats-title{font-size:1.1rem;font-weight:800;letter-spacing:-.02em}
+.stats-updated{
+  font-size:.72rem;color:var(--muted);font-weight:600;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem}
+.stat{
+  background:var(--card-soft);border:1px solid var(--border-soft);
+  border-radius:var(--radius-sm);padding:1rem .8rem;
+  text-align:center;display:flex;flex-direction:column;gap:.2rem;
+}
+.stat .n{
+  font-size:1.8rem;font-weight:800;color:var(--accent);
+  font-variant-numeric:tabular-nums;line-height:1;
+}
+.stat .l{font-size:.72rem;color:var(--muted);font-weight:600}
+
+/* CONSOLE */
+.console{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius-lg);padding:1.4rem 1.6rem 1.4rem;
+}
+.console-head{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:.8rem;
+}
+.console-title{font-size:1rem;font-weight:800;letter-spacing:-.02em}
+.console-clear{
+  font-size:.72rem;color:var(--muted);font-weight:700;
+  background:none;border:none;cursor:pointer;font-family:inherit;
+  padding:.3rem .5rem;border-radius:6px;transition:all .2s;
+}
+.console-clear:hover{color:var(--accent);background:var(--accent-soft)}
+.console-list{display:flex;flex-direction:column;gap:.4rem}
+.console-empty{font-size:.82rem;color:var(--muted);padding:.6rem 0}
+.console-item{
+  display:flex;align-items:center;gap:.6rem;
+  padding:.6rem .8rem;background:var(--card-soft);
+  border-radius:10px;border:1px solid var(--border-soft);
+  font-size:.82rem;
+}
+.console-item .time{
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:.7rem;color:var(--muted);font-weight:600;
+  flex-shrink:0;
+}
+.console-item .text{color:var(--ink-2);flex:1;min-width:0}
+
+/* FOOTER */
+.foot{
+  max-width:900px;margin:2rem auto 0;
+  padding:1.4rem .4rem 2rem;text-align:center;
+  font-size:.78rem;color:var(--muted);
+}
+.foot a{color:var(--muted);text-decoration:none;transition:color .2s}
+.foot a:hover{color:var(--accent)}
+
+/* MOBILE */
+@media(max-width:640px){
+  body{padding:.6rem}
+  .hero{padding:1.4rem 1.2rem}
+  .hero h1{font-size:1.3rem}
+  .actions{grid-template-columns:1fr}
+  .stats{padding:1.2rem 1.2rem}
+  .stats-grid{grid-template-columns:1fr 1fr;gap:.5rem}
+  .console{padding:1.2rem 1.2rem}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <a href="/" class="logo">Zadano</a>
+  <span class="badge">admin</span>
+  <button class="logout" id="logoutBtn">выйти</button>
+</div>
+
+<div class="wrap">
+
+  <section class="hero">
+    <h1>Панель управления</h1>
+    <p>Редактор контента и статистика сайта.</p>
+  </section>
+
+  <section class="actions">
+    <a class="action" href="/admin/" target="_blank" rel="noopener">
+      <div class="ico">✏️</div>
+      <div class="title">Открыть редактор</div>
+      <div class="desc">Sveltia CMS — добавлять ГДЗ, расписание, статьи, баннеры</div>
+      <div class="arrow">перейти →</div>
+    </a>
+    <a class="action" href="https://analytics.google.com/analytics/web/" target="_blank" rel="noopener">
+      <div class="ico">📊</div>
+      <div class="title">Открыть GA4</div>
+      <div class="desc">Полная статистика в Google Analytics</div>
+      <div class="arrow">перейти →</div>
+    </a>
+  </section>
+
+  <section class="stats">
+    <div class="stats-head">
+      <span class="stats-title">Контент сайта</span>
+      <span class="stats-updated" id="statsUpdated">—</span>
+    </div>
+    <div class="stats-grid">
+      <div class="stat"><span class="n" id="statGdz">—</span><span class="l">решений</span></div>
+      <div class="stat"><span class="n" id="statArticles">—</span><span class="l">статей</span></div>
+      <div class="stat"><span class="n" id="statSchedule">—</span><span class="l">дней</span></div>
+      <div class="stat"><span class="n" id="statBanners">—</span><span class="l">баннеров</span></div>
+    </div>
+  </section>
+
+  <section class="console">
+    <div class="console-head">
+      <span class="console-title">Последние действия</span>
+      <button class="console-clear" id="clearLog">очистить</button>
+    </div>
+    <div class="console-list" id="logList">
+      <div class="console-empty">пока пусто</div>
+    </div>
+  </section>
+
+</div>
+
+<div class="foot">
+  <a href="/">← вернуться на сайт</a>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ЗАЩИТА — если нет флага, на главную */
+  if(localStorage.getItem("zadano_admin") !== "1"){
+    location.replace("/");
+    return;
+  }
+
+  /* ВЫХОД */
+  document.getElementById("logoutBtn").addEventListener("click", ()=>{
+    try{ localStorage.removeItem("zadano_admin"); }catch(e){}
+    location.replace("/");
+  });
+
+  /* СЧЁТЧИКИ ИЗ КЕША */
+  function loadCounts(){
+    const KEYS = ["zadano_data_v4", "zadano_data_v3"];
+    let data = null;
+    for(const k of KEYS){
+      try{
+        const raw = localStorage.getItem(k);
+        if(raw){ data = JSON.parse(raw); break; }
+      }catch(e){}
+    }
+
+    if(!data){
+      document.getElementById("statsUpdated").textContent = "нет данных";
+      return;
+    }
+
+    const gdzCount = (data.gdz || []).reduce((sum, g)=> sum + ((g.tasks || []).length || 0), 0);
+    const artCount = (data.articles || []).filter(a=>!a.hidden).length;
+    const schCount = (data.schedule || []).length;
+    const banCount = (data.banners || []).length;
+
+    document.getElementById("statGdz").textContent = gdzCount;
+    document.getElementById("statArticles").textContent = artCount;
+    document.getElementById("statSchedule").textContent = schCount;
+    document.getElementById("statBanners").textContent = banCount;
+
+    const loaded = data.loaded ? new Date(data.loaded) : null;
+    document.getElementById("statsUpdated").textContent = loaded
+      ? "обновлено " + loaded.toLocaleTimeString("ru-RU").slice(0,5)
+      : "—";
+  }
+  loadCounts();
+
+  /* ЛОГ */
+  const LOG_KEY = "zadano:admin-log";
+  function readLog(){
+    try{ return JSON.parse(localStorage.getItem(LOG_KEY) || "[]"); }
+    catch(e){ return []; }
+  }
+  function writeLog(arr){
+    try{ localStorage.setItem(LOG_KEY, JSON.stringify(arr.slice(-20))); }
+    catch(e){}
+  }
+  function logAction(text){
+    const arr = readLog();
+    arr.push({ t: Date.now(), text: text });
+    writeLog(arr);
+    renderLog();
+  }
+  function renderLog(){
+    const list = document.getElementById("logList");
+    const arr = readLog();
+    if(!arr.length){
+      list.innerHTML = '<div class="console-empty">пока пусто</div>';
+      return;
+    }
+    list.innerHTML = arr.slice().reverse().map(item=>{
+      const d = new Date(item.t);
+      const hh = String(d.getHours()).padStart(2,"0");
+      const mm = String(d.getMinutes()).padStart(2,"0");
+      const safe = String(item.text).replace(/[<>&]/g, c=>({"<":"&lt;",">":"&gt;","&":"&amp;"}[c]));
+      return '<div class="console-item">' +
+        '<span class="time">' + hh + ":" + mm + '</span>' +
+        '<span class="text">' + safe + '</span>' +
+      '</div>';
+    }).join("");
+  }
+  document.getElementById("clearLog").addEventListener("click", ()=>{
+    writeLog([]);
+    renderLog();
+  });
+  renderLog();
+
+  /* Лог входа */
+  logAction("Вход в админ-панель");
+
+  /* GA */
+  if(window.gtag) gtag('event', 'admin_open', { page: 'admin_hub' });
+})();
+</script>
+</body>
+</html>
