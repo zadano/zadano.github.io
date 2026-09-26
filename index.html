@@ -6,9 +6,9 @@
 <title>Zadano | ГДЗ 7 класс</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/marked@12/marked.min.js"></script>
+<script src="/ga.js" async></script>
 <style>
 :root{
-  /* ═══ 60/30/10 ═══ */
   --bg:#F5F7FA;
   --sch-bg:#EEF3FA;
   --card:#FFFFFF;
@@ -37,7 +37,7 @@ body{
 }
 body.no-scroll{overflow:hidden}
 
-/* ═══ HEADER ═══ */
+/* HEADER */
 .header{
   display:flex;align-items:center;gap:.8rem;
   padding:.6rem 1rem;max-width:1280px;margin:0 auto 1rem;
@@ -58,7 +58,7 @@ body.no-scroll{overflow:hidden}
 }
 .logo::after{content:'.';color:var(--accent);font-size:1.7rem;line-height:1;margin-left:1px}
 
-/* ═══ ПОИСК ═══ */
+/* SEARCH */
 .search{flex:1;max-width:420px;margin-left:auto;position:relative}
 .search-input{
   width:100%;padding:.65rem 2.4rem .65rem 2.4rem;
@@ -106,7 +106,7 @@ body.no-scroll{overflow:hidden}
 }
 .search-no.visible{display:block}
 
-/* ═══ МЕНЮ ═══ */
+/* MENU */
 .full-menu{
   position:fixed;top:0;left:0;width:100%;height:100%;
   background:var(--bg);z-index:1000;
@@ -143,13 +143,12 @@ body.no-scroll{overflow:hidden}
 }
 .close-menu:hover{opacity:.55}
 
-/* ═══ ОБЁРТКА ═══ */
 .wrap{
   max-width:1280px;margin:0 auto;
   display:flex;flex-direction:column;gap:1rem;
 }
 
-/* ═══ РАСПИСАНИЕ ═══ */
+/* SCHEDULE */
 .schedule-bar{
   background:var(--sch-bg);color:var(--ink);
   border-radius:var(--radius-lg);
@@ -287,7 +286,7 @@ body.no-scroll{overflow:hidden}
   border:1px solid var(--border);
 }
 
-/* ═══ BENTO ═══ */
+/* BENTO */
 .bento{
   display:grid;grid-template-columns:repeat(6,1fr);
   grid-auto-rows:minmax(140px,auto);gap:1rem;
@@ -436,20 +435,15 @@ body.no-scroll{overflow:hidden}
 }
 .tile.about:hover .about-arrow{transform:translateX(5px) rotate(-45deg);background:var(--accent)}
 
-/* ═══ ВНУТРЕННИЕ СТРАНИЦЫ ═══ */
+/* INNER PAGES */
 .page{display:none}
 .page.active{display:block;animation:fadeIn .3s ease}
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-
 .inner{
   max-width:900px;margin:0 auto;
   background:var(--card);border:1px solid var(--border);
   border-radius:var(--radius-lg);padding:2rem 2.2rem 2.4rem;
 }
-@media(max-width:640px){
-  .inner{padding:1.4rem 1.2rem 1.8rem;border-radius:20px}
-}
-
 .back-btn{
   display:inline-flex;align-items:center;gap:6px;margin-bottom:1.5rem;
   font-size:.85rem;text-decoration:none;color:var(--muted);
@@ -460,32 +454,6 @@ body.no-scroll{overflow:hidden}
 .back-btn:hover{color:var(--accent);border-color:var(--accent);background:var(--accent-soft)}
 .page-title{font-size:2rem;font-weight:800;letter-spacing:-.03em;margin-bottom:.3rem;color:var(--ink)}
 .page-subtitle{font-size:.9rem;color:var(--muted);margin-bottom:1.5rem}
-
-.subject-list{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1rem}
-.subject-item{
-  padding:1rem 1.2rem;background:var(--card-soft);
-  border-radius:var(--radius-sm);border:1px solid var(--border-soft);
-  font-size:1rem;font-weight:600;cursor:pointer;transition:all .2s ease;
-  display:flex;justify-content:space-between;align-items:center;
-  text-decoration:none;color:var(--ink);
-}
-.subject-item:hover{
-  transform:translateY(-2px);border-color:var(--accent);
-  background:var(--accent-soft);
-}
-.subject-item .arrow{
-  width:28px;height:28px;border-radius:50%;
-  background:var(--accent-soft);color:var(--accent);
-  display:flex;align-items:center;justify-content:center;
-  font-size:1rem;font-weight:600;transition:all .2s ease;flex-shrink:0;
-}
-.subject-item:hover .arrow{background:var(--accent);color:#fff;transform:translateX(4px)}
-.subject-item .count{
-  font-size:.75rem;color:var(--muted);font-weight:600;
-  background:#fff;padding:.15rem .5rem;border-radius:20px;margin-right:.5rem;
-  border:1px solid var(--border-soft);
-}
-
 .date-list{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1rem}
 .date-item{
   padding:1rem 1.2rem;background:var(--card-soft);
@@ -500,7 +468,6 @@ body.no-scroll{overflow:hidden}
   background:#fff;padding:.15rem .5rem;border-radius:20px;
   border:1px solid var(--border-soft);
 }
-
 .solution-block{margin-bottom:1.75rem}
 .solution-block .task-title{
   font-weight:700;font-size:1.1rem;margin-bottom:.7rem;color:var(--ink);
@@ -517,7 +484,6 @@ body.no-scroll{overflow:hidden}
 }
 .error-report a{color:var(--accent);text-decoration:none;font-weight:600}
 .error-report a:hover{text-decoration:underline}
-
 .empty-state{
   display:none;padding:2.5rem 1rem;text-align:center;
   color:var(--muted);font-size:.95rem;background:var(--card-soft);
@@ -525,7 +491,6 @@ body.no-scroll{overflow:hidden}
 }
 .empty-state.visible{display:block}
 .empty-state .icon{font-size:2rem;display:block;margin-bottom:.5rem;opacity:.4}
-
 .loader{
   display:flex;justify-content:center;padding:3rem 1rem;
   color:var(--muted);font-size:.9rem;
@@ -537,7 +502,7 @@ body.no-scroll{overflow:hidden}
 }
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* ═══ MARKDOWN ═══ */
+/* MARKDOWN */
 .solution-block .task-desc,
 .article-body{font-size:.95rem;color:var(--ink-2);line-height:1.75}
 .solution-block .task-desc h1,
@@ -608,7 +573,7 @@ body.no-scroll{overflow:hidden}
 .solution-block .task-desc th,
 .article-body th{background:var(--card-soft);font-weight:700}
 
-/* ═══ FOOTER ═══ */
+/* FOOTER */
 .footer{
   max-width:1280px;margin:2rem auto 0;
   padding:1.5rem 1rem 2rem;
@@ -619,7 +584,7 @@ body.no-scroll{overflow:hidden}
 .footer a{color:var(--muted);text-decoration:none;margin:0 .5rem;transition:color .2s}
 .footer a:hover{color:var(--accent)}
 
-/* ═══ АДАПТИВ ═══ */
+/* ADAPTIVE */
 @media(max-width:900px){
   .tile.latest{grid-column:span 4}
   .tile.subjects{grid-column:span 4}
@@ -784,11 +749,10 @@ body.no-scroll{overflow:hidden}
 
   let DATA = { gdz: [], articles: [], schedule: [] };
 
-  /* ═══ ПАРСИНГ FRONTMATTER ═══ */
+  /* FRONTMATTER */
   function parseFrontmatter(text){
     const m = text.match(/^---\s*\n([\s\S]*?)\n---\s*\n?([\s\S]*)$/);
     if(!m) return {meta:{}, body:text};
-
     const lines = m[1].split("\n");
     const meta = {};
     let i = 0;
@@ -877,18 +841,15 @@ body.no-scroll{overflow:hidden}
     return v;
   }
 
-  /* ═══ MARKDOWN ═══ */
+  /* MARKDOWN */
   if(window.marked){
     marked.setOptions({ gfm: true, breaks: true, headerIds: false, mangle: false });
   }
-
   function mdToHtml(md){
     if(!md) return "";
     const src = String(md);
     if(!window.marked){
-      return "<p>" + src
-        .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
-        .replace(/\n/g,"<br>") + "</p>";
+      return "<p>" + src.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\n/g,"<br>") + "</p>";
     }
     let html = marked.parse(src);
     html = html
@@ -917,7 +878,7 @@ body.no-scroll{overflow:hidden}
   }
   function subjectSlug(name){ return SUBJECT_SLUGS[name] || name.toLowerCase().replace(/\s+/g,"-"); }
 
-  /* ═══ ЗАГРУЗКА ═══ */
+  /* LOAD */
   async function fetchDir(path){
     const r = await fetch(API + path + "?ref=" + BRANCH);
     if(!r.ok) return [];
@@ -1005,7 +966,7 @@ body.no-scroll{overflow:hidden}
     return await loadAll();
   }
 
-  /* ═══ УТИЛЫ ДАННЫХ ═══ */
+  /* DATA UTILS */
   function flatTasks(){
     const out = [];
     DATA.gdz.forEach(g=>{
@@ -1039,7 +1000,7 @@ body.no-scroll{overflow:hidden}
     return "#page/subject/" + s;
   }
 
-  /* ═══ РОУТИНГ ═══ */
+  /* ROUTING */
   function navigate(hash){
     if(!hash) hash = "page/home";
     if(location.hash !== "#" + hash) location.hash = hash;
@@ -1049,6 +1010,27 @@ body.no-scroll{overflow:hidden}
 
   function render(route){
     closeMenu();
+
+    /* GA: виртуальный page_view при смене маршрута */
+    if(window.gtag){
+      var titles = {
+        "page/home": "Главная",
+        "page/about": "О сайте",
+        "article/": "Статья",
+        "page/subject/": "Предмет",
+        "page/gdz/": "ГДЗ"
+      };
+      var pageTitle = "Zadano";
+      for(var k in titles){
+        if(route === k || route.indexOf(k) === 0){ pageTitle = titles[k]; break; }
+      }
+      gtag('event', 'page_view', {
+        page_title: pageTitle + ' · ' + route,
+        page_location: location.origin + location.pathname + '#' + route,
+        page_path: '/' + route
+      });
+    }
+
     if(route === "page/home") return renderHome();
     if(route === "page/about") return renderAbout();
     if(route.startsWith("page/subject/")) return renderSubject(route.slice("page/subject/".length));
@@ -1057,9 +1039,8 @@ body.no-scroll{overflow:hidden}
     renderHome();
   }
 
-  /* ═══ ГЛАВНАЯ ═══ */
+  /* HOME */
   function renderHome(){
-    // расписание
     const ALL_DATES = [...new Set(DATA.schedule.map(s=>s.date))].sort();
     const today = todayIso();
     let currentIdx = ALL_DATES.indexOf(today);
@@ -1083,7 +1064,6 @@ body.no-scroll{overflow:hidden}
         '</section>';
     }
 
-    // свежее
     const latest = [...flatTasks()]
       .filter(t=>t.date)
       .sort((a,b)=>b.date.localeCompare(a.date))
@@ -1101,7 +1081,6 @@ body.no-scroll{overflow:hidden}
       '</a>';
     }).join("");
 
-    // предметы
     const subjectsHtml = SUBJECTS.map(s=>{
       const count = gdzTasksBySubject(s).length;
       const icon = SUBJECT_ICONS[s] || '';
@@ -1112,7 +1091,6 @@ body.no-scroll{overflow:hidden}
       '</a>';
     }).join("");
 
-    // статьи
     const visibleArticles = DATA.articles.filter(a=>!a.hidden).slice(0,3);
     const articlesHtml = visibleArticles.map(a=>
       '<a class="article-item" href="#article/' + esc(a.slug) + '">' +
@@ -1125,16 +1103,12 @@ body.no-scroll{overflow:hidden}
     container.innerHTML =
       scheduleHtml +
       '<main class="bento">' +
-
         '<section class="tile latest">' +
-          '<div class="section-head">' +
-            '<span class="section-title">Свежее</span>' +
-          '</div>' +
+          '<div class="section-head"><span class="section-title">Свежее</span></div>' +
           '<div class="latest-list">' +
             (latestHtml || '<div class="latest-item"><span class="info"><span class="name">Пока нет решений</span></span></div>') +
           '</div>' +
         '</section>' +
-
         '<section class="tile subjects">' +
           '<div class="subjects-head">' +
             '<span class="subjects-title">Предметы</span>' +
@@ -1142,16 +1116,12 @@ body.no-scroll{overflow:hidden}
           '</div>' +
           '<div class="subjects-grid">' + subjectsHtml + '</div>' +
         '</section>' +
-
         '<section class="tile articles">' +
-          '<div class="section-head">' +
-            '<span class="section-title">Статьи</span>' +
-          '</div>' +
+          '<div class="section-head"><span class="section-title">Статьи</span></div>' +
           '<div class="articles-list">' +
             (articlesHtml || '<div class="article-item"><span class="info"><span class="name">Статей пока нет</span></span></div>') +
           '</div>' +
         '</section>' +
-
         '<section class="tile feedback clickable" id="feedbackTile">' +
           '<div class="feedback-icon">🐞</div>' +
           '<div class="feedback-text">' +
@@ -1160,7 +1130,6 @@ body.no-scroll{overflow:hidden}
           '</div>' +
           '<span class="feedback-badge">Telegram</span>' +
         '</section>' +
-
         '<section class="tile about clickable" id="aboutTile">' +
           '<div class="about-text">' +
             '<div class="about-title">О сайте</div>' +
@@ -1168,13 +1137,11 @@ body.no-scroll{overflow:hidden}
           '</div>' +
           '<span class="about-arrow">→</span>' +
         '</section>' +
-
       '</main>';
 
-    // обработчики
     document.getElementById("aboutTile").addEventListener("click", ()=>navigate("page/about"));
     document.getElementById("feedbackTile").addEventListener("click", ()=>{
-      // TODO: заменить на Telegram/Worker. Пока — заглушка
+      if(window.gtag) gtag('event', 'feedback_click', { location: 'home_tile' });
       alert("Напишите нам в Telegram: @zadano_feedback");
     });
 
@@ -1256,7 +1223,6 @@ body.no-scroll{overflow:hidden}
       const entry = DATA.schedule.find(s=>s.date === date);
       if(!entry) return;
 
-      // перерисовываем только содержимое
       const today = todayIso();
       const modeLabel = date === today ? "Сегодня" : "Завтра";
       const cur = getCurrentLessonIdx(entry.lessons, date);
@@ -1331,7 +1297,7 @@ body.no-scroll{overflow:hidden}
     return -1;
   }
 
-  /* ═══ ПРЕДМЕТ ═══ */
+  /* SUBJECT */
   function renderSubject(slug){
     const subj = SUBJECTS.find(s=>subjectSlug(s) === slug);
     if(!subj) return renderHome();
@@ -1358,7 +1324,7 @@ body.no-scroll{overflow:hidden}
     container.innerHTML = '<section class="page active">' + html + '</section>';
   }
 
-  /* ═══ ГДЗ ПО ДАТЕ ═══ */
+  /* GDZ */
   function renderGdzPage(rest){
     const parts = rest.split("/");
     const slug = parts[0];
@@ -1401,7 +1367,7 @@ body.no-scroll{overflow:hidden}
     window.scrollTo({top:0, behavior:'instant'});
   }
 
-  /* ═══ СТАТЬЯ ═══ */
+  /* ARTICLE */
   function renderArticle(slug){
     const art = DATA.articles.find(a=>a.slug === slug);
     if(!art){
@@ -1417,7 +1383,7 @@ body.no-scroll{overflow:hidden}
     window.scrollTo({top:0, behavior:'instant'});
   }
 
-  /* ═══ О САЙТЕ ═══ */
+  /* ABOUT */
   function renderAbout(){
     container.innerHTML =
       '<section class="page active"><div class="inner">' +
@@ -1428,7 +1394,7 @@ body.no-scroll{overflow:hidden}
       '</div></section>';
   }
 
-  /* ═══ МЕНЮ ═══ */
+  /* MENU */
   function buildMenu(){
     const visibleArticles = DATA.articles.filter(a=>!a.hidden);
     let html = '<a class="menu-link" data-nav="page/home">главная</a>';
@@ -1459,7 +1425,7 @@ body.no-scroll{overflow:hidden}
     if(e.key === "Escape" && menu.classList.contains("active")) closeMenu();
   });
 
-  /* ═══ ПОИСК ═══ */
+  /* SEARCH */
   function performSearch(q){
     q = q.trim().toLowerCase();
     searchClear.classList.toggle("visible", q.length > 0);
@@ -1502,6 +1468,7 @@ body.no-scroll{overflow:hidden}
     searchResults.classList.add("visible");
     searchResults.querySelectorAll(".search-result").forEach(el=>{
       el.addEventListener("click", ()=>{
+        if(window.gtag) gtag('event', 'search_select', { query: q, target: el.dataset.href });
         searchResults.classList.remove("visible");
         searchInput.value = "";
         searchClear.classList.remove("visible");
@@ -1515,7 +1482,7 @@ body.no-scroll{overflow:hidden}
   searchInput.addEventListener("keydown", e=>{ if(e.key === "Escape"){ searchInput.value=""; performSearch(""); searchInput.blur(); }});
   document.addEventListener("click", e=>{ if(!e.target.closest(".search")) searchResults.classList.remove("visible"); });
 
-  /* ═══ СТАРТ ═══ */
+  /* START */
   async function init(){
     await getData();
     buildMenu();
