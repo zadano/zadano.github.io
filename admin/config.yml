@@ -13,11 +13,13 @@ collections:
   # ==========================================
   - name: "gdz"
     label: "ГДЗ"
+    label_singular: "ГДЗ"
     folder: "gdz"
     create: true
-    slug: "{{class}}-{{subject}}-{{date}}-{{task}}"
+    slug: "{{class}}-{{subject}}-{{date}}"
+    summary: "{{subject}} · {{date}} · {{class}} класс"
+    sortable_fields: ["date", "subject", "class"]
     fields:
-      # Класс — выпадающий список
       - label: "Класс"
         name: "class"
         widget: "select"
@@ -34,7 +36,6 @@ collections:
           - "10"
           - "11"
 
-      # Предмет — выпадающий список
       - label: "Предмет"
         name: "subject"
         widget: "select"
@@ -56,7 +57,6 @@ collections:
           - "Искусство"
           - "Технология"
 
-      # Дата
       - label: "Дата"
         name: "date"
         widget: "datetime"
@@ -64,24 +64,32 @@ collections:
         time_format: false
         format: "YYYY-MM-DD"
 
-      # Номер задания
-      - label: "Номер задания"
-        name: "task"
-        widget: "string"
+      - label: "Задания"
+        name: "tasks"
+        widget: "list"
+        summary: "№{{fields.number}}"
+        min: 1
+        fields:
+          - label: "Номер задания"
+            name: "number"
+            widget: "string"
+            hint: "Например: 234 (а, б) или 5.1"
 
-      # Решение
-      - label: "Решение"
-        name: "body"
-        widget: "markdown"
+          - label: "Решение"
+            name: "solution"
+            widget: "markdown"
 
   # ==========================================
   # РАСПИСАНИЕ
   # ==========================================
   - name: "schedule"
     label: "Расписание"
+    label_singular: "Расписание"
     folder: "schedule"
     create: true
     slug: "{{date}}"
+    summary: "{{date}} · {{day}}"
+    sortable_fields: ["date"]
     fields:
       - label: "Дата"
         name: "date"
@@ -90,7 +98,6 @@ collections:
         time_format: false
         format: "YYYY-MM-DD"
 
-      # День недели — выпадающий список
       - label: "День недели"
         name: "day"
         widget: "select"
@@ -104,16 +111,15 @@ collections:
           - "Суббота"
           - "Воскресенье"
 
-      # Уроки — список с полями
       - label: "Уроки"
         name: "lessons"
         widget: "list"
+        summary: "{{fields.time}} — {{fields.subject}}"
         fields:
           - label: "Время"
             name: "time"
             widget: "string"
 
-          # Предмет — выпадающий список (включая РОВ и Окно)
           - label: "Предмет"
             name: "subject"
             widget: "select"
@@ -147,9 +153,12 @@ collections:
   # ==========================================
   - name: "articles"
     label: "Статьи"
+    label_singular: "Статья"
     folder: "articles"
     create: true
     slug: "{{slug}}"
+    summary: "{{title}}"
+    sortable_fields: ["title"]
     fields:
       - label: "Заголовок"
         name: "title"
@@ -159,6 +168,7 @@ collections:
         name: "slug"
         widget: "string"
         required: false
+        hint: "Оставьте пустым — сгенерируется из заголовка"
 
       - label: "Скрытая"
         name: "hidden"
