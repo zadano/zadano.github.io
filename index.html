@@ -476,96 +476,199 @@ body.no-scroll{overflow:hidden}
 
   let DATA = { gdz: [], articles: [], schedule: [], banners: [] };
 
-  /* FRONTMATTER */
+  /* ============================================================
+     FRONTMATTER PARSER (исправленный)
+     ============================================================ */
   function parseFrontmatter(text){
     const m = text.match(/^---\s*\n([\s\S]*?)\n---\s*\n?([\s\S]*)$/);
     if(!m) return {meta:{}, body:text};
+
     const lines = m[1].split("\n");
     const meta = {};
     let i = 0;
 
+    function unquote(v){
+      v = String(v).trim();
+      if((v.startsWith('"') && v.endsWith('"')) || (v.startsWith("'") && v.endsWith("'"))) v = v.slice(1,-1);
+      if(v === "true") return true;
+      if(v === "false") return false;
+      if(v === "null" || v === "~") return null;
+      return v;
+    }
+
+    // Читает блочный скаляр (| или >), начиная со строки startIdx (которая содержит "|")
+    // Возвращает строку и устанавливает i на первую строку ПОСЛЕ блока.
     function readBlockScalar(startIdx){
       const blockLines = [];
-      i = startIdx + 1;
+      let j = startIdx + 1;
       let indent = null;
-      while(i < lines.length){
-        const line = lines[i];
-        if(line.trim() === ""){ blockLines.push(""); i++; continue; }
+      let started = false;
+
+      while(j < lines.length){
+        const line = lines[j];
+        const trimmed = line.replace(/\s+$/,"");
+
+        if(trimmed === ""){
+          if(started) blockLines.push("");
+          j++;
+          continue;
+        }
+
         const cur = line.match(/^(\s*)/)[1].length;
-        if(indent === null){ if(cur === 0) break; indent = cur; }
-        if(cur < indent) break;
+
+        if(indent === null){
+          if(cur === 0) break; // блок не начался
+          indent = cur;
+        }
+
+        if(cur < indent){
+          // закончился блок
+          break;
+        }
+
+        started = true;
         blockLines.push(line.slice(indent));
-        i++;
+        j++;
       }
+
+      // убираем пустые строки в конце
       while(blockLines.length && blockLines[blockLines.length-1] === "") blockLines.pop();
+
+      i = j; // ВАЖНО: сдвигаем указатель
       return blockLines.join("\n");
     }
 
     while(i < lines.length){
       const line = lines[i];
       if(!line.trim()){ i++; continue; }
-      if(/^\s/.test(line)){ i++; continue; }
+      if(/^\s/.test(line)){ i++; continue; } // вложенные строки обрабатываются отдельно
       const idx = line.indexOf(":");
       if(idx === -1){ i++; continue; }
+
       const key = line.slice(0, idx).trim();
       let val = line.slice(idx + 1).trim();
 
-      if(val === "|" || val === ">"){ meta[key] = readBlockScalar(i); continue; }
+      // блочный скаляр как значение верхнего уровня
+      if(val === "|" || val === ">" || val === "|-" || val === ">-" || val === "|+" || val === ">+"){
+        meta[key] = readBlockScalar(i);
+        continue;
+      }
 
+      // пустое значение — возможно, вложенный объект или массив
       if(val === ""){
         i++;
         const items = [];
+        let isArray = false;
+        let obj = null;
+        const dashIndentRef = {v: null};
+
         while(i < lines.length){
           const cur = lines[i];
           if(cur.trim() === ""){ i++; continue; }
-          if(!/^\s/.test(cur)) break;
-          if(!/^\s*-\s/.test(cur)) break;
-          const itemContent = cur.replace(/^\s*-\s*/, "");
-          const itemIdx = itemContent.indexOf(":");
-          if(itemIdx === -1){
-            items.push(unquote(itemContent.trim())); i++;
-          } else {
-            const obj = {};
-            let firstKey = itemContent.slice(0, itemIdx).trim();
-            let firstVal = itemContent.slice(itemIdx + 1).trim();
-            if(firstVal === "|" || firstVal === ">"){
-              obj[firstKey] = readBlockScalar(i);
-            } else {
-              obj[firstKey] = unquote(firstVal); i++;
+          const curIndent = cur.match(/^(\s*)/)[1].length;
+          if(curIndent === 0) break; // вернулись на верхний уровень
+
+          if(/^\s*-\s/.test(cur)){
+            // элемент массива
+            if(!isArray){
+              isArray = true;
             }
             const dashIndent = cur.match(/^(\s*)-/)[1].length;
-            while(i < lines.length){
-              const next = lines[i];
-              if(next.trim() === ""){ i++; continue; }
-              const nextIndent = next.match(/^(\s*)/)[1].length;
-              if(nextIndent <= dashIndent) break;
-              if(/^\s*-\s/.test(next) && next.match(/^(\s*)-/)[1].length === dashIndent) break;
-              const kv = next.trim();
-              const kIdx = kv.indexOf(":");
-              if(kIdx === -1){ i++; continue; }
-              const k = kv.slice(0, kIdx).trim();
-              const v = kv.slice(kIdx + 1).trim();
-              if(v === "|" || v === ">"){ obj[k] = readBlockScalar(i); }
-              else { obj[k] = unquote(v); i++; }
+            dashIndentRef.v = dashIndent;
+            const itemContent = cur.replace(/^\s*-\s*/, "").trim();
+
+            if(itemContent === ""){
+              // элемент-объект, поля идут ниже
+              obj = {};
+              i++;
+              // читаем поля объекта
+              while(i < lines.length){
+                const nxt = lines[i];
+                if(nxt.trim() === ""){ i++; continue; }
+                const nxtIndent = nxt.match(/^(\s*)/)[1].length;
+                if(nxtIndent <= dashIndent) break;
+                if(/^\s*-\s/.test(nxt)) break;
+                const kIdx = nxt.indexOf(":");
+                if(kIdx === -1){ i++; continue; }
+                const k = nxt.slice(0, kIdx).trim();
+                const v = nxt.slice(kIdx + 1).trim();
+                if(v === "|" || v === ">" || v === "|-" || v === ">-" || v === "|+" || v === ">+"){
+                  obj[k] = readBlockScalar(i);
+                } else {
+                  obj[k] = unquote(v);
+                  i++;
+                }
+              }
+              items.push(obj);
+              continue;
             }
-            items.push(obj);
+
+            // элемент может быть "key: value" или просто значением
+            const itemIdx = itemContent.indexOf(":");
+            if(itemIdx === -1){
+              items.push(unquote(itemContent));
+              i++;
+            } else {
+              obj = {};
+              const firstKey = itemContent.slice(0, itemIdx).trim();
+              const firstVal = itemContent.slice(itemIdx + 1).trim();
+              if(firstVal === "|" || firstVal === ">" || firstVal === "|-" || firstVal === ">-" || firstVal === "|+" || firstVal === ">+"){
+                obj[firstKey] = readBlockScalar(i);
+              } else {
+                obj[firstKey] = unquote(firstVal);
+                i++;
+              }
+              // остальные поля объекта
+              while(i < lines.length){
+                const nxt = lines[i];
+                if(nxt.trim() === ""){ i++; continue; }
+                const nxtIndent = nxt.match(/^(\s*)/)[1].length;
+                if(nxtIndent <= dashIndent) break;
+                if(/^\s*-\s/.test(nxt)) break;
+                const kIdx = nxt.indexOf(":");
+                if(kIdx === -1){ i++; continue; }
+                const k = nxt.slice(0, kIdx).trim();
+                const v = nxt.slice(kIdx + 1).trim();
+                if(v === "|" || v === ">" || v === "|-" || v === ">-" || v === "|+" || v === ">+"){
+                  obj[k] = readBlockScalar(i);
+                } else {
+                  obj[k] = unquote(v);
+                  i++;
+                }
+              }
+              items.push(obj);
+            }
+            continue;
           }
+
+          // не массив — вложенный объект
+          if(!isArray){
+            if(obj === null) obj = {};
+            const kIdx = cur.indexOf(":");
+            if(kIdx === -1){ i++; continue; }
+            const k = cur.slice(0, kIdx).trim();
+            const v = cur.slice(kIdx + 1).trim();
+            if(v === "|" || v === ">" || v === "|-" || v === ">-" || v === "|+" || v === ">+"){
+              obj[k] = readBlockScalar(i);
+            } else {
+              obj[k] = unquote(v);
+              i++;
+            }
+            continue;
+          }
+
+          i++;
         }
-        meta[key] = items;
+
+        meta[key] = isArray ? items : (obj || items);
         continue;
       }
+
       meta[key] = unquote(val);
       i++;
     }
-    return {meta, body: m[2]};
-  }
 
-  function unquote(v){
-    v = String(v).trim();
-    if((v.startsWith('"') && v.endsWith('"')) || (v.startsWith("'") && v.endsWith("'"))) v = v.slice(1,-1);
-    if(v === "true") return true;
-    if(v === "false") return false;
-    return v;
+    return {meta, body: m[2]};
   }
 
   /* MARKDOWN */
@@ -574,7 +677,9 @@ body.no-scroll{overflow:hidden}
   }
   function mdToHtml(md){
     if(!md) return "";
-    const src = String(md);
+    let src = String(md).trim();
+    // защита от случайного литерала "|-" или "|"
+    if(src === "|" || src === "|-" || src === ">") src = "";
     if(!window.marked){
       return "<p>" + src.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\n/g,"<br>") + "</p>";
     }
@@ -622,13 +727,21 @@ body.no-scroll{overflow:hidden}
       const {meta, body} = parseFrontmatter(txt);
       let tasks = [];
       if(Array.isArray(meta.tasks) && meta.tasks.length){
-        tasks = meta.tasks.map(t=>({
-          task: String(t.number || t.task || "").trim(),
-          body: String(t.solution || t.body || "").trim()
-        })).filter(t=>t.task || t.body);
+        tasks = meta.tasks.map(t=>{
+          let bodyVal = t.solution != null ? t.solution : (t.body != null ? t.body : "");
+          bodyVal = String(bodyVal).trim();
+          // защита от "|-" оставшегося в значении
+          if(bodyVal === "|" || bodyVal === "|-" || bodyVal === ">" || bodyVal === ">-") bodyVal = "";
+          return {
+            task: String(t.number != null ? t.number : (t.task != null ? t.task : "")).trim(),
+            body: bodyVal
+          };
+        }).filter(t=>t.task || t.body);
       }
       if(!tasks.length && (meta.task || body.trim())){
-        tasks = [{ task: String(meta.task || "").trim(), body: body.trim() }];
+        let bodyVal = body.trim();
+        if(bodyVal === "|" || bodyVal === "|-") bodyVal = "";
+        tasks = [{ task: String(meta.task || "").trim(), body: bodyVal }];
       }
       gdz.push({
         file: f.name,
@@ -1307,9 +1420,10 @@ body.no-scroll{overflow:hidden}
     } else {
       items.forEach((item)=>{
         const key = slug + "-" + date + "-" + item.task;
+        const bodyHtml = item.body ? mdToHtml(item.body) : '<p style="color:var(--muted)">Решение пока не добавлено.</p>';
         html += '<div class="solution-block">' +
           '<div class="task-title">' + esc(item.task) + '</div>' +
-          '<div class="task-desc">' + mdToHtml(item.body) + '</div>' +
+          '<div class="task-desc">' + bodyHtml + '</div>' +
           ratingWidget(key, { subject: subj, date: fmtDate(item.date), task: "№" + item.task }) +
           '<div class="error-report">Нашли ошибку? ' +
             '<a href="#" data-feedback data-subject="' + esc(subj) + '" ' +
