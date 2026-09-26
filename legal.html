@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Пользовательское соглашение | Zadano</title>
+<meta name="robots" content="noindex, follow">
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F5F7FA;
+  --card:#FFFFFF;
+  --border:#E1E8F0;
+  --border-soft:#EDF1F6;
+  --accent:#2563EB;
+  --accent-soft:#DBE7FB;
+  --ink:#0F1B3D;
+  --ink-2:#2A3654;
+  --muted:#6B7A94;
+
+  --radius-lg:28px;
+  --radius-sm:14px;
+  --ease:cubic-bezier(.2,.9,.4,1.1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter',system-ui,sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+  padding:1rem;
+  line-height:1.6;
+}
+
+/* ═══ ШАПКА ═══ */
+.topbar{
+  max-width:820px;margin:0 auto 1rem;
+  display:flex;align-items:center;gap:1rem;
+  padding:.6rem .4rem;
+}
+.back{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.55rem 1rem;
+  border-radius:40px;
+  background:var(--card);
+  border:1px solid var(--border);
+  color:var(--ink);
+  text-decoration:none;
+  font-size:.85rem;
+  font-weight:600;
+  transition:all .2s;
+}
+.back:hover{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+.back::before{content:'←';font-weight:700}
+.logo{
+  margin-left:auto;
+  font-size:1.15rem;font-weight:900;letter-spacing:-.04em;
+  color:var(--ink);text-decoration:none;
+  display:flex;align-items:center;
+}
+.logo::after{content:'.';color:var(--accent);font-size:1.4rem;line-height:1;margin-left:1px}
+
+/* ═══ КАРТОЧКА ═══ */
+.doc{
+  max-width:820px;margin:0 auto;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:3rem 3rem 2.5rem;
+}
+
+/* ═══ ЗАГОЛОВОК ═══ */
+.doc-head{
+  padding-bottom:1.5rem;
+  border-bottom:1px solid var(--border-soft);
+  margin-bottom:2rem;
+}
+.doc-eyebrow{
+  font-size:.7rem;font-weight:700;
+  letter-spacing:.12em;text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:.6rem;
+}
+h1{
+  font-size:2rem;
+  font-weight:800;
+  letter-spacing:-.03em;
+  line-height:1.15;
+  margin-bottom:.6rem;
+}
+.doc-meta{
+  font-size:.82rem;
+  color:var(--muted);
+  display:flex;flex-wrap:wrap;gap:.4rem 1.2rem;
+  align-items:center;
+}
+.doc-meta span{display:inline-flex;align-items:center;gap:.4rem}
+.doc-meta span::before{content:'·';color:var(--accent);font-weight:800}
+.doc-meta span:first-child::before{display:none}
+
+/* ═══ ВВОДНЫЙ АБЗАЦ ═══ */
+.doc-lead{
+  background:var(--accent-soft);
+  border-left:3px solid var(--accent);
+  border-radius:0 12px 12px 0;
+  padding:1rem 1.2rem;
+  margin-bottom:2rem;
+  font-size:.92rem;
+  color:var(--ink-2);
+}
+
+/* ═══ СЕКЦИИ ═══ */
+.doc h2{
+  font-size:1.05rem;
+  font-weight:800;
+  letter-spacing:-.01em;
+  margin:2rem 0 .8rem;
+  display:flex;
+  align-items:baseline;
+  gap:.6rem;
+  color:var(--ink);
+}
+.doc h2 .num{
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:.8rem;
+  font-weight:700;
+  color:var(--accent);
+  background:var(--accent-soft);
+  padding:.15rem .5rem;
+  border-radius:6px;
+  flex-shrink:0;
+}
+.doc h2:first-of-type{margin-top:0}
+
+.doc p{
+  font-size:.92rem;
+  color:var(--ink-2);
+  margin-bottom:.9rem;
+}
+
+.doc ul{
+  list-style:none;
+  margin:.4rem 0 1rem;
+  padding:0;
+}
+.doc ul li{
+  position:relative;
+  padding-left:1.4rem;
+  font-size:.92rem;
+  color:var(--ink-2);
+  margin-bottom:.45rem;
+}
+.doc ul li::before{
+  content:'';
+  position:absolute;
+  left:0;
+  top:.65em;
+  width:6px;height:6px;
+  border-radius:50%;
+  background:var(--accent);
+}
+
+.doc strong{color:var(--ink);font-weight:700}
+.doc em{color:var(--muted);font-style:normal}
+
+.doc a{
+  color:var(--accent);
+  text-decoration:none;
+  font-weight:600;
+  border-bottom:1px solid transparent;
+  transition:border-color .2s;
+}
+.doc a:hover{border-color:var(--accent)}
+
+/* ═══ ФИНАЛЬНЫЙ БЛОК ═══ */
+.doc-final{
+  margin-top:2.5rem;
+  padding-top:1.5rem;
+  border-top:1px solid var(--border-soft);
+  display:flex;
+  flex-direction:column;
+  gap:.8rem;
+}
+.doc-final p{
+  font-size:.88rem;
+  color:var(--ink-2);
+  margin:0;
+}
+.doc-final p:first-child{
+  font-weight:600;
+  color:var(--ink);
+}
+
+/* ═══ ПОДВАЛ ═══ */
+.foot{
+  max-width:820px;
+  margin:1rem auto 0;
+  padding:0 .4rem 2rem;
+  font-size:.75rem;
+  color:var(--muted);
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:.5rem;
+}
+.foot a{
+  color:var(--muted);
+  text-decoration:none;
+  transition:color .2s;
+}
+.foot a:hover{color:var(--accent)}
+
+/* ═══ АДАПТИВ ═══ */
+@media(max-width:640px){
+  body{padding:.6rem}
+  .doc{
+    padding:2rem 1.4rem 1.6rem;
+    border-radius:20px;
+  }
+  h1{font-size:1.5rem}
+  .doc h2{font-size:1rem;margin-top:1.6rem}
+  .doc h2 .num{font-size:.75rem}
+  .doc p,.doc ul li{font-size:.88rem}
+  .topbar{padding:.4rem 0}
+  .back{font-size:.8rem;padding:.5rem .9rem}
+  .logo{font-size:1rem}
+  .foot{padding:0 0 1.5rem}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="/" class="back">на главную</a>
+  <a href="/" class="logo">Zadano</a>
+</div>
+
+<main class="doc">
+
+  <div class="doc-head">
+    <div class="doc-eyebrow">Правовая информация</div>
+    <h1>Пользовательское соглашение</h1>
+    <div class="doc-meta">
+      <span>Отказ от ответственности</span>
+      <span>Обновлено: 8 сентября 2026</span>
+    </div>
+  </div>
+
+  <p class="doc-lead">
+    Настоящий сайт (далее — «Сайт») является частным некоммерческим проектом, созданным для ограниченного круга лиц. Использование Сайта означает полное и безоговорочное принятие настоящих условий.
+  </p>
+
+  <h2><span class="num">01</span> Цели использования</h2>
+  <p>
+    Все материалы, размещенные на Сайте, включая решебники (ГДЗ), ответы на задания и иные учебные пособия, предоставляются <strong>исключительно для самопроверки и ознакомления</strong>. Мы не поощряем списывание и не гарантируем, что использование наших материалов приведет к положительной оценке.
+  </p>
+
+  <h2><span class="num">02</span> Отказ от гарантий</h2>
+  <p>
+    Материалы Сайта предоставляются «как есть» (AS-IS) без каких-либо явных или подразумеваемых гарантий. Мы не несем ответственности за:
+  </p>
+  <ul>
+    <li>актуальность, точность, полноту или безошибочность решений;</li>
+    <li>несоответствие ответов требованиям конкретного учителя, школы или образовательной программы;</li>
+    <li>возможные изменения в нумерации задач или формулировках в официальных учебниках.</li>
+  </ul>
+
+  <h2><span class="num">03</span> Пределы ответственности</h2>
+  <p>
+    Администрация Сайта (Авторы) не несет ответственности перед любыми пользователями или третьими лицами за любые прямые, косвенные, случайные или последующие убытки, включая, но не ограничиваясь: снижение успеваемости, получение неудовлетворительных оценок, дисциплинарные взыскания, упущенную выгоду или потерю данных, возникшие в результате использования или невозможности использования материалов Сайта.
+  </p>
+
+  <h2><span class="num">04</span> Доступ третьих лиц</h2>
+  <p>
+    Сайт является приватным. Доступ предоставляется только авторизованным пользователям. Передача учетных данных (логинов, паролей) или прямой ссылки на Сайт любым третьим лицам запрещена. Администрация не отвечает за последствия несанкционированного доступа, возникшие по вине пользователей, разгласивших свои данные.
+  </p>
+
+  <h2><span class="num">05</span> Интеллектуальная собственность</h2>
+  <p>
+    Авторы Сайта не присваивают себе права на авторство заданий, содержащихся в учебниках. Все решения являются производными и созданы на основе общедоступных источников. Если вы являетесь правообладателем и считаете, что размещенный материал нарушает ваши права, свяжитесь с нами для оперативного удаления контента.
+  </p>
+
+  <h2><span class="num">06</span> Изменения условий</h2>
+  <p>
+    Мы оставляем за собой право в любое время изменять или дополнять настоящее соглашение без предварительного уведомления. Актуальная версия всегда доступна по данной ссылке. Продолжение использования Сайта после внесения изменений означает ваше согласие с новой редакцией.
+  </p>
+
+  <h2><span class="num">07</span> Заключительные положения</h2>
+  <p>
+    Если какой-либо пункт настоящего соглашения будет признан недействительным, это не влияет на действительность остальных пунктов. Настоящее соглашение регулируется законодательством страны регистрации Сайта.
+  </p>
+
+  <div class="doc-final">
+    <p>Используя Сайт, вы подтверждаете, что прочитали, поняли и приняли все вышеуказанные условия в полном объеме.</p>
+    <p><em>Дата последнего обновления: 8 сентября 2026 г.</em></p>
+    <p><em>Администрация оставляет за собой право изменять настоящее Соглашение в любое время без предварительного уведомления. Продолжая использовать Сайт после внесения изменений, вы автоматически соглашаетесь с новой редакцией.</em></p>
+  </div>
+
+</main>
+
+<footer class="foot">
+  <div>Zadano © 2026 · для 7 класса</div>
+  <div><a href="/">главная</a> · <a href="#">наверх</a></div>
+</footer>
+
+<script>
+document.querySelector('.foot a[href="#"]')?.addEventListener('click', e => {
+  e.preventDefault();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+</script>
+
+</body>
+</html>
