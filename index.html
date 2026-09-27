@@ -163,8 +163,9 @@ body.no-scroll{overflow:hidden}
 .tile.latest{grid-column:span 3;grid-row:span 2;padding:1.6rem 1.6rem}
 .section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
 .section-title{font-size:1rem;font-weight:800;letter-spacing:-.02em;color:var(--ink)}
-.section-more{font-size:.72rem;color:var(--accent);text-decoration:none;font-weight:700;transition:opacity .2s;cursor:pointer;background:none;border:none;font-family:inherit}
+.section-more{font-size:.72rem;color:var(--accent);text-decoration:none;font-weight:700;transition:opacity .2s;cursor:pointer;background:none;border:none;font-family:inherit;display:flex;align-items:center;gap:.3rem}
 .section-more:hover{opacity:.7}
+.section-more::after{content:'→';font-weight:800}
 .latest-list{display:flex;flex-direction:column;gap:.5rem;flex:1}
 .latest-item{display:flex;align-items:center;gap:.7rem;padding:.65rem .8rem;background:var(--card-soft);border-radius:12px;text-decoration:none;color:var(--ink);transition:all .2s;border:1px solid var(--border-soft)}
 .latest-item:hover{background:var(--accent-soft);border-color:var(--accent-soft);transform:translateX(3px)}
@@ -435,20 +436,21 @@ body.no-scroll{overflow:hidden}
   const FEEDBACK_WORKER = "https://zadano-feedback.n7ycgcn5jd.workers.dev";
 
   const SUBJECTS = [
-    "Литература","Алгебра","Геометрия","Вероятность и статистика",
+    "Русский язык","Литература","Алгебра","Геометрия","Вероятность и статистика",
     "Информатика","История","Обществознание","География","Биология",
     "Физика","Химия","Иностранный язык","Основы безопасности жизнедеятельности",
-    "Физическая культура","Искусство","Технология"
+    "Искусство","Технология"
   ];
   const SUBJECT_SLUGS = {
-    "Литература":"literature","Алгебра":"algebra","Геометрия":"geometry",
+    "Русский язык":"russian","Литература":"literature","Алгебра":"algebra","Геометрия":"geometry",
     "Вероятность и статистика":"probability","Информатика":"cs","История":"history",
     "Обществознание":"social","География":"geography","Биология":"biology",
     "Физика":"physics","Химия":"chemistry","Иностранный язык":"foreign",
-    "Основы безопасности жизнедеятельности":"obzh","Физическая культура":"pe",
+    "Основы безопасности жизнедеятельности":"obzh",
     "Искусство":"art","Технология":"tech"
   };
   const SUBJECT_ICONS = {
+    "Русский язык":'<path d="M4 19V5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2z"/><path d="M8 7h6M8 11h6"/>',
     "Литература":'<path d="M4 19V5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2z"/><path d="M8 7h6M8 11h6"/>',
     "Алгебра":'<path d="M5 5l14 14M19 5L5 19"/>',
     "Геометрия":'<path d="M3 20l9-16 9 16H3z"/><circle cx="12" cy="14" r="2"/>',
@@ -462,7 +464,6 @@ body.no-scroll{overflow:hidden}
     "Химия":'<path d="M9 3h6v4l4 12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2l4-12V3z"/><path d="M7 14h10"/>',
     "Иностранный язык":'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>',
     "Основы безопасности жизнедеятельности":'<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3z"/><path d="M9 12l2 2 4-4"/>',
-    "Физическая культура":'<circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/>',
     "Искусство":'<path d="M12 3a9 9 0 1 0 0 18c1 0 1.5-.7 1.5-1.5 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.1 0-.8.7-1.5 1.5-1.5H16a5 5 0 0 0 5-5c0-4-4-7.7-9-7.7z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7.5" r="1"/><circle cx="14.5" cy="8" r="1"/><circle cx="17" cy="11.5" r="1"/>',
     "Технология":'<path d="M14 3l7 7-4 4-7-7 4-4zM9 10l-6 6v5h5l6-6"/>'
   };
@@ -678,7 +679,6 @@ body.no-scroll{overflow:hidden}
   function mdToHtml(md){
     if(!md) return "";
     let src = String(md).trim();
-    // защита от случайного литерала "|-" или "|"
     if(src === "|" || src === "|-" || src === ">") src = "";
     if(!window.marked){
       return "<p>" + src.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\n/g,"<br>") + "</p>";
@@ -730,7 +730,6 @@ body.no-scroll{overflow:hidden}
         tasks = meta.tasks.map(t=>{
           let bodyVal = t.solution != null ? t.solution : (t.body != null ? t.body : "");
           bodyVal = String(bodyVal).trim();
-          // защита от "|-" оставшегося в значении
           if(bodyVal === "|" || bodyVal === "|-" || bodyVal === ">" || bodyVal === ">-") bodyVal = "";
           return {
             task: String(t.number != null ? t.number : (t.task != null ? t.task : "")).trim(),
@@ -860,7 +859,7 @@ body.no-scroll{overflow:hidden}
   function render(route){
     closeMenu();
     if(window.gtag){
-      var titles = { "page/home":"Главная","page/about":"О сайте","article/":"Статья","page/subject/":"Предмет","page/gdz/":"ГДЗ" };
+      var titles = { "page/home":"Главная","page/about":"О сайте","article/":"Статья","page/subject/":"Предмет","page/gdz/":"ГДЗ","page/all-latest/":"Все свежие","page/all-articles/":"Все статьи" };
       var pageTitle = "Zadano";
       for(var k in titles){ if(route === k || route.indexOf(k) === 0){ pageTitle = titles[k]; break; } }
       gtag('event', 'page_view', {
@@ -871,6 +870,8 @@ body.no-scroll{overflow:hidden}
     }
     if(route === "page/home") return renderHome();
     if(route === "page/about") return renderAbout();
+    if(route === "page/all-latest") return renderAllLatest();
+    if(route === "page/all-articles") return renderAllArticles();
     if(route.startsWith("page/subject/")) return renderSubject(route.slice("page/subject/".length));
     if(route.startsWith("page/gdz/")) return renderGdzPage(route.slice("page/gdz/".length));
     if(route.startsWith("article/")) return renderArticle(route.slice("article/".length));
@@ -1145,7 +1146,7 @@ body.no-scroll{overflow:hidden}
         '</section>';
     }
 
-    const latest = [...flatTasks()].filter(t=>t.date).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,4);
+    const latest = [...flatTasks()].filter(t=>t.date).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,3);
     const latestHtml = latest.map(t=>{
       const href = "#page/gdz/" + subjectSlug(t.subject) + "/" + t.date;
       return '<a class="latest-item" href="' + href + '">' +
@@ -1182,7 +1183,7 @@ body.no-scroll{overflow:hidden}
       scheduleHtml +
       '<main class="bento">' +
         '<section class="tile latest">' +
-          '<div class="section-head"><span class="section-title">Свежее</span></div>' +
+          '<div class="section-head"><span class="section-title">Свежее</span><a class="section-more" href="#page/all-latest">Все</a></div>' +
           '<div class="latest-list">' +
             (latestHtml || '<div class="latest-item"><span class="info"><span class="name">Пока нет решений</span></span></div>') +
           '</div>' +
@@ -1195,7 +1196,7 @@ body.no-scroll{overflow:hidden}
           '<div class="subjects-grid">' + subjectsHtml + '</div>' +
         '</section>' +
         '<section class="tile articles">' +
-          '<div class="section-head"><span class="section-title">Статьи</span></div>' +
+          '<div class="section-head"><span class="section-title">Статьи</span><a class="section-more" href="#page/all-articles">Все</a></div>' +
           '<div class="articles-list">' +
             (articlesHtml || '<div class="article-item"><span class="info"><span class="name">Статей пока нет</span></span></div>') +
           '</div>' +
@@ -1225,6 +1226,60 @@ body.no-scroll{overflow:hidden}
 
     bindSchedule();
     bindBanner();
+  }
+
+  /* ALL LATEST */
+  function renderAllLatest(){
+    const latest = [...flatTasks()].filter(t=>t.date).sort((a,b)=>b.date.localeCompare(a.date));
+    let html = '<div class="inner">' +
+      '<a class="back-btn" href="#page/home">← назад</a>' +
+      '<h1 class="page-title">Все свежие</h1>' +
+      '<p class="page-subtitle">' + latest.length + ' решений</p>';
+    if(!latest.length){
+      html += '<div class="empty-state visible"><span class="icon">📭</span>Пока решений нет. Скоро появятся.</div>';
+    } else {
+      html += '<div class="latest-list">';
+      latest.forEach(t=>{
+        const href = "#page/gdz/" + subjectSlug(t.subject) + "/" + t.date;
+        html += '<a class="latest-item" href="' + href + '">' +
+          '<span class="dot"></span>' +
+          '<span class="info">' +
+            '<span class="name">' + esc(t.subject) + '</span>' +
+            '<span class="meta">' + fmtDate(t.date) + '</span>' +
+          '</span>' +
+          '<span class="task">№' + esc(t.task) + '</span>' +
+        '</a>';
+      });
+      html += '</div>';
+    }
+    html += '</div>';
+    container.innerHTML = '<section class="page active">' + html + '</section>';
+    window.scrollTo({top:0, behavior:'instant'});
+  }
+
+  /* ALL ARTICLES */
+  function renderAllArticles(){
+    const articles = DATA.articles.filter(a=>!a.hidden);
+    let html = '<div class="inner">' +
+      '<a class="back-btn" href="#page/home">← назад</a>' +
+      '<h1 class="page-title">Все статьи</h1>' +
+      '<p class="page-subtitle">' + articles.length + ' статей</p>';
+    if(!articles.length){
+      html += '<div class="empty-state visible"><span class="icon">📭</span>Статей пока нет. Скоро появятся.</div>';
+    } else {
+      html += '<div class="articles-list">';
+      articles.forEach(a=>{
+        html += '<a class="article-item" href="#article/' + esc(a.slug) + '">' +
+          '<span class="info"><span class="name">' + esc(a.title) + '</span>' +
+          '<span class="meta">статья</span></span>' +
+          '<span class="arrow">→</span>' +
+        '</a>';
+      });
+      html += '</div>';
+    }
+    html += '</div>';
+    container.innerHTML = '<section class="page active">' + html + '</section>';
+    window.scrollTo({top:0, behavior:'instant'});
   }
 
   function buildScheduleHtml(entry, currentDate, ALL_DATES, currentIdx){
