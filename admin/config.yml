@@ -121,7 +121,7 @@ collections:
             widget: "select"
             required: false
             options:
-              - label: "Перемена/нет"
+              - label: "Нет"
                 value: null
               - "08:30"
               - "09:25"
