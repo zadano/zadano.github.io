@@ -116,9 +116,25 @@ collections:
         widget: "list"
         summary: "{{fields.time}} — {{fields.subject}}"
         fields:
-          - label: "Время"
-            name: "time"
-            widget: "string"
+          # В разделе schedule → lessons добавь это вместо строки с time:
+      - label: "Время начала"
+        name: "time"
+        widget: "select"
+        required: false
+        options:
+          - label: "Перемена/нет"
+            value: null
+          - "08:30"
+          - "09:25"
+          - "10:25"
+          - "11:25"
+          - "12:25"
+          - "13:20"
+          - "14:15"
+          - "15:00"
+          - "15:45"
+          - "16:30"
+
 
           - label: "Предмет"
             name: "subject"
