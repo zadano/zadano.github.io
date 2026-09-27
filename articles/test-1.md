@@ -1,7 +1,7 @@
 ---
 title: Test 1
 slug: test1
-hidden: false
+hidden: true
 ---
 
 # Зоголовок
