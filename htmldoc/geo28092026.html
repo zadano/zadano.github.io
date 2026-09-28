@@ -1,0 +1,346 @@
+<!DOCTYPE html><html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Тест: Формирование рельефа Земли | Zadano</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%232563EB'/><text x='46' y='72' font-size='64' font-family='Arial,sans-serif' font-weight='900' fill='white' text-anchor='middle'>Z</text><circle cx='78' cy='70' r='7' fill='%23F59E0B'/></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F5F7FA;--card:#FFFFFF;--border:#E1E8F0;--border-soft:#EDF1F6;
+  --accent:#2563EB;--accent-soft:#DBE7FB;--success:#10B981;--success-soft:#D1FAE5;
+  --error:#EF4444;--error-soft:#FEE2E2;--ink:#0F1B3D;--ink-2:#2A3654;--muted:#6B7A94;
+  --radius-lg:28px;--radius-sm:14px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--ink);
+  min-height:100vh;-webkit-font-smoothing:antialiased;padding:1rem;line-height:1.6;
+}
+.topbar{max-width:820px;margin:0 auto 1rem;display:flex;align-items:center;gap:1rem;padding:.6rem .4rem}
+.back{
+  display:inline-flex;align-items:center;gap:.5rem;padding:.55rem 1rem;border-radius:40px;
+  background:var(--card);border:1px solid var(--border);color:var(--ink);text-decoration:none;
+  font-size:.85rem;font-weight:600;transition:all .2s;
+}
+.back:hover{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+.back::before{content:'←';font-weight:700}
+.logo{margin-left:auto;font-size:1.15rem;font-weight:900;letter-spacing:-.04em;color:var(--ink);text-decoration:none;display:flex;align-items:center}
+.logo::after{content:'.';color:var(--accent);font-size:1.4rem;line-height:1;margin-left:1px}.doc{
+max-width:820px;margin:0 auto;background:var(--card);border:1px solid var(--border);
+border-radius:var(--radius-lg);padding:3rem 3rem 2.5rem;
+}
+.doc-head{padding-bottom:1.5rem;border-bottom:1px solid var(--border-soft);margin-bottom:2rem}
+.doc-eyebrow{font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:.6rem}
+h1{font-size:2rem;font-weight:800;letter-spacing:-.03em;line-height:1.15;margin-bottom:.6rem}
+.doc-meta{font-size:.82rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:.4rem 1.2rem;align-items:center}
+.doc-meta span{display:inline-flex;align-items:center;gap:.4rem}
+.doc-meta span::before{content:'·';color:var(--accent);font-weight:800}
+.doc-meta span:first-child::before{display:none}
+
+.doc-lead{
+background:var(--accent-soft);border-left:3px solid var(--accent);border-radius:0 12px 12px 0;
+padding:1rem 1.2rem;margin-bottom:2rem;font-size:.92rem;color:var(--ink-2);
+}
+
+.quiz-item{
+background:#FAFCFF;border:1px solid var(--border-soft);border-radius:var(--radius-sm);
+padding:1.2rem 1.4rem;margin-bottom:1rem;transition:border-color .2s;
+}
+.quiz-item.correct{border-color:var(--success);background:var(--success-soft)}
+.quiz-item.wrong{border-color:var(--error);background:var(--error-soft)}
+
+.q-text{font-weight:600;font-size:.95rem;color:var(--ink);margin-bottom:.8rem;display:flex;gap:.6rem}
+.q-text .q-num{
+font-family:ui-monospace,monospace;font-size:.78rem;font-weight:700;color:var(--accent);
+background:var(--accent-soft);padding:.1rem .45rem;border-radius:6px;flex-shrink:0;height:fit-content;
+}
+.options{display:flex;flex-direction:column;gap:.5rem;margin-bottom:.8rem}
+.option{
+display:flex;align-items:flex-start;gap:.7rem;padding:.6rem .8rem;border-radius:10px;
+border:1px solid var(--border);background:white;cursor:pointer;transition:all .15s;
+font-size:.9rem;color:var(--ink-2);line-height:1.4;user-select:none;
+}
+.option:hover{border-color:var(--accent);background:var(--accent-soft)}
+.option input[type="radio"]{margin-top:.2rem;accent-color:var(--accent);flex-shrink:0}
+.option.selected{border-color:var(--accent);background:var(--accent-soft)}
+
+.input-row{display:flex;gap:.6rem;margin-bottom:.8rem;flex-wrap:wrap}
+.input-row input[type="text"]{
+flex:1;min-width:200px;padding:.65rem .9rem;border:1px solid var(--border);border-radius:10px;
+font-family:inherit;font-size:.9rem;color:var(--ink);background:white;outline:none;transition:border-color .2s;
+}
+.input-row input[type="text"]:focus{border-color:var(--accent)}
+
+.btn{
+display:inline-flex;align-items:center;justify-content:center;gap:.45rem;padding:.6rem 1.2rem;
+border-radius:40px;border:none;font-family:inherit;font-size:.85rem;font-weight;:700;
+cursor:pointer;transition:all .2s;background:var(--accent);color:white;
+}
+.btn:hover{background:#1D4ED8;transform:translateY(-1px);box-shadow:0 4px 12px rgba(37,99,235,.25)}
+.btn:active{transform:translateY(0)}
+.btn-check{background:var(--ink);color:white;padding:.55rem 1.4rem;font-size:.82rem}
+.btn-check:hover{background:#1a2a52;box-shadow:0 4px 12px rgba(15,27,61,.2)}
+.btn-reset{background:transparent;color:var(--muted);border:1px solid var(--border)}
+.btn-reset:hover{background:var(--bg);color:var(--ink);border-color:var(--muted);box-shadow:none;transform:none}
+
+.feedback{font-size:.85rem;font-weight:600;display:none;align-items:center;gap:.4rem;margin-top:.4rem}
+.feedback.show{display:flex}
+.feedback.ok{color:var(--success)}
+.feedback.no{color:var(--error)}
+.feedback .mark{font-size:1.1rem}
+
+.quiz-result{
+display:none;margin-top:1.5rem;padding:1.2rem 1.5rem;border-radius:var(--radius-sm);
+background:var(--accent-soft);border:1px solid var(--accent);text-align:center;
+font-size:1rem;font-weight:700;color:var(--ink);
+}
+.quiz-result.show{display:block}
+.quiz-result .score{color:var(--accent);font-size:1.3rem}
+
+.quiz-actions{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.2rem;align-items:center}
+
+.foot{
+max-width:820px;margin:1rem auto 0;padding:0 .4rem 2rem;font-size:.75rem;color:var(--muted);
+display:flex;justify-content:space-betweenflex-wrap:wrap;gap:.5rem;
+}
+.foot a{color:var(--muted);text-decoration:none;transition:color .2s}
+.foot a:hover{color:var(--accent)}
+
+@media(max-width:640px){
+body{padding:.6rem}
+.doc{padding:2rem 1.4rem 1.6rem;border-radius:20px}
+h1{font-size:1.5rem}
+.topbar{padding:.4rem 0}
+.back{font-size:.8rem;padding:.5rem .9rem}
+.logo{font-size:1rem}
+.foot{padding:0 0 1.5rem}
+.quiz-item{padding:1rem 1rem}
+.option{font-size:.85rem;padding:.5rem .7rem}
+.input-row input[type="text"]{font-size:.85rem}
+}
+</style>
+
+</head>
+<body><div class="topbar">
+  <a href="/" class="back">на главную</a>
+  <a href="/" class="logo">Zadano</a>
+</div><main class="doc"><div class="doc-head">
+    <div class="doc-eyebrow">Тест · География</div>
+    <h1>Формирование рельефа Земли</h1>
+    <div class="doc-meta">
+      <span>7 класс</span>
+      <span>10 вопросов</span>
+    </div>
+  </div><p class="doc-lead">
+    Ответьте на все вопросы и нажмите «Проверить».
+  </p><!-- Вопрос 1 --><div class="quiz-item" data-q="1">
+    <div class="q-text"><span class="q-num">1</span> Что такое рельеф?</div>
+    <div class="options">
+      <label class="option"><input type="radio" name="q1" value="a"> Совокупность всех неровностей земной поверхности</label>
+      <label class="option"><input type="radio" name="q1" value="b"> Совокупность горных пород и минералов</label>
+      <label class="option"><input type="radio" name="q1" value="c"> Процессы, происходящие внутри Земли</label>
+    </div>
+    <div class="feedback" id="fb1"></div>
+  </div><!-- Вопрос 2 --><div class="quiz-item" data-q="2">
+    <div class="q-text"><span class="q-num">2</span> Какие процессы создают крупные формы рельефа?</div>
+    <div class="options">
+      <label class="option"><input type="radio" name="q2" value="a"> Внешние (экзогенные)</label>
+      <label class="option"><input type="radio" name="q2" value="b"> Внутренние (эндогенные)</label>
+      <label class="option"><input type="radio" name="q2" value="c"> Только выветривание</label>
+    </div>
+    <div class="feedback" id="fb2"></div>
+  </div><!-- Вопрос 3 --><div class="quiz-item" data-q="3">
+    <div class="q-text"><span class="q-num">3</span> Что такое горст?</div>
+    <div class="options">
+      <label class="option"><input type="radio" name="q3" value="a"> Опущенный блок земной коры между разломами</label>
+      <label class="option"><input type="radio" name="q3" value="b"> Приподнятый участок земной коры, ограниченный разломами</label>
+      <label class="option"><input type="radio" name="q3" value="c"> Складка, образованная при сжатии</label>
+    </div>
+    <div class="feedback" id="fb3"></div>
+  </div><!-- Вопрос 4 --><div class="quiz-item" data-q="4">
+    <div class="q-text"><span class="q-num">4</span> Какой процесс формирует грабен?</div>
+    <div class="options">
+      <label class="option"><input type="radio" name="q4" value="a"> Горизонтальное сжатие</label>
+      <label class="option"><input type="radio" name="q4" value="b"> Вертикальное опускание блока по разломам</label>
+      <label class="option"><input type="radio" name="q4" value="c"> Работа ветра</label>
+    </div>
+    <div class="feedback" id="fb4"></div>
+  </div><!-- Вопрос 5 --><div class="quiz-item" data-q="5">
+    <div class="q-text"><span class="q-num">5</span> Что такое выветривание?</div>
+    <div class="options">
+      <label class="option"><input type="radio" name="q5" value="a"> Процесс изменения и разрушения горных пород под действием внешних факторов</label>
+      <label class="option"><input type="radio" name="q5" value="b"> Извержение вулкана</label>
+      <label class="option"><input type="radio" name="q5" value="c"> Движение литосферных плит</label>
+    </div>
+    <div class="feedback" id="fb5"></div>
+  </div><!-- Вопрос 6 --><div class="quiz-item" data-q="6">
+    <div class="q-text"><span class="q-num">6</span> Какое выветривание связано с расширением воды при замерзании в трещинах?</div>
+    <div class="options">
+      <label class="option"><input type="radio" name="q6" value="a"> Химическое</label>
+      <label class="option"><input type="radio" name="q6" value="b"> Физическое</label>
+      <label class="option"><input type="radio" name="q6" value="c"> Биологическое</label>
+    </div>
+    <div class="feedback" id="fb6"></div>
+  </div><!-- Вопрос 7 --><div class="quiz-item" data-q="7">
+    <div class="q-text"><span class="q-num">7</span> Какая форма рельефа создаётся работой ветра в пустынях?</div>
+    <div class="options">
+      <label class="option"><input type="radio" name="q7" value="a"> Овраг</label>
+      <label class="option"><input type="radio" name="q7" value="b"> Бархан</label>
+      <label class="option"><input type="radio" name="q7" value="c"> Друмлин</label>
+    </div>
+    <div class="feedback" id="fb7"></div>
+  </div><!-- Вопрос 8 --><div class="quiz-item" data-q="8">
+    <div class="q-text"><span class="q-num">8</span> Впишите пропущенное слово: «___________ — опущенный по разломам участок земной коры вытянутой формы».</div>
+    <div class="input-row">
+      <input type="text" id="q8-input" placeholder="Ваш ответ..." autocomplete="off">
+    </div>
+    <div class="feedback" id="fb8"></div>
+  </div><!-- Вопрос 9 --><div class="quiz-item" data-q="9">
+    <div class="q-text"><span class="q-num">9</span> Впишите пропущенное слово: «___________ — приподнятый, обычно вытянутый участок земной коры, ограниченный круто наклоненными разломами».</div>
+    <div class="input-row">
+      <input type="text" id="q9-input" placeholder="Ваш ответ..." autocomplete="off">
+    </div>
+    <div class="feedback" id="fb9"></div>
+  </div><!-- Вопрос 10 --><div class="quiz-item" data-q="10">
+    <div class="q-text"><span class="q-num">10</span> Какие процессы разрушают крупные формы рельефа и создают мелкие?</div>
+    <div class="options">
+      <label class="option"><input type="radio" name="q10" value="a"> Внутренние (эндогенные)</label>
+      <label class="option"><input type="radio" name="q10" value="b"> Внешние (экзогенные)</label>
+      <label class="option"><input type="radio" name="q10" value="c"> Тектонические движения</label>
+    </div>
+    <div class="feedback" id="fb10"></div>
+  </div><div class="quiz-actions">
+    <button class="btn btn-check" id="checkBtn">Проверить</button>
+    <button class="btn btn-reset" id="resetBtn">Сбросить</button>
+  </div><div class="quiz-result" id="quizResult"></div></main><footer class="foot">
+  <div>Zadano © 2026 · для 7 класса</div>
+  <div><a href="/">главная</a> · <a href="#" id="toTop">наверх</a></div>
+</footer><script>
+(function(){
+  const answers={q1:'a',q2:'b',q3:'b',q4:'b',q5:'a',q6:'b',q7:'b',q8:'грабен',q9:'горст',q10:'b'};
+  const explanations={
+    q1:{ok:'Верно! Рельеф — это все неровности земной поверхности.',no:'Неверно. Рельеф — совокупность всех неровностей земной поверхности.'},
+    q2:{ok:'Верно! Внутренние (эндогенные) процессы создают крупные формы рельефа.',no:'Неверно. Крупные формы создают внутренние (эндогенные) процессы.'},
+    q3:{ok:'Верно! Горст — приподнятый участок, ограниченный разломами.',no:'Неверно. Горст — приподнятый участок земной коры, ограниченный разломами.'},
+    q4:{ok:'Верно! Грабен формируется при вертикальном опускании блока по разломам.',no:'Неверно. Грабен — результат вертикального опускания блока по разломам.'},
+    q5:{ok:'Верно! Выветривание — процесс изменения и разрушения пород под действием внешних факторов.',no:'Неверно. Выветривание — процесс изменения и разрушения горных пород под действием внешних факторов.'},
+    q6:{ok:'Верно! Физическое выветривание — механическое разрушение, например, при замерзании воды.',no:'Неверно. Это физическое выветривание — механическое разрушение.'},
+    q7:{ok:'Верно! Барханы формируются работой ветра в пустынях.',no:'Неверно. В пустынях ветер создаёт барханы.'},
+    q8:{ok:'Верно! Грабен — опущенный участок земной коры.',no:'Неверно. Правильный ответ: грабен.'},
+    q9:{ok:'Верно! Горст — приподнятый участок земной коры.',no:'Неверно. Правильный ответ: горст.'},
+    q10:{ok:'Верно! Внешние (экзогенные) процессы разрушают крупные формы и создают мелкие.',no:'Неверно. Это внешние (экзогенные) процессы.'}
+  };
+
+  const checkBtn=document.getElementById('checkBtn');
+  const resetBtn=document.getElementById('resetBtn');
+  const quizResult=document.getElementById('quizResult');
+  const quizItems=document.querySelectorAll('.quiz-item');
+
+  document.querySelectorAll('.option input[type="radio"]').forEach(radio=>{
+    radio.addEventListener('change',function(){
+      const name=this.name;
+      document.querySelectorAll(`input[name="${name}"]`).forEach(r=>r.closest('.option').classList.remove('selected'));
+      if(this.checked) this.closest('.option').classList.add('selected');
+    });
+  });
+
+  function resetItem(item){
+    item.classList.remove('correct','wrong');
+    const fb=item.querySelector('.feedback');
+    fb.classList.remove('show','ok','no');
+    fb.innerHTML='';
+  }
+
+  function checkAnswers(){
+    let correctCount=0;
+    quizItems.forEach(item=>resetItem(item));
+
+    for(let i=1;i<=10;i++){
+      if(i===8||i===9) continue;
+      const name='q'+i;
+      const selected=document.querySelector(`input[name="${name}"]:checked`);
+      const item=document.querySelector(`.quiz-item[data-q="${i}"]`);
+      const fb=document.getElementById('fb'+i);
+
+      if(!selected){
+        item.classList.add('wrong');
+        fb.classList.add('show','no');
+        fb.innerHTML='<span class="mark">✗</span> Вы не выбрали ответ. '+explanations[name].no;
+        continue;
+      }
+      if(selected.value===answers[name]){
+        item.classList.add('correct');
+        fb.classList.add('show','ok');
+        fb.innerHTML='<span class="mark">✓</span> '+explanations[name].ok;
+        correctCount++;
+      }else{
+        item.classList.add('wrong');
+        fb.classList.add('show','no');
+        fb.innerHTML='<span class="mark">✗</span> '+explanations[name].no;
+      }
+    }
+
+    [8,9].forEach(i=>{
+      const input=document.getElementById('q'+i+'-input');
+      const item=document.querySelector(`.quiz-item[data-q="${i}"]`);
+      const fb=document.getElementById('fb'+i);
+      const userAnswer=input.value.trim().toLowerCase();
+
+      if(!userAnswer){
+        item.classList.add('wrong');
+        fb.classList.add('show','no');
+        fb.innerHTML='<span class="mark">✗</span> Вы не ввели ответ. '+explanations['q'+i].no;
+        return;
+      }
+      if(userAnswer===answers['q'+i]){
+        item.classList.add('correct');
+        fb.classList.add('show','ok');
+        fb.innerHTML='<span class="mark">✓</span> '+explanations['q'+i].ok;
+        correctCount++;
+      }else{
+        item.classList.add('wrong');
+        fb.classList.add('show','no');
+        fb.innerHTML='<span class="mark">✗</span> '+explanations['q'+i].no;
+      }
+    });
+
+    quizResult.classList.add('show');
+    const percent=Math.round((correctCount/10)*100);
+    let message='';
+    if(percent===100) message='Отлично! Вы отлично усвоили тему!';
+    else if(percent>=80) message='Хорошо! Осталось совсем немного до идеала.';
+    else if(percent>=50) message='Неплохо, но стоит повторить конспект.';
+    else message='Попробуйте ещё раз — перечитайте конспект внимательнее.';
+
+    quizResult.innerHTML=`<div>Ваш результат: <span class="score">${correctCount} из 10</span> (${percent}%)</div>
+      <div style="font-weight:500;font-size:.9rem;color:var(--ink-2);margin-top:.3rem;">${message}</div>`;
+  }
+
+  function resetAll(){
+    document.querySelectorAll('input[type="radio"]').forEach(r=>{r.checked=false;r.closest('.option').classList.remove('selected');});
+    document.getElementById('q8-input').value='';
+    document.getElementById('q9-input').value='';
+    quizItems.forEach(item=>resetItem(item));
+    quizResult.classList.remove('show');
+    quizResult.innerHTML='';
+  }
+
+  checkBtn.addEventListener('click',checkAnswers);
+  resetBtn.addEventListener('click',resetAll);
+
+  document.getElementById('toTop')?.addEventListener('click',function(e){
+    e.preventDefault();
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+
+  document.getElementById('q8-input')?.addEventListener('keydown',function(e){
+    if(e.key==='Enter'){e.preventDefault();checkAnswers();}
+  });
+  document.getElementById('q9-input')?.addEventListener('keydown',function(e){
+    if(e.key==='Enter'){e.preventDefault();checkAnswers();}
+  });
+})();
+</script></body>
+</html>
