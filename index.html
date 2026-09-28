@@ -422,7 +422,505 @@ body.no-scroll{overflow:hidden}
     </form>
   </div>
 </div>
+<div id="sv" hidden>
+  <div class="sv-back"></div>
 
+  <div class="sv-card">
+    <button class="sv-x" aria-label="Закрыть">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+        <line x1="6" y1="6" x2="18" y2="18"/>
+        <line x1="18" y1="6" x2="6" y2="18"/>
+      </svg>
+    </button>
+
+    <div class="sv-head">
+      <div class="sv-logo">Zadano<span>.</span></div>
+      <div class="sv-eyebrow">Обратная связь · 20 сек</div>
+      <h2 class="sv-h2">Как вам сайт?</h2>
+      <p class="sv-lead">Помогите сделать его лучше</p>
+    </div>
+
+    <form id="sv-form">
+      <!-- 1. ОЦЕНКА -->
+      <div class="sv-q">
+        <div class="sv-q-label">Оцените от 1 до 5</div>
+        <div class="sv-rating" id="svRating">
+          <button type="button" data-v="1">1</button>
+          <button type="button" data-v="2">2</button>
+          <button type="button" data-v="3">3</button>
+          <button type="button" data-v="4">4</button>
+          <button type="button" data-v="5">5</button>
+        </div>
+        <input type="hidden" name="rating" id="svRatingVal" required>
+      </div>
+
+      <!-- 2. ЧТО ПОНРАВИЛОСЬ -->
+      <div class="sv-q">
+        <div class="sv-q-label">Что понравилось? <span>можно несколько</span></div>
+        <div class="sv-pills">
+          <label><input type="checkbox" name="like" value="fast_find"><span>Быстро нахожу задания</span></label>
+          <label><input type="checkbox" name="like" value="clear"><span>Понятные решения</span></label>
+          <label><input type="checkbox" name="like" value="mobile_ok"><span>Удобно с телефона</span></label>
+          <label><input type="checkbox" name="like" value="design_ok"><span>Красивый дизайн</span></label>
+          <label><input type="checkbox" name="like" value="articles"><span>Полезные статьи</span></label>
+          <label><input type="checkbox" name="like" value="all_good"><span>Всё нравится</span></label>
+        </div>
+      </div>
+
+      <!-- 3. ЧТО УЛУЧШИТЬ -->
+      <div class="sv-q">
+        <div class="sv-q-label">Что стоит улучшить? <span>можно несколько</span></div>
+        <div class="sv-pills">
+          <label><input type="checkbox" name="hate" value="search"><span>Не могу найти задание</span></label>
+          <label><input type="checkbox" name="hate" value="unclear"><span>Решения непонятные</span></label>
+          <label><input type="checkbox" name="hate" value="errors"><span>Ошибки в ответах</span></label>
+          <label><input type="checkbox" name="hate" value="mobile_bad"><span>Неудобно на телефоне</span></label>
+          <label><input type="checkbox" name="hate" value="slow"><span>Долго грузится</span></label>
+          <label><input type="checkbox" name="hate" value="subjects"><span>Не хватает предметов</span></label>
+          <label><input type="checkbox" name="hate" value="nothing"><span>Всё устраивает</span></label>
+        </div>
+      </div>
+
+      <!-- 4. ПОЖЕЛАНИЯ -->
+      <div class="sv-q">
+        <div class="sv-q-label">Пожелания <span>по желанию</span></div>
+        <textarea name="text" rows="2" maxlength="500" placeholder="Пара слов…"></textarea>
+      </div>
+
+      <button type="submit" class="sv-submit">
+        <span>Отправить</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"/>
+          <polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </button>
+
+      <div class="sv-status" id="svStatus"></div>
+    </form>
+  </div>
+</div>
+
+<style>
+/* ========== SURVEY ========== */
+#sv {
+  --sv-bg: #fff;
+  --sv-ink: #0A0F1F;
+  --sv-muted: #6E7686;
+  --sv-line: #EAECF0;
+  --sv-soft: #F7F8FA;
+  --sv-accent: #2563EB;
+  --sv-accent-soft: #EFF4FF;
+  --sv-radius: 20px;
+
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  font-family: 'Inter', -apple-system, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+#sv[hidden] { display: none; }
+
+.sv-back {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 15, 31, .55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  animation: svFade .25s ease;
+}
+
+.sv-card {
+  position: relative;
+  background: var(--sv-bg);
+  width: 100%;
+  max-width: 420px;
+  max-height: 92vh;
+  overflow-y: auto;
+  border-radius: var(--sv-radius);
+  padding: 1.6rem 1.5rem 1.4rem;
+  box-shadow:
+    0 1px 2px rgba(10,15,31,.04),
+    0 20px 50px -12px rgba(10,15,31,.35),
+    0 0 0 1px rgba(10,15,31,.04);
+  animation: svIn .35s cubic-bezier(.16,1,.3,1);
+}
+.sv-card::-webkit-scrollbar { width: 6px; }
+.sv-card::-webkit-scrollbar-thumb { background: #E5E7EB; border-radius: 3px; }
+
+@keyframes svFade { from { opacity: 0 } to { opacity: 1 } }
+@keyframes svIn {
+  from { opacity: 0; transform: translateY(16px) scale(.98) }
+  to   { opacity: 1; transform: translateY(0) scale(1) }
+}
+
+.sv-x {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--sv-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .15s;
+}
+.sv-x:hover { background: var(--sv-soft); color: var(--sv-ink); }
+.sv-x:active { transform: scale(.92); }
+
+.sv-head { margin-bottom: 1.4rem; padding-right: 2rem; }
+
+.sv-logo {
+  font-size: 1rem;
+  font-weight: 900;
+  letter-spacing: -.03em;
+  color: var(--sv-ink);
+  margin-bottom: 1.1rem;
+}
+.sv-logo span { color: var(--sv-accent); }
+
+.sv-eyebrow {
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--sv-accent);
+  margin-bottom: .5rem;
+}
+
+.sv-h2 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -.03em;
+  line-height: 1.15;
+  color: var(--sv-ink);
+  margin: 0 0 .3rem;
+}
+
+.sv-lead {
+  font-size: .88rem;
+  color: var(--sv-muted);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.sv-q { margin-bottom: 1.2rem; }
+
+.sv-q-label {
+  font-size: .82rem;
+  font-weight: 600;
+  color: var(--sv-ink);
+  margin-bottom: .55rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+}
+.sv-q-label span {
+  font-size: .68rem;
+  font-weight: 500;
+  color: var(--sv-muted);
+}
+
+.sv-rating {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: .35rem;
+}
+.sv-rating button {
+  aspect-ratio: 1;
+  border: 1.5px solid var(--sv-line);
+  background: #fff;
+  border-radius: 10px;
+  font: inherit;
+  font-size: .95rem;
+  font-weight: 700;
+  color: var(--sv-muted);
+  cursor: pointer;
+  transition: all .15s cubic-bezier(.16,1,.3,1);
+}
+.sv-rating button:hover {
+  border-color: var(--sv-accent);
+  color: var(--sv-accent);
+  transform: translateY(-1px);
+}
+.sv-rating button.on {
+  background: var(--sv-ink);
+  border-color: var(--sv-ink);
+  color: #fff;
+  transform: scale(1.03);
+}
+.sv-rating button:active { transform: scale(.96); }
+
+.sv-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem;
+}
+.sv-pills label { cursor: pointer; }
+.sv-pills input { position: absolute; opacity: 0; pointer-events: none; }
+.sv-pills span {
+  display: inline-flex;
+  align-items: center;
+  padding: .5rem .85rem;
+  border: 1.5px solid var(--sv-line);
+  border-radius: 10px;
+  font-size: .82rem;
+  font-weight: 600;
+  color: var(--sv-ink);
+  background: #fff;
+  transition: all .15s cubic-bezier(.16,1,.3,1);
+  user-select: none;
+}
+.sv-pills span:hover { border-color: #C9CFD8; }
+.sv-pills input:checked + span {
+  background: var(--sv-ink);
+  border-color: var(--sv-ink);
+  color: #fff;
+}
+.sv-pills input:focus-visible + span {
+  box-shadow: 0 0 0 3px var(--sv-accent-soft);
+}
+
+.sv-card textarea {
+  width: 100%;
+  padding: .75rem .9rem;
+  border: 1.5px solid var(--sv-line);
+  border-radius: 12px;
+  background: #fff;
+  font: inherit;
+  font-size: .88rem;
+  color: var(--sv-ink);
+  resize: vertical;
+  min-height: 60px;
+  transition: all .15s;
+  line-height: 1.5;
+  box-sizing: border-box;
+}
+.sv-card textarea::placeholder { color: #A5ACB8; }
+.sv-card textarea:focus {
+  outline: none;
+  border-color: var(--sv-accent);
+  box-shadow: 0 0 0 4px var(--sv-accent-soft);
+}
+
+.sv-submit {
+  width: 100%;
+  margin-top: .3rem;
+  padding: .85rem 1rem;
+  background: var(--sv-ink);
+  color: #fff;
+  border: 0;
+  border-radius: 12px;
+  font: inherit;
+  font-size: .9rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  transition: all .15s cubic-bezier(.16,1,.3,1);
+  letter-spacing: -.01em;
+}
+.sv-submit:hover { background: var(--sv-accent); transform: translateY(-1px); }
+.sv-submit:active { transform: translateY(0); }
+.sv-submit:disabled { opacity: .5; cursor: default; transform: none; }
+.sv-submit svg { transition: transform .2s; }
+.sv-submit:hover svg { transform: translateX(3px); }
+
+.sv-status {
+  margin-top: .7rem;
+  font-size: .8rem;
+  text-align: center;
+  min-height: 1.1em;
+  color: var(--sv-muted);
+}
+.sv-status.ok { color: #059669; }
+.sv-status.err { color: #DC2626; }
+
+/* ===== МОБИЛЬНЫЕ ===== */
+@media (max-width: 640px) {
+  #sv { padding: 0; align-items: flex-end; }
+
+  .sv-card {
+    border-radius: 24px 24px 0 0;
+    max-height: 92vh;
+    max-width: 100%;
+    padding: 1.4rem 1.2rem calc(1.2rem + env(safe-area-inset-bottom)) 1.2rem;
+    animation: svSlideUp .35s cubic-bezier(.16,1,.3,1);
+  }
+
+  @keyframes svSlideUp {
+    from { transform: translateY(100%) }
+    to   { transform: translateY(0) }
+  }
+
+  .sv-head { padding-right: 2.5rem; }
+  .sv-h2 { font-size: 1.35rem; }
+  .sv-lead { font-size: .84rem; }
+
+  .sv-x {
+    width: 40px;
+    height: 40px;
+    top: .8rem;
+    right: .8rem;
+    background: var(--sv-soft);
+  }
+
+  .sv-rating { gap: .45rem; }
+  .sv-rating button {
+    min-height: 56px;
+    font-size: 1.1rem;
+    border-radius: 14px;
+  }
+
+  .sv-pills { gap: .45rem; }
+  .sv-pills span {
+    padding: .7rem 1rem;
+    font-size: .88rem;
+    border-radius: 12px;
+  }
+
+  .sv-card textarea {
+    font-size: 16px;
+    padding: .85rem 1rem;
+    border-radius: 14px;
+    min-height: 80px;
+  }
+
+  .sv-submit {
+    padding: 1rem;
+    font-size: 1rem;
+    border-radius: 14px;
+    min-height: 52px;
+  }
+
+  .sv-q { margin-bottom: 1.3rem; }
+  .sv-q-label { font-size: .86rem; }
+}
+
+#sv button,
+#sv span,
+#sv label {
+  touch-action: manipulation;
+}
+
+body.sv-open {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+}
+</style>
+
+<script>
+(function(){
+  const KEY = "zadano_survey_v3";
+  const WORKER = "https://zadano-feedback.n7ycgcn5jd.workers.dev";
+  const sv = document.getElementById("sv");
+
+  function shouldShow(){
+    try {
+      const d = JSON.parse(localStorage.getItem(KEY) || "{}");
+      if (d.done) return false;
+      if (!d.ts) return true;
+      return Date.now() - d.ts > 7*24*60*60*1000;
+    } catch(e){ return true; }
+  }
+
+  function open(){
+    sv.hidden = false;
+    document.body.classList.add("sv-open");
+  }
+
+  function close(done){
+    sv.hidden = true;
+    document.body.classList.remove("sv-open");
+    try {
+      const prev = JSON.parse(localStorage.getItem(KEY) || "{}");
+      if (prev.done && !done) return;
+    } catch(e){}
+    localStorage.setItem(KEY, JSON.stringify({ done: !!done, ts: Date.now() }));
+  }
+
+  // Рейтинг
+  const ratingBox = document.getElementById("svRating");
+  const ratingVal = document.getElementById("svRatingVal");
+  ratingBox.addEventListener("click", e => {
+    const b = e.target.closest("button");
+    if(!b) return;
+    const v = Number(b.dataset.v);
+    ratingVal.value = v;
+    ratingBox.querySelectorAll("button").forEach(x => {
+      x.classList.toggle("on", Number(x.dataset.v) <= v);
+    });
+  });
+
+  // Отправка
+  document.getElementById("sv-form").addEventListener("submit", async e => {
+    e.preventDefault();
+    const status = document.getElementById("svStatus");
+    const btn = e.target.querySelector("button[type=submit]");
+
+    if(!ratingVal.value){
+      status.textContent = "Поставьте оценку";
+      status.className = "sv-status err";
+      return;
+    }
+
+    const fd = new FormData(e.target);
+    const payload = {
+      type: "survey",
+      rating: fd.get("rating"),
+      like: fd.getAll("like"),
+      hate: fd.getAll("hate"),
+      text: (fd.get("text") || "").trim(),
+      url: location.href
+    };
+
+    btn.disabled = true;
+    status.textContent = "Отправляем…";
+    status.className = "sv-status";
+
+    try {
+      const r = await fetch(WORKER, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      const j = await r.json();
+      if(!j.ok) throw new Error();
+      status.textContent = "Спасибо! 🙌";
+      status.className = "sv-status ok";
+      setTimeout(() => close(true), 1200);
+    } catch(err){
+      status.textContent = "Не удалось отправить";
+      status.className = "sv-status err";
+      btn.disabled = false;
+    }
+  });
+
+  // Закрытие
+  sv.querySelector(".sv-x").onclick = () => close(false);
+  sv.querySelector(".sv-back").onclick = () => close(false);
+  document.addEventListener("keydown", e => {
+    if(e.key === "Escape" && !sv.hidden) close(false);
+  });
+
+  // Показ
+  if(shouldShow() && !location.pathname.includes("admin")){
+    setTimeout(open, 1500);
+  }
+})();
+</script>
 <script>
 (function(){
   "use strict";
