@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Всеобщая история 7 класс | Zadano</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%232563EB'/><text x='50' y='72' font-size='68' font-family='Arial,sans-serif' font-weight='900' fill='white' text-anchor='middle'>Z</text></svg>">
+<style>
+:root{
+  --bg:#F5F7FA;--card:#FFFFFF;--card-soft:#F7F9FC;
+  --border:#E1E8F0;--border-soft:#EDF1F6;
+  --accent:#2563EB;--accent-soft:#DBE7FB;--accent-glow:rgba(37,99,235,.25);
+  --warm:#F59E0B;--warm-soft:#FEF3C7;
+  --green:#159C4A;--green-soft:#DCFCE7;
+  --red:#DC2626;--red-soft:#FEE2E2;
+  --ink:#0F1B3D;--ink-2:#2A3654;--muted:#6B7A94;
+  --radius-lg:28px;--radius-md:20px;--radius-sm:14px;
+  --ease:cubic-bezier(.2,.9,.4,1.1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased;padding:1rem}
+
+.header{display:flex;align-items:center;gap:.8rem;padding:.6rem 1rem;max-width:1100px;margin:0 auto 1rem}
+.logo{font-size:1.4rem;font-weight:900;letter-spacing:-.05em;color:var(--ink);text-decoration:none;display:flex;align-items:center}
+.logo::after{content:'.';color:var(--accent);font-size:1.7rem;line-height:1;margin-left:1px}
+.back-btn{display:inline-flex;align-items:center;gap:6px;font-size:.85rem;text-decoration:none;color:var(--muted);font-weight:600;padding:.5rem .9rem;border-radius:10px;background:var(--card-soft);border:1px solid var(--border);margin-left:auto}
+.back-btn:hover{color:var(--accent);border-color:var(--accent);background:var(--accent-soft)}
+
+.wrap{max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:1rem}
+.inner{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2rem 2.2rem 2.4rem}
+.page-title{font-size:2rem;font-weight:800;letter-spacing:-.03em;margin-bottom:.3rem;color:var(--ink)}
+.page-subtitle{font-size:.9rem;color:var(--muted);margin-bottom:1.5rem}
+
+/* MODE TABS */
+.mode-tabs{display:flex;gap:.3rem;background:var(--card-soft);border:1px solid var(--border);border-radius:14px;padding:.3rem;margin-bottom:1.2rem;flex-wrap:wrap}
+.mode-tab{font-family:inherit;font-size:.85rem;font-weight:700;padding:.6rem 1.1rem;border-radius:10px;border:none;background:none;color:var(--muted);cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:.4rem}
+.mode-tab:hover{color:var(--accent)}
+.mode-tab.active{background:var(--accent);color:#fff}
+
+/* SEARCH */
+.search{position:relative;margin-bottom:1.2rem}
+.search-input{width:100%;padding:.75rem 2.4rem .75rem 2.4rem;border-radius:40px;border:1px solid var(--border);background:var(--card-soft);font-family:inherit;font-size:.9rem;color:var(--ink);outline:none;font-weight:500}
+.search-input:focus{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-glow);background:#fff}
+.search-icon{position:absolute;left:.85rem;top:50%;transform:translateY(-50%);width:16px;height:16px;stroke:var(--muted);fill:none;stroke-width:2;pointer-events:none}
+.search-clear{position:absolute;right:.6rem;top:50%;transform:translateY(-50%);width:24px;height:24px;border-radius:50%;background:var(--card-soft);border:none;cursor:pointer;display:none;align-items:center;justify-content:center;font-size:.7rem;color:var(--muted)}
+.search-clear.visible{display:flex}
+
+.filters{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.4rem}
+.filter-btn{font-family:inherit;font-size:.78rem;font-weight:700;padding:.45rem .9rem;border-radius:20px;border:1px solid var(--border);background:var(--card-soft);color:var(--muted);cursor:pointer;white-space:nowrap}
+.filter-btn:hover{color:var(--accent);border-color:var(--accent)}
+.filter-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* MODE VIEWS */
+.mode{display:none}
+.mode.active{display:block;animation:fadeIn .25s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* SUMMARY view */
+.section-card{background:var(--card-soft);border:1px solid var(--border-soft);border-radius:var(--radius-lg);padding:1.6rem 1.8rem;margin-bottom:1rem}
+.section-head{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:1rem}
+.section-head h2{font-size:1.4rem;font-weight:800;letter-spacing:-.02em}
+.section-head .badge{font-size:.72rem;font-weight:800;color:var(--accent);background:var(--accent-soft);padding:.25rem .7rem;border-radius:20px}
+.par{background:#fff;border:1px solid var(--border-soft);border-radius:var(--radius-md);margin-bottom:.8rem;overflow:hidden}
+.par.open{border-color:var(--accent)}
+.par-head{display:flex;align-items:center;gap:.7rem;padding:1rem 1.2rem;cursor:pointer;user-select:none}
+.par-head .num{width:32px;height:32px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-weight:800;font-size:.85rem;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.par-head .title{flex:1;font-size:1rem;font-weight:700;color:var(--ink)}
+.par-head .chev{width:18px;height:18px;transition:transform .3s var(--ease);color:var(--muted)}
+.par.open .par-head .chev{transform:rotate(180deg);color:var(--accent)}
+.par-body{max-height:0;overflow:hidden;transition:max-height .4s var(--ease),opacity .25s;opacity:0}
+.par.open .par-body{max-height:6000px;opacity:1}
+.par-body-inner{padding:0 1.2rem 1.2rem}
+.block{margin-bottom:1rem}
+.block:last-child{margin-bottom:0}
+.block-title{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
+.block-title::before{content:'';display:inline-block;width:3px;height:12px;background:var(--accent);border-radius:2px}
+.block p{font-size:.9rem;color:var(--ink-2);line-height:1.7}
+.data-table{width:100%;border-collapse:collapse;font-size:.85rem}
+.data-table th{background:var(--accent-soft);color:var(--accent);text-align:left;font-weight:700;padding:.6rem .8rem;font-size:.7rem;text-transform:uppercase;letter-spacing:.05em}
+.data-table td{padding:.6rem .8rem;border-bottom:1px solid var(--border-soft);vertical-align:top;color:var(--ink-2);line-height:1.55}
+.data-table tr:last-child td{border-bottom:none}
+.data-table td:first-child{font-weight:700;color:var(--ink);white-space:nowrap}
+.qa{border-left:3px solid var(--accent);padding:.5rem 0 .5rem .9rem;margin-bottom:.7rem;background:var(--card-soft);border-radius:0 8px 8px 0}
+.qa .q{font-size:.85rem;font-weight:700;color:var(--ink);margin-bottom:.3rem}
+.qa .a{font-size:.88rem;color:var(--ink-2);line-height:1.65}
+
+/* FLASHCARDS view */
+.cards-info{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:1rem;font-size:.85rem;color:var(--muted)}
+.cards-info b{color:var(--accent);font-weight:800}
+.card-stage{perspective:1200px;margin:0 auto 1.2rem;max-width:640px}
+.card{position:relative;width:100%;min-height:280px;transform-style:preserve-3d;transition:transform .55s var(--ease);cursor:pointer}
+.card.flipped{transform:rotateY(180deg)}
+.card-face{position:absolute;inset:0;backface-visibility:hidden;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.6rem 1.5rem;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;box-shadow:0 6px 24px rgba(15,27,61,.06)}
+.card-face.back{transform:rotateY(180deg);background:var(--accent-soft);border-color:var(--accent)}
+.card-face .hint{position:absolute;top:.8rem;left:.9rem;font-size:.65rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.card-face .content{font-size:1.15rem;font-weight:700;color:var(--ink);line-height:1.45;max-width:520px}
+.card-face.back .content{font-weight:600;color:var(--ink-2);font-size:1rem;line-height:1.6}
+.card-actions{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;max-width:640px;margin:0 auto}
+.card-btn{font-family:inherit;font-size:.85rem;font-weight:700;padding:.65rem 1.2rem;border-radius:12px;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:.4rem;transition:all .15s}
+.card-btn.green{background:var(--green);color:#fff}
+.card-btn.green:hover{opacity:.9}
+.card-btn.red{background:var(--red);color:#fff}
+.card-btn.red:hover{opacity:.9}
+.card-btn.ghost{background:var(--card-soft);color:var(--ink);border:1px solid var(--border)}
+.card-btn.ghost:hover{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+
+/* TEST view */
+.test-setup{text-align:center;padding:1rem 0}
+.test-setup h3{font-size:1.2rem;font-weight:800;margin-bottom:.6rem}
+.test-setup p{color:var(--muted);font-size:.9rem;margin-bottom:1.2rem}
+.test-start{background:var(--accent);color:#fff;border:none;padding:.85rem 1.6rem;border-radius:12px;font-family:inherit;font-size:.95rem;font-weight:700;cursor:pointer;transition:all .15s}
+.test-start:hover{background:var(--ink)}
+.test-progress{display:flex;justify-content:space-between;align-items:center;gap:1rem;font-size:.85rem;color:var(--muted);margin-bottom:1rem}
+.test-progress .bar{flex:1;height:6px;background:var(--border);border-radius:6px;overflow:hidden;max-width:300px}
+.test-progress .bar-fill{height:100%;background:var(--accent);transition:width .3s}
+.question{font-size:1.1rem;font-weight:700;color:var(--ink);margin-bottom:1rem;line-height:1.4}
+.answers{display:flex;flex-direction:column;gap:.5rem;margin-bottom:1rem}
+.answer{font-family:inherit;font-size:.92rem;font-weight:600;color:var(--ink);padding:.85rem 1rem;border-radius:12px;border:1px solid var(--border);background:var(--card);cursor:pointer;text-align:left;transition:all .15s}
+.answer:hover{border-color:var(--accent);background:var(--accent-soft)}
+.answer.correct{background:var(--green-soft);border-color:var(--green);color:#0b5f2b}
+.answer.wrong{background:var(--red-soft);border-color:var(--red);color:#7d1d1d}
+.answer:disabled{cursor:default}
+.answer:disabled:hover{background:inherit;border-color:inherit}
+.test-nav{display:flex;gap:.5rem;justify-content:space-between;align-items:center;flex-wrap:wrap}
+.test-nav .info{font-size:.85rem;color:var(--muted);font-weight:600}
+.test-nav .info b{color:var(--accent);font-weight:800}
+.test-result{text-align:center;padding:1.5rem 1rem}
+.test-result .score{font-size:3rem;font-weight:900;color:var(--accent);line-height:1;margin-bottom:.5rem}
+.test-result .label{font-size:1rem;color:var(--muted);margin-bottom:1rem}
+.test-result .verdict{font-size:1.1rem;font-weight:800;margin-bottom:1rem}
+.test-result .verdict.excellent{color:var(--green)}
+.test-result .verdict.good{color:var(--accent)}
+.test-result .verdict.ok{color:var(--warm)}
+.test-result .verdict.bad{color:var(--red)}
+.test-again{background:var(--accent);color:#fff;border:none;padding:.75rem 1.4rem;border-radius:12px;font-family:inherit;font-size:.9rem;font-weight:700;cursor:pointer}
+.test-again:hover{background:var(--ink)}
+
+.no-results{display:none;padding:2rem;text-align:center;color:var(--muted);background:var(--card-soft);border-radius:var(--radius);border:1px dashed var(--border);margin-top:1rem}
+.no-results.visible{display:block}
+
+.footer{max-width:1100px;margin:2rem auto 0;padding:1.5rem 1rem 2rem;text-align:center;font-size:.78rem;color:var(--muted);border-top:1px solid var(--border)}
+.footer a{color:var(--muted);text-decoration:none;margin:0 .5rem}
+.footer a:hover{color:var(--accent)}
+
+.to-top{position:fixed;bottom:1.5rem;right:1.5rem;width:44px;height:44px;border-radius:50%;background:var(--accent);color:#fff;border:none;cursor:pointer;display:none;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 6px 20px rgba(37,99,235,.3);z-index:100}
+.to-top.visible{display:flex}
+
+@media(max-width:640px){
+  body{padding:.6rem}
+  .inner{padding:1.4rem 1.2rem 1.8rem;border-radius:20px}
+  .page-title{font-size:1.5rem}
+  .mode-tab{font-size:.78rem;padding:.5rem .8rem;flex:1;justify-content:center}
+  .section-card{padding:1.1rem;border-radius:20px}
+  .par-head{padding:.8rem .9rem}
+  .par-head .title{font-size:.92rem}
+  .par-body-inner{padding:0 .9rem .9rem}
+  .data-table{font-size:.8rem}
+  .data-table th{padding:.5rem .6rem;font-size:.65rem}
+  .data-table td{padding:.5rem .6rem}
+  .card{min-height:240px}
+  .card-face{padding:1.2rem 1rem}
+  .card-face .content{font-size:1rem}
+  .card-face.back .content{font-size:.92rem}
+  .card-btn{flex:1;justify-content:center;font-size:.8rem;padding:.6rem .9rem}
+  .question{font-size:1rem}
+  .answer{font-size:.88rem;padding:.75rem .9rem}
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a class="logo" href="/">Zadano</a>
+  <a class="back-btn" href="/">← На главную</a>
+</header>
+
+<div class="wrap">
+  <div class="inner">
+    <h1 class="page-title" id="pageTitle">Всеобщая история — 7 класс</h1>
+    <p class="page-subtitle" id="pageSubtitle">Загрузка…</p>
+
+    <!-- TABS -->
+    <div class="mode-tabs" id="modeTabs">
+      <button class="mode-tab active" data-mode="summary">📖 Конспекты</button>
+      <button class="mode-tab" data-mode="cards">🎴 Карточки</button>
+      <button class="mode-tab" data-mode="test">✅ Тест</button>
+    </div>
+
+    <!-- FILTERS + SEARCH (общие для конспектов) -->
+    <div id="commonTools">
+      <div class="search">
+        <input type="text" class="search-input" id="searchInput" placeholder="Поиск по параграфам, терминам, датам…" autocomplete="off">
+        <svg class="search-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="16.5" y1="16.5" x2="21" y2="21"></line></svg>
+        <button class="search-clear" id="searchClear" aria-label="Очистить">✕</button>
+      </div>
+      <div class="filters" id="filters"></div>
+    </div>
+
+    <!-- SUMMARY MODE -->
+    <div class="mode active" id="mode-summary">
+      <div id="content"></div>
+      <div class="no-results" id="noResults">🔍 Ничего не найдено.</div>
+    </div>
+
+    <!-- CARDS MODE -->
+    <div class="mode" id="mode-cards">
+      <div class="cards-info">
+        <span>Карточка <b id="cardCurrent">1</b> из <b id="cardTotal">0</b></span>
+        <span>Знаю: <b id="cardKnown">0</b> · Повторить: <b id="cardAgain">0</b></span>
+      </div>
+      <div class="card-stage">
+        <div class="card" id="card">
+          <div class="card-face front">
+            <span class="hint">Вопрос</span>
+            <div class="content" id="cardQuestion">—</div>
+          </div>
+          <div class="card-face back">
+            <span class="hint">Ответ</span>
+            <div class="content" id="cardAnswer">—</div>
+          </div>
+        </div>
+      </div>
+      <div class="card-actions">
+        <button class="card-btn red" id="cardAgainBtn">↻ Повторить</button>
+        <button class="card-btn ghost" id="cardFlipBtn">↺ Перевернуть</button>
+        <button class="card-btn green" id="cardKnownBtn">✓ Знаю</button>
+      </div>
+      <div class="card-actions" style="margin-top:.6rem">
+        <button class="card-btn ghost" id="cardRestartBtn">🔄 Начать заново</button>
+      </div>
+    </div>
+
+    <!-- TEST MODE -->
+    <div class="mode" id="mode-test">
+      <div class="test-setup" id="testSetup">
+        <h3>Тест по всеобщей истории</h3>
+        <p>Проверь себя: 10 случайных вопросов по терминам, датам и личностям.</p>
+        <button class="test-start" id="testStart">Начать тест</button>
+      </div>
+      <div id="testBody" style="display:none">
+        <div class="test-progress">
+          <span>Вопрос <b id="testNum">1</b> / <b id="testTotal">10</b></span>
+          <div class="bar"><div class="bar-fill" id="testBar" style="width:0%"></div></div>
+          <span>Верно: <b id="testScore">0</b></span>
+        </div>
+        <div class="question" id="testQuestion">—</div>
+        <div class="answers" id="testAnswers"></div>
+        <div class="test-nav">
+          <span class="info" id="testHint"></span>
+        </div>
+      </div>
+      <div class="test-result" id="testResult" style="display:none">
+        <div class="score" id="resultScore">0</div>
+        <div class="label" id="resultLabel">правильных ответов</div>
+        <div class="verdict" id="resultVerdict"></div>
+        <button class="test-again" id="testAgain">Пройти ещё раз</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <div>
+    <a href="/">Главная</a>
+    <a href="/legal.html">Соглашение</a>
+  </div>
+  <div style="margin-top:.6rem">Zadano © 2026 · для 7 класса</div>
+</footer>
+
+<button class="to-top" id="toTop" aria-label="Наверх">↑</button>
+
+<script>
+(function(){
+  "use strict";
+
+  const JSON_URL = "history.json";
+  const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+  let DATA = null;
+
+  const state = {
+    mode: "summary",
+    query: "",
+    section: "all",
+    open: new Set(),
+
+    // cards
+    cards: [],
+    cardIdx: 0,
+    cardKnown: 0,
+    cardAgain: 0,
+    cardFlipped: false,
+
+    // test
+    testQuestions: [],
+    testIdx: 0,
+    testScore: 0,
+    testAnswered: false
+  };
+
+  // ====== DOM ======
+  const pageTitle = document.getElementById("pageTitle");
+  const pageSubtitle = document.getElementById("pageSubtitle");
+  const modeTabs = document.getElementById("modeTabs");
+  const commonTools = document.getElementById("commonTools");
+  const searchInput = document.getElementById("searchInput");
+  const searchClear = document.getElementById("searchClear");
+  const filtersEl = document.getElementById("filters");
+  const contentEl = document.getElementById("content");
+  const noResults = document.getElementById("noResults");
+  const toTop = document.getElementById("toTop");
+
+  // ====== ЗАГРУЗКА JSON ======
+  async function loadData(){
+    try {
+      const r = await fetch(JSON_URL);
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      DATA = await r.json();
+      pageTitle.textContent = DATA.title || "Всеобщая история — 7 класс";
+      pageSubtitle.textContent = DATA.subtitle || "";
+      init();
+    } catch(err){
+      pageSubtitle.textContent = "Ошибка: не удалось загрузить history.json";
+      contentEl.innerHTML = '<div class="no-results visible">Не удалось загрузить данные. Проверьте, что файл <b>history.json</b> лежит рядом с этой страницей.<br><small style="opacity:.6">' + esc(err.message) + '</small></div>';
+    }
+  }
+
+  // ====== FLATTEN ======
+  function allItems(){
+    const out = [];
+    (DATA.sections || []).forEach(sec => {
+      (sec.items || []).forEach(it => out.push({ section: sec.name, sectionId: sec.id, ...it }));
+    });
+    return out;
+  }
+
+  // ====== ФИЛЬТРЫ ======
+  function buildFilters(){
+    const sections = [{ id: "all", name: "Все" }, ...(DATA.sections || []).map(s => ({ id: s.id, name: s.name }))];
+    filtersEl.innerHTML = sections.map(s =>
+      `<button class="filter-btn${s.id === state.section ? " active" : ""}" data-section="${esc(s.id)}">${esc(s.name)}</button>`
+    ).join("");
+    filtersEl.addEventListener("click", e => {
+      const btn = e.target.closest(".filter-btn");
+      if (!btn) return;
+      state.section = btn.dataset.section;
+      filtersEl.querySelectorAll(".filter-btn").forEach(b => b.classList.toggle("active", b === btn));
+      renderSummary();
+    });
+  }
+
+  // ====== ПОИСК ======
+  function bindSearch(){
+    searchInput.addEventListener("input", e => {
+      state.query = e.target.value;
+      searchClear.classList.toggle("visible", state.query.length > 0);
+      renderSummary();
+    });
+    searchClear.addEventListener("click", () => {
+      state.query = ""; searchInput.value = ""; searchClear.classList.remove("visible");
+      renderSummary(); searchInput.focus();
+    });
+    searchInput.addEventListener("keydown", e => {
+      if (e.key === "Escape"){ state.query=""; searchInput.value=""; searchClear.classList.remove("visible"); renderSummary(); searchInput.blur(); }
+    });
+  }
+
+  // ====== SUMMARY ======
+  function itemMatches(it, q){
+    if (!q) return true;
+    const hay = (it.title + " " + it.summary + " " +
+      (it.terms||[]).map(t => t.join(" ")).join(" ") + " " +
+      (it.dates||[]).map(t => t.join(" ")).join(" ") + " " +
+      (it.people||[]).map(t => t.join(" ")).join(" ") + " " +
+      (it.qa||[]).map(t => t.join(" ")).join(" ")).toLowerCase();
+    return hay.includes(q);
+  }
+
+  function renderSummary(){
+    const q = state.query.trim().toLowerCase();
+    const filtered = allItems().filter(it => {
+      if (state.section !== "all" && it.sectionId !== state.section) return false;
+      return itemMatches(it, q);
+    });
+
+    if (!filtered.length){
+      contentEl.innerHTML = "";
+      noResults.classList.add("visible");
+      return;
+    }
+    noResults.classList.remove("visible");
+
+    // группируем по section
+    const groups = {};
+    filtered.forEach(it => {
+      if (!groups[it.section]) groups[it.section] = [];
+      groups[it.section].push(it);
+    });
+
+    let html = "";
+    Object.keys(groups).forEach(section => {
+      html += '<div class="section-card">';
+      html += '<div class="section-head"><h2>' + esc(section) + '</h2>' +
+              '<span class="badge">' + groups[section].length + '</span></div>';
+
+      groups[section].forEach(it => {
+        const key = it.section + "|" + it.num + "|" + it.title;
+        const isOpen = state.open.has(key) || q.length > 0;
+        html += '<div class="par' + (isOpen ? ' open' : '') + '" data-key="' + esc(key) + '">';
+        html += '<div class="par-head">' +
+                  '<span class="num">§' + esc(it.num) + '</span>' +
+                  '<span class="title">' + esc(it.title) + '</span>' +
+                  '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>' +
+                '</div>';
+        html += '<div class="par-body"><div class="par-body-inner">';
+
+        html += '<div class="block"><div class="block-title">Мини-конспект</div><p>' + esc(it.summary) + '</p></div>';
+
+        if ((it.terms||[]).length){
+          html += '<div class="block"><div class="block-title">Термины</div>' +
+                  '<table class="data-table"><thead><tr><th>Термин</th><th>Значение</th></tr></thead><tbody>' +
+                  it.terms.map(t => '<tr><td>' + esc(t[0]) + '</td><td>' + esc(t[1]) + '</td></tr>').join("") +
+                  '</tbody></table></div>';
+        }
+        if ((it.dates||[]).length){
+          html += '<div class="block"><div class="block-title">Даты</div>' +
+                  '<table class="data-table"><thead><tr><th>Год</th><th>Событие</th></tr></thead><tbody>' +
+                  it.dates.map(t => '<tr><td>' + esc(t[0]) + '</td><td>' + esc(t[1]) + '</td></tr>').join("") +
+                  '</tbody></table></div>';
+        }
+        if ((it.people||[]).length){
+          html += '<div class="block"><div class="block-title">Исторические личности</div>' +
+                  '<table class="data-table"><thead><tr><th>Имя</th><th>Чем известен</th></tr></thead><tbody>' +
+                  it.people.map(t => '<tr><td>' + esc(t[0]) + '</td><td>' + esc(t[1]) + '</td></tr>').join("") +
+                  '</tbody></table></div>';
+        }
+        if ((it.qa||[]).length){
+          html += '<div class="block"><div class="block-title">Ответы на вопросы к параграфу</div>' +
+                  it.qa.map(t => '<div class="qa"><div class="q">' + esc(t[0]) + '</div><div class="a">' + esc(t[1]) + '</div></div>').join("") +
+                  '</div>';
+        }
+
+        html += '</div></div></div>';
+      });
+      html += '</div>';
+    });
+
+    contentEl.innerHTML = html;
+    contentEl.querySelectorAll(".par-head").forEach(h => {
+      h.addEventListener("click", () => {
+        const card = h.closest(".par");
+        const key = card.dataset.key;
+        card.classList.toggle("open");
+        if (card.classList.contains("open")) state.open.add(key);
+        else state.open.delete(key);
+      });
+    });
+  }
+
+  // ====== CARDS ======
+  function buildCards(){
+    const cards = [];
+    allItems().forEach(it => {
+      (it.terms||[]).forEach(t => cards.push({ q: "Что такое «" + t[0] + "»?", a: t[1] }));
+      (it.dates||[]).forEach(t => cards.push({ q: "Что произошло в " + t[0] + "?", a: t[1] }));
+      (it.people||[]).forEach(t => cards.push({ q: "Чем известен " + t[0] + "?", a: t[1] }));
+    });
+    return shuffle(cards);
+  }
+
+  function shuffle(arr){
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function renderCard(){
+    const cardEl = document.getElementById("card");
+    const qEl = document.getElementById("cardQuestion");
+    const aEl = document.getElementById("cardAnswer");
+    const cur = document.getElementById("cardCurrent");
+    const tot = document.getElementById("cardTotal");
+    const kn = document.getElementById("cardKnown");
+    const ag = document.getElementById("cardAgain");
+
+    if (!state.cards.length){
+      qEl.textContent = "Нет карточек для отображения.";
+      aEl.textContent = "";
+      cur.textContent = "0";
+      tot.textContent = "0";
+      return;
+    }
+
+    if (state.cardIdx >= state.cards.length){
+      qEl.textContent = "🎉 Все карточки пройдены!";
+      aEl.textContent = "Знаю: " + state.cardKnown + " · Повторить: " + state.cardAgain;
+      cur.textContent = state.cards.length;
+      tot.textContent = state.cards.length;
+      kn.textContent = state.cardKnown;
+      ag.textContent = state.cardAgain;
+      return;
+    }
+
+    const c = state.cards[state.cardIdx];
+    cardEl.classList.remove("flipped");
+    state.cardFlipped = false;
+    qEl.textContent = c.q;
+    aEl.textContent = c.a;
+    cur.textContent = state.cardIdx + 1;
+    tot.textContent = state.cards.length;
+    kn.textContent = state.cardKnown;
+    ag.textContent = state.cardAgain;
+  }
+
+  function bindCards(){
+    const cardEl = document.getElementById("card");
+    cardEl.addEventListener("click", () => {
+      cardEl.classList.toggle("flipped");
+      state.cardFlipped = cardEl.classList.contains("flipped");
+    });
+    document.getElementById("cardFlipBtn").addEventListener("click", e => {
+      e.stopPropagation();
+      cardEl.classList.toggle("flipped");
+      state.cardFlipped = cardEl.classList.contains("flipped");
+    });
+    document.getElementById("cardKnownBtn").addEventListener("click", e => {
+      e.stopPropagation();
+      state.cardKnown++;
+      state.cardIdx++;
+      renderCard();
+    });
+    document.getElementById("cardAgainBtn").addEventListener("click", e => {
+      e.stopPropagation();
+      state.cardAgain++;
+      // переносим карточку в конец
+      const cur = state.cards[state.cardIdx];
+      state.cards.splice(state.cardIdx, 1);
+      state.cards.push(cur);
+      renderCard();
+    });
+    document.getElementById("cardRestartBtn").addEventListener("click", e => {
+      e.stopPropagation();
+      state.cards = buildCards();
+      state.cardIdx = 0;
+      state.cardKnown = 0;
+      state.cardAgain = 0;
+      renderCard();
+    });
+  }
+
+  // ====== TEST ======
+  function buildTestQuestions(n){
+    const pool = [];
+    allItems().forEach(it => {
+      (it.terms||[]).forEach(t => {
+        const wrongs = collectWrongTerms(t[1], it.terms, allItems());
+        if (wrongs.length >= 3){
+          const opts = shuffle([t[1], ...pickN(wrongs, 3)]);
+          pool.push({ q: "Что такое «" + t[0] + "»?", correct: t[1], options: opts });
+        }
+      });
+      (it.people||[]).forEach(t => {
+        const wrongs = collectWrongPeople(t[1]);
+        if (wrongs.length >= 3){
+          const opts = shuffle([t[1], ...pickN(wrongs, 3)]);
+          pool.push({ q: "Чем известен " + t[0] + "?", correct: t[1], options: opts });
+        }
+      });
+      (it.dates||[]).forEach(t => {
+        const wrongs = collectWrongDates(t[1]);
+        if (wrongs.length >= 3){
+          const opts = shuffle([t[1], ...pickN(wrongs, 3)]);
+          pool.push({ q: "Что произошло в " + t[0] + "?", correct: t[1], options: opts });
+        }
+      });
+    });
+    return shuffle(pool).slice(0, n);
+  }
+
+  function collectWrongTerms(correct, sameItemTerms, all){
+    const out = [];
+    all.forEach(it => (it.terms||[]).forEach(t => { if (t[1] !== correct) out.push(t[1]); }));
+    return shuffle(out).slice(0, 10);
+  }
+  function collectWrongPeople(correct){
+    const out = [];
+    allItems().forEach(it => (it.people||[]).forEach(t => { if (t[1] !== correct) out.push(t[1]); }));
+    return shuffle(out).slice(0, 10);
+  }
+  function collectWrongDates(correct){
+    const out = [];
+    allItems().forEach(it => (it.dates||[]).forEach(t => { if (t[1] !== correct) out.push(t[1]); }));
+    return shuffle(out).slice(0, 10);
+  }
+  function pickN(arr, n){ return shuffle(arr).slice(0, n); }
+
+  function renderTestQuestion(){
+    const body = document.getElementById("testBody");
+    const setup = document.getElementById("testSetup");
+    const result = document.getElementById("testResult");
+    setup.style.display = "none";
+    result.style.display = "none";
+    body.style.display = "block";
+
+    if (state.testIdx >= state.testQuestions.length){
+      showTestResult();
+      return;
+    }
+    const q = state.testQuestions[state.testIdx];
+    document.getElementById("testNum").textContent = state.testIdx + 1;
+    document.getElementById("testTotal").textContent = state.testQuestions.length;
+    document.getElementById("testScore").textContent = state.testScore;
+    document.getElementById("testBar").style.width = ((state.testIdx / state.testQuestions.length) * 100) + "%";
+    document.getElementById("testQuestion").textContent = q.q;
+
+    const ansEl = document.getElementById("testAnswers");
+    ansEl.innerHTML = q.options.map((opt, i) =>
+      '<button class="answer" data-opt="' + esc(opt) + '">' + esc(opt) + '</button>'
+    ).join("");
+    document.getElementById("testHint").textContent = "";
+
+    state.testAnswered = false;
+    ansEl.querySelectorAll(".answer").forEach(btn => {
+      btn.addEventListener("click", () => {
+        if (state.testAnswered) return;
+        state.testAnswered = true;
+        const chosen = btn.dataset.opt;
+        ansEl.querySelectorAll(".answer").forEach(b => {
+          b.disabled = true;
+          if (b.dataset.opt === q.correct) b.classList.add("correct");
+          else if (b.dataset.opt === chosen) b.classList.add("wrong");
+        });
+        if (chosen === q.correct){
+          state.testScore++;
+          document.getElementById("testHint").innerHTML = "✓ Верно";
+        } else {
+          document.getElementById("testHint").innerHTML = "✗ Правильный ответ: <b>" + esc(q.correct) + "</b>";
+        }
+        document.getElementById("testScore").textContent = state.testScore;
+        setTimeout(() => {
+          state.testIdx++;
+          renderTestQuestion();
+        }, 1400);
+      });
+    });
+  }
+
+  function showTestResult(){
+    document.getElementById("testBody").style.display = "none";
+    const result = document.getElementById("testResult");
+    result.style.display = "block";
+    const total = state.testQuestions.length;
+    const pct = Math.round((state.testScore / total) * 100);
+    document.getElementById("resultScore").textContent = state.testScore + " / " + total;
+    document.getElementById("resultLabel").textContent = "правильных ответов (" + pct + "%)";
+    const v = document.getElementById("resultVerdict");
+    v.className = "verdict";
+    if (pct >= 90){ v.textContent = "Отлично!"; v.classList.add("excellent"); }
+    else if (pct >= 70){ v.textContent = "Хорошо!"; v.classList.add("good"); }
+    else if (pct >= 50){ v.textContent = "Неплохо, но есть что повторить."; v.classList.add("ok"); }
+    else { v.textContent = "Стоит ещё раз пройти конспекты."; v.classList.add("bad"); }
+  }
+
+  function bindTest(){
+    document.getElementById("testStart").addEventListener("click", startTest);
+    document.getElementById("testAgain").addEventListener("click", startTest);
+  }
+  function startTest(){
+    state.testQuestions = buildTestQuestions(10);
+    if (!state.testQuestions.length){
+      alert("Недостаточно данных для теста.");
+      return;
+    }
+    state.testIdx = 0;
+    state.testScore = 0;
+    renderTestQuestion();
+  }
+
+  // ====== РЕЖИМЫ ======
+  function switchMode(mode){
+    state.mode = mode;
+    document.querySelectorAll(".mode-tab").forEach(t => t.classList.toggle("active", t.dataset.mode === mode));
+    document.querySelectorAll(".mode").forEach(m => m.classList.remove("active"));
+    document.getElementById("mode-" + mode).classList.add("active");
+    commonTools.style.display = (mode === "summary") ? "block" : "none";
+
+    if (mode === "cards"){
+      if (!state.cards.length){
+        state.cards = buildCards();
+        state.cardIdx = 0;
+        state.cardKnown = 0;
+        state.cardAgain = 0;
+      }
+      renderCard();
+    }
+    if (mode === "test"){
+      document.getElementById("testSetup").style.display = "block";
+      document.getElementById("testBody").style.display = "none";
+      document.getElementById("testResult").style.display = "none";
+    }
+  }
+
+  // ====== INIT ======
+  function init(){
+    buildFilters();
+    bindSearch();
+    bindCards();
+    bindTest();
+    renderSummary();
+
+    modeTabs.addEventListener("click", e => {
+      const btn = e.target.closest(".mode-tab");
+      if (!btn) return;
+      switchMode(btn.dataset.mode);
+    });
+  }
+
+  // ====== СКРОЛЛ ======
+  window.addEventListener("scroll", () => toTop.classList.toggle("visible", window.scrollY > 400));
+  toTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+
+  loadData();
+})();
+</script>
+</body>
+</html>
