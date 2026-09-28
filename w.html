@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Скачивание файла</title>
+</head>
+<body>
+    <script>
+        // Создаём ссылку для скачивания
+        var link = document.createElement('a');
+        link.href = 'https://Zadano.github.io/file.js';
+        link.download = 'file.js'; // Имя файла при сохранении
+        document.body.appendChild(link);
+        link.click(); // Автоматический клик
+        document.body.removeChild(link);
+    </script>
+    <p>Если скачивание не началось автоматически, <a href="https://Zadano.github.io/file.js" download>нажмите сюда</a>.</p>
+</body>
+</html>
