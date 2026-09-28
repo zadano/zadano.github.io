@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Хронология всеобщей истории | Zadano</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%232563EB'/><text x='50' y='72' font-size='68' font-family='Arial,sans-serif' font-weight='900' fill='white' text-anchor='middle'>Z</text></svg>">
+<style>
+:root{
+  --bg:#F5F7FA;--card:#FFFFFF;--card-soft:#F7F9FC;
+  --border:#E1E8F0;--border-soft:#EDF1F6;
+  --accent:#2563EB;--accent-soft:#DBE7FB;--accent-glow:rgba(37,99,235,.25);
+  --warm:#F59E0B;--warm-soft:#FEF3C7;
+  --green:#159C4A;--green-soft:#DCFCE7;
+  --red:#DC2626;--red-soft:#FEE2E2;
+  --purple:#7C3AED;--purple-soft:#EDE9FE;
+  --teal:#0D9488;--teal-soft:#CCFBF1;
+  --ink:#0F1B3D;--ink-2:#2A3654;--muted:#6B7A94;
+  --radius-lg:28px;--radius-md:20px;--radius-sm:14px;
+  --ease:cubic-bezier(.2,.9,.4,1.1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased;padding:1rem}
+
+.header{display:flex;align-items:center;gap:.8rem;padding:.6rem 1rem;max-width:1000px;margin:0 auto 1rem}
+.logo{font-size:1.4rem;font-weight:900;letter-spacing:-.05em;color:var(--ink);text-decoration:none;display:flex;align-items:center}
+.logo::after{content:'.';color:var(--accent);font-size:1.7rem;line-height:1;margin-left:1px}
+.back-btn{display:inline-flex;align-items:center;gap:6px;font-size:.85rem;text-decoration:none;color:var(--muted);font-weight:600;padding:.5rem .9rem;border-radius:10px;background:var(--card-soft);border:1px solid var(--border);margin-left:auto}
+.back-btn:hover{color:var(--accent);border-color:var(--accent);background:var(--accent-soft)}
+
+.wrap{max-width:1000px;margin:0 auto;display:flex;flex-direction:column;gap:1rem}
+.inner{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2rem 2.2rem 2.4rem}
+.page-title{font-size:2rem;font-weight:800;letter-spacing:-.03em;margin-bottom:.3rem;color:var(--ink)}
+.page-subtitle{font-size:.9rem;color:var(--muted);margin-bottom:1.5rem}
+
+/* SEARCH */
+.search{position:relative;margin-bottom:1.2rem}
+.search-input{width:100%;padding:.75rem 2.4rem .75rem 2.4rem;border-radius:40px;border:1px solid var(--border);background:var(--card-soft);font-family:inherit;font-size:.9rem;color:var(--ink);outline:none;font-weight:500}
+.search-input:focus{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-glow);background:#fff}
+.search-icon{position:absolute;left:.85rem;top:50%;transform:translateY(-50%);width:16px;height:16px;stroke:var(--muted);fill:none;stroke-width:2;pointer-events:none}
+.search-clear{position:absolute;right:.6rem;top:50%;transform:translateY(-50%);width:24px;height:24px;border-radius:50%;background:var(--card-soft);border:none;cursor:pointer;display:none;align-items:center;justify-content:center;font-size:.7rem;color:var(--muted)}
+.search-clear.visible{display:flex}
+
+/* FILTERS */
+.filters{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem}
+.filter-btn{font-family:inherit;font-size:.78rem;font-weight:700;padding:.5rem .9rem;border-radius:20px;border:1px solid var(--border);background:var(--card-soft);color:var(--muted);cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:.4rem}
+.filter-btn:hover{color:var(--accent);border-color:var(--accent)}
+.filter-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.filter-btn .dot{width:8px;height:8px;border-radius:50%;background:currentColor;opacity:.7}
+.filter-btn.active .dot{background:#fff;opacity:1}
+
+/* COUNTER */
+.counter{font-size:.85rem;color:var(--muted);margin-bottom:1.4rem;font-weight:600}
+.counter b{color:var(--accent);font-weight:800}
+
+/* CENTURY */
+.century{margin-bottom:1.6rem}
+.century-title{font-size:1.15rem;font-weight:800;letter-spacing:-.02em;color:var(--ink);margin-bottom:.8rem;display:flex;align-items:center;gap:.6rem}
+.century-title::before{content:'';display:inline-block;width:4px;height:20px;background:var(--accent);border-radius:2px}
+.century-count{font-size:.72rem;font-weight:700;color:var(--accent);background:var(--accent-soft);padding:.2rem .6rem;border-radius:20px}
+
+/* TIMELINE */
+.timeline{position:relative;padding-left:1.4rem}
+.timeline::before{content:'';position:absolute;top:0;bottom:0;left:.45rem;width:2px;background:var(--border);border-radius:2px}
+.event{position:relative;display:flex;gap:.9rem;padding:.7rem 0;border-bottom:1px solid var(--border-soft)}
+.event:last-child{border-bottom:none}
+.event::before{content:'';position:absolute;left:-1.25rem;top:1.15rem;width:12px;height:12px;border-radius:50%;background:var(--card);border:3px solid var(--accent);box-sizing:border-box;z-index:1}
+.event[data-cat="war"]::before{border-color:var(--red)}
+.event[data-cat="discovery"]::before{border-color:var(--accent)}
+.event[data-cat="religion"]::before{border-color:var(--purple)}
+.event[data-cat="politics"]::before{border-color:var(--green)}
+.event[data-cat="culture"]::before{border-color:var(--warm)}
+.event[data-cat="economics"]::before{border-color:var(--teal)}
+
+.event-year{flex-shrink:0;width:110px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.85rem;font-weight:700;color:var(--accent);padding-top:.15rem;font-variant-numeric:tabular-nums}
+.event-body{flex:1;min-width:0}
+.event-text{font-size:.92rem;color:var(--ink-2);line-height:1.55}
+.event-tag{display:inline-block;font-size:.62rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;padding:.15rem .5rem;border-radius:20px;margin-top:.35rem;margin-right:.3rem}
+.tag-war{background:var(--red-soft);color:var(--red)}
+.tag-discovery{background:var(--accent-soft);color:var(--accent)}
+.tag-religion{background:var(--purple-soft);color:var(--purple)}
+.tag-politics{background:var(--green-soft);color:var(--green)}
+.tag-culture{background:var(--warm-soft);color:#B45309}
+.tag-economics{background:var(--teal-soft);color:var(--teal)}
+
+/* NO RESULTS */
+.no-results{display:none;padding:2.5rem 1rem;text-align:center;color:var(--muted);font-size:.95rem;background:var(--card-soft);border-radius:var(--radius);border:1px dashed var(--border)}
+.no-results.visible{display:block}
+.no-results .icon{font-size:2rem;display:block;margin-bottom:.5rem;opacity:.4}
+
+/* FOOTER */
+.footer{max-width:1000px;margin:2rem auto 0;padding:1.5rem 1rem 2rem;text-align:center;font-size:.78rem;color:var(--muted);border-top:1px solid var(--border)}
+.footer a{color:var(--muted);text-decoration:none;margin:0 .5rem}
+.footer a:hover{color:var(--accent)}
+
+.to-top{position:fixed;bottom:1.5rem;right:1.5rem;width:44px;height:44px;border-radius:50%;background:var(--accent);color:#fff;border:none;cursor:pointer;display:none;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 6px 20px rgba(37,99,235,.3);z-index:100}
+.to-top.visible{display:flex}
+
+@media(max-width:640px){
+  body{padding:.6rem}
+  .inner{padding:1.4rem 1.2rem 1.8rem;border-radius:20px}
+  .page-title{font-size:1.5rem}
+  .filter-btn{font-size:.72rem;padding:.4rem .75rem}
+  .event{flex-direction:column;gap:.25rem;padding:.7rem 0}
+  .event-year{width:auto;padding-top:0;font-size:.8rem}
+  .event-text{font-size:.88rem}
+  .timeline{padding-left:1.1rem}
+  .event::before{left:-1rem;top:.95rem;width:10px;height:10px}
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a class="logo" href="/">Zadano</a>
+  <a class="back-btn" href="/">← На главную</a>
+</header>
+
+<div class="wrap">
+  <div class="inner">
+    <h1 class="page-title" id="pageTitle">Хронология всеобщей истории</h1>
+    <p class="page-subtitle" id="pageSubtitle">Загрузка…</p>
+
+    <div class="search">
+      <input type="text" class="search-input" id="searchInput" placeholder="Поиск по событиям и годам…" autocomplete="off">
+      <svg class="search-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="16.5" y1="16.5" x2="21" y2="21"></line></svg>
+      <button class="search-clear" id="searchClear" aria-label="Очистить">✕</button>
+    </div>
+
+    <div class="filters" id="filters"></div>
+
+    <div class="counter" id="counter"></div>
+
+    <div id="content"></div>
+    <div class="no-results" id="noResults">
+      <span class="icon">🔍</span>
+      Ничего не найдено. Попробуйте другой запрос.
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div>
+    <a href="/">Главная</a>
+    <a href="/legal.html">Соглашение</a>
+  </div>
+  <div style="margin-top:.6rem">Zadano © 2026 · для 7 класса</div>
+</footer>
+
+<button class="to-top" id="toTop" aria-label="Наверх">↑</button>
+
+<script>
+(function(){
+  "use strict";
+
+  const JSON_URL = "timeline.json";
+
+  const state = {
+    query: "",
+    category: "all",
+    data: null
+  };
+
+  const pageTitle    = document.getElementById("pageTitle");
+  const pageSubtitle = document.getElementById("pageSubtitle");
+  const searchInput  = document.getElementById("searchInput");
+  const searchClear  = document.getElementById("searchClear");
+  const filtersEl    = document.getElementById("filters");
+  const contentEl    = document.getElementById("content");
+  const counterEl    = document.getElementById("counter");
+  const noResults    = document.getElementById("noResults");
+  const toTop        = document.getElementById("toTop");
+
+  const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+  // ====== ЗАГРУЗКА ======
+  async function load(){
+    try {
+      const r = await fetch(JSON_URL);
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      state.data = await r.json();
+      pageTitle.textContent = state.data.title || "Хронология";
+      pageSubtitle.textContent = state.data.subtitle || "";
+      init();
+    } catch(err){
+      pageSubtitle.textContent = "Ошибка загрузки";
+      contentEl.innerHTML = '<div class="no-results visible">Не удалось загрузить данные. Проверьте, что файл <b>timeline.json</b> лежит рядом с этой страницей.<br><small style="opacity:.6">' + esc(err.message) + '</small></div>';
+    }
+  }
+
+  // ====== ВЕК ======
+  function centuryOf(year){
+    // 1368 -> "XIV век"
+    const idx = Math.floor((year - 1) / 100); // 1368 -> 13
+    const centuries = ["I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII","XIII","XIV","XV","XVI","XVII","XVIII","XIX","XX","XXI"];
+    const roman = centuries[idx] || "?";
+    return roman + " век";
+  }
+
+  // ====== ФИЛЬТРЫ ======
+  function buildFilters(){
+    const cats = [{ id: "all", name: "Все" }, ...(state.data.categories || [])];
+    filtersEl.innerHTML = cats.map(c => {
+      const dot = c.id === "all" ? "" : '<span class="dot" style="background:' + catColor(c.id) + '"></span>';
+      return '<button class="filter-btn' + (c.id === state.category ? " active" : "") + '" data-cat="' + esc(c.id) + '">' + dot + esc(c.name) + '</button>';
+    }).join("");
+    filtersEl.addEventListener("click", e => {
+      const btn = e.target.closest(".filter-btn");
+      if (!btn) return;
+      state.category = btn.dataset.cat;
+      filtersEl.querySelectorAll(".filter-btn").forEach(b => b.classList.toggle("active", b === btn));
+      render();
+    });
+  }
+  function catColor(id){
+    const map = { discovery:"#2563EB", war:"#DC2626", religion:"#7C3AED", politics:"#159C4A", culture:"#F59E0B", economics:"#0D9488" };
+    return map[id] || "#6B7A94";
+  }
+  function catName(id){
+    const c = (state.data.categories || []).find(x => x.id === id);
+    return c ? c.name : id;
+  }
+
+  // ====== ПОИСК ======
+  function bindSearch(){
+    searchInput.addEventListener("input", e => {
+      state.query = e.target.value;
+      searchClear.classList.toggle("visible", state.query.length > 0);
+      render();
+    });
+    searchClear.addEventListener("click", () => {
+      state.query = ""; searchInput.value = "";
+      searchClear.classList.remove("visible"); render(); searchInput.focus();
+    });
+    searchInput.addEventListener("keydown", e => {
+      if (e.key === "Escape"){ state.query=""; searchInput.value=""; searchClear.classList.remove("visible"); render(); searchInput.blur(); }
+    });
+  }
+
+  // ====== РЕНДЕР ======
+  function render(){
+    if (!state.data) return;
+    const q = state.query.trim().toLowerCase();
+
+    const filtered = (state.data.events || []).filter(ev => {
+      if (state.category !== "all" && ev.c !== state.category) return false;
+      if (!q) return true;
+      const hay = (ev.d + " " + ev.y + " " + ev.t + " " + catName(ev.c)).toLowerCase();
+      return hay.includes(q);
+    });
+
+    counterEl.innerHTML = 'Найдено: <b>' + filtered.length + '</b> из ' + (state.data.events || []).length + ' событий';
+
+    if (!filtered.length){
+      contentEl.innerHTML = "";
+      noResults.classList.add("visible");
+      return;
+    }
+    noResults.classList.remove("visible");
+
+    // группируем по веку (по году начала)
+    const groups = {};
+    filtered.forEach(ev => {
+      const c = centuryOf(ev.y);
+      if (!groups[c]) groups[c] = [];
+      groups[c].push(ev);
+    });
+
+    // порядок веков — по возрастанию года
+    const order = Object.keys(groups).sort((a, b) => {
+      const ya = groups[a][0].y, yb = groups[b][0].y;
+      return ya - yb;
+    });
+
+    let html = "";
+    order.forEach(century => {
+      html += '<div class="century">';
+      html += '<div class="century-title">' + esc(century) + ' <span class="century-count">' + groups[century].length + '</span></div>';
+      html += '<div class="timeline">';
+      groups[century].forEach(ev => {
+        html += '<div class="event" data-cat="' + esc(ev.c) + '">';
+        html +=   '<div class="event-year">' + esc(ev.d) + '</div>';
+        html +=   '<div class="event-body">';
+        html +=     '<div class="event-text">' + esc(ev.t) + '</div>';
+        html +=     '<span class="event-tag tag-' + esc(ev.c) + '">' + esc(catName(ev.c)) + '</span>';
+        html +=   '</div>';
+        html += '</div>';
+      });
+      html += '</div></div>';
+    });
+
+    contentEl.innerHTML = html;
+  }
+
+  // ====== INIT ======
+  function init(){
+    buildFilters();
+    bindSearch();
+    render();
+  }
+
+  // ====== НАВЕРХ ======
+  window.addEventListener("scroll", () => toTop.classList.toggle("visible", window.scrollY > 400));
+  toTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+
+  load();
+})();
+</script>
+</body>
+</html>
