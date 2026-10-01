@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Статья-тренажер: Английский язык (Unit 1) | Zadano</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%232563EB'/><text x='46' y='72' font-size='64' font-family='Arial,sans-serif' font-weight='900' fill='white' text-anchor='middle'>E</text><circle cx='78' cy='70' r='7' fill='%23F59E0B'/></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F5F7FA;--card:#FFFFFF;--border:#E1E8F0;--border-soft:#EDF1F6;
+  --accent:#2563EB;--accent-soft:#DBE7FB;--success:#10B981;--success-soft:#D1FAE5;
+  --error:#EF4444;--error-soft:#FEE2E2;--ink:#0F1B3D;--ink-2:#2A3654;--muted:#6B7A94;
+  --warning:#F59E0B;--warning-soft:#FEF3C7;--purple:#8B5CF6;--purple-soft:#EDE9FE;
+  --radius-lg:28px;--radius-sm:14px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--ink);
+  min-height:100vh;-webkit-font-smoothing:antialiased;padding:1rem;line-height:1.7;
+}
+.topbar{max-width:900px;margin:0 auto 1rem;display:flex;align-items:center;gap:1rem;padding:.6rem .4rem}
+.back{
+  display:inline-flex;align-items:center;gap:.5rem;padding:.55rem 1rem;border-radius:40px;
+  background:var(--card);border:1px solid var(--border);color:var(--ink);text-decoration:none;
+  font-size:.85rem;font-weight:600;transition:all .2s;
+}
+.back:hover{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+.back::before{content:'←';font-weight:700}
+.logo{margin-left:auto;font-size:1.15rem;font-weight:900;letter-spacing:-.04em;color:var(--ink);text-decoration:none;display:flex;align-items:center}
+.logo::after{content:'.';color:var(--accent);font-size:1.4rem;line-height:1;margin-left:1px}
+.doc{
+max-width:900px;margin:0 auto;background:var(--card);border:1px solid var(--border);
+border-radius:var(--radius-lg);padding:2.5rem 2.5rem 2rem;
+}
+.doc-head{padding-bottom:1.5rem;border-bottom:1px solid var(--border-soft);margin-bottom:1.5rem}
+.doc-eyebrow{font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--purple);margin-bottom:.6rem}
+h1{font-size:1.8rem;font-weight:800;letter-spacing:-.03em;line-height:1.15;margin-bottom:.6rem}
+h2{font-size:1.35rem;font-weight:700;margin:2.2rem 0 1rem;color:var(--ink);display:flex;align-items:center;gap:.5rem;}
+h2 .icon{font-size:1.4rem;}
+h3{font-size:1.05rem;font-weight:600;margin:1.5rem 0 .7rem;color:var(--ink-2);}
+.doc-meta{font-size:.82rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:.4rem 1.2rem;align-items:center}
+.doc-meta span{display:inline-flex;align-items:center;gap:.4rem}
+.doc-meta span::before{content:'·';color:var(--purple);font-weight:800}
+.doc-meta span:first-child::before{display:none}
+.doc-lead{
+background:var(--purple-soft);border-left:3px solid var(--purple);border-radius:0 12px 12px 0;
+padding:.9rem 1.2rem;margin-bottom:1.5rem;font-size:.9rem;color:var(--ink-2);
+}
+.doc-lead strong{color:var(--purple);}
+/* Settings bar */
+.settings-bar{
+  display:flex;gap:.8rem;flex-wrap:wrap;align-items:center;
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);
+  padding:.7rem 1rem;margin-bottom:1.5rem;font-size:.82rem;font-weight:600;
+}
+.settings-bar label{display:flex;align-items:center;gap:.4rem;color:var(--ink-2);}
+.settings-bar select, .settings-bar input[type="range"]{
+  font-family:inherit;font-size:.82rem;padding:.3rem .5rem;border-radius:8px;
+  border:1px solid var(--border);background:white;color:var(--ink);cursor:pointer;
+}
+.settings-bar input[type="range"]{width:100px;cursor:pointer;}
+.settings-bar .speed-val{min-width:2.5rem;text-align:center;color:var(--accent);font-weight:700;}
+/* Cards */
+.card{
+  background:#FAFCFF;border:1px solid var(--border-soft);border-radius:var(--radius-sm);
+  padding:1.1rem 1.3rem;margin-bottom:.9rem;transition:all .2s;
+}
+.card:hover{border-color:var(--accent);box-shadow:0 4px 14px rgba(37,99,235,.06);}
+.card-title{font-weight:700;font-size:.98rem;color:var(--ink);margin-bottom:.6rem;display:flex;align-items:center;gap:.5rem;}
+.card-title .badge{
+  font-size:.7rem;font-weight:700;padding:.15rem .5rem;border-radius:20px;
+  background:var(--accent-soft);color:var(--accent);text-transform:uppercase;letter-spacing:.04em;
+}
+/* Word list */
+.word-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.6rem;margin-top:.6rem;}
+.word-item{
+  display:flex;align-items:center;justify-content:space-between;gap:.5rem;
+  padding:.5rem .7rem;border-radius:10px;background:white;border:1px solid var(--border-soft);
+  font-size:.88rem;transition:all .15s;
+}
+.word-item:hover{border-color:var(--accent);background:var(--accent-soft);}
+.word-item .en{font-weight:600;color:var(--ink);}
+.word-item .ru{font-size:.78rem;color:var(--muted);}
+.speak-btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:28px;height:28px;border-radius:50%;border:none;
+  background:var(--accent-soft);color:var(--accent);cursor:pointer;
+  font-size:.75rem;flex-shrink:0;transition:all .15s;
+}
+.speak-btn:hover{background:var(--accent);color:white;transform:scale(1.1);}
+.speak-btn:active{transform:scale(.95);}
+.speak-btn.speaking{background:var(--accent);color:white;animation:pulse 1s infinite;}
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.15);}}
+/* Example sentences */
+.example{
+  display:flex;align-items:flex-start;gap:.6rem;padding:.6rem .8rem;
+  border-radius:10px;background:white;border:1px solid var(--border-soft);
+  margin-bottom:.5rem;font-size:.9rem;
+}
+.example .en{font-weight:600;color:var(--ink);flex:1;}
+.example .ru{font-size:.8rem;color:var(--muted);display:block;font-weight:400;margin-top:.1rem;}
+/* Rule box */
+.rule-box{
+  background:var(--warning-soft);border-left:4px solid var(--warning);
+  border-radius:0 12px 12px 0;padding:.8rem 1rem;margin:.8rem 0;font-size:.88rem;color:var(--ink-2);
+}
+.rule-box strong{color:var(--warning);}
+.rule-box ul{margin:.4rem 0 0 1.2rem;}
+.rule-box li{margin-bottom:.2rem;}
+/* Table */
+.table-wrap{overflow-x:auto;margin:.8rem 0;}
+table{width:100%;border-collapse:collapse;font-size:.85rem;background:white;border-radius:10px;overflow:hidden;}
+th,td{padding:.55rem .8rem;text-align:left;border-bottom:1px solid var(--border-soft);}
+th{background:var(--accent-soft);color:var(--accent);font-weight:700;font-size:.78rem;text-transform:uppercase;letter-spacing:.03em;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:#F8FAFE;}
+/* Quiz mini */
+.mini-quiz{
+  background:white;border:1px solid var(--border);border-radius:var(--radius-sm);
+  padding:1rem 1.2rem;margin-top:1rem;
+}
+.mini-quiz .q{font-weight:600;font-size:.9rem;margin-bottom:.6rem;color:var(--ink);}
+.mini-quiz .opts{display:flex;flex-wrap:wrap;gap:.4rem;}
+.mini-quiz .opt{
+  padding:.4rem .9rem;border-radius:20px;border:1px solid var(--border);background:white;
+  cursor:pointer;font-size:.82rem;color:var(--ink-2);transition:all .15s;font-family:inherit;
+}
+.mini-quiz .opt:hover{border-color:var(--accent);background:var(--accent-soft);}
+.mini-quiz .opt.correct{background:var(--success-soft);border-color:var(--success);color:var(--success);font-weight:700;}
+.mini-quiz .opt.wrong{background:var(--error-soft);border-color:var(--error);color:var(--error);}
+.mini-quiz .result{margin-top:.5rem;font-size:.85rem;font-weight:600;display:none;}
+.mini-quiz .result.show{display:block;}
+.mini-quiz .result.ok{color:var(--success);}
+.mini-quiz .result.no{color:var(--error);}
+/* Progress */
+.progress-wrap{
+  background:var(--border-soft);border-radius:40px;height:6px;margin-bottom:.5rem;overflow:hidden;
+}
+.progress-bar{
+  height:100%;background:var(--purple);width:0%;border-radius:40px;transition:width .4s ease;
+}
+.progress-text{font-size:.78rem;color:var(--muted);text-align:right;margin-bottom:1.2rem;}
+/* Actions */
+.actions{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1.5rem;}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.4rem;padding:.6rem 1.2rem;
+  border-radius:40px;border:none;font-family:inherit;font-size:.85rem;font-weight:700;
+  cursor:pointer;transition:all .2s;
+}
+.btn-primary{background:var(--purple);color:white;}
+.btn-primary:hover{background:#7C3AED;transform:translateY(-1px);box-shadow:0 4px 12px rgba(139,92,246,.25);}
+.btn-outline{background:transparent;color:var(--muted);border:1px solid var(--border);}
+.btn-outline:hover{background:var(--bg);color:var(--ink);border-color:var(--muted);}
+.foot{
+max-width:900px;margin:1rem auto 0;padding:0 .4rem 2rem;font-size:.75rem;color:var(--muted);
+display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;
+}
+.foot a{color:var(--muted);text-decoration:none;transition:color .2s}
+.foot a:hover{color:var(--accent)}
+@media(max-width:640px){
+body{padding:.6rem}
+.doc{padding:1.8rem 1.2rem 1.5rem;border-radius:20px}
+h1{font-size:1.4rem}
+.topbar{padding:.4rem 0}
+.settings-bar{font-size:.75rem;padding:.5rem .7rem;}
+.word-grid{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <a href="#" class="back">на главную</a>
+  <a href="#" class="logo">Zadano</a>
+</div>
+<main class="doc">
+  <div class="doc-head">
+    <div class="doc-eyebrow">📖 Статья-тренажер · Английский язык</div>
+    <h1>Unit 1: Music, Present Simple & Frequency</h1>
+    <div class="doc-meta">
+      <span>7 класс</span>
+      <span>Теория + озвучка</span>
+      <span>Интерактив</span>
+    </div>
+  </div>
+  <p class="doc-lead">
+    <strong>Как пользоваться:</strong> читайте теорию, нажимайте на <strong>🔊 кнопки</strong> у слов и предложений, чтобы услышать произношение. Настройте скорость и язык озвучки в панели ниже. В конце каждого раздела есть мини-тест.
+  </p>
+
+  <!-- Settings -->
+  <div class="settings-bar">
+    <label>🌐 Язык: 
+      <select id="langSelect">
+        <option value="en-US">English (US)</option>
+        <option value="en-GB">English (UK)</option>
+        <option value="ru-RU">Русский</option>
+      </select>
+    </label>
+    <label>⏩ Скорость: 
+      <input type="range" id="speedRange" min="0.5" max="1.5" step="0.1" value="1">
+      <span class="speed-val" id="speedVal">1.0×</span>
+    </label>
+    <label>🎵 Голос: 
+      <select id="voiceSelect"><option>Загрузка...</option></select>
+    </label>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
+  <div class="progress-text" id="progressText">Изучено разделов: 0</div>
+
+  <!-- ============ SECTION 1 ============ -->
+  <h2><span class="icon">🎵</span> 1. Инструменты и музыканты</h2>
+  <p style="font-size:.9rem;color:var(--muted);margin-bottom:.8rem;">Запомните пары «инструмент → музыкант». Нажмите на кнопку, чтобы услышать произношение.</p>
+
+  <div class="word-grid">
+    <div class="word-item">
+      <div><div class="en">saxophone</div><div class="ru">саксофон</div></div>
+      <button class="speak-btn" data-text="saxophone">🔊</button>
+    </div>
+    <div class="word-item">
+      <div><div class="en">saxophonist</div><div class="ru">саксофонист</div></div>
+      <button class="speak-btn" data-text="saxophonist">🔊</button>
+    </div>
+    <div class="word-item">
+      <div><div class="en">drums</div><div class="ru">барабаны</div></div>
+      <button class="speak-btn" data-text="drums">🔊</button>
+    </div>
+    <div class="word-item">
+      <div><div class="en">drummer</div><div class="ru">барабанщик</div></div>
+      <button class="speak-btn" data-text="drummer">🔊</button>
+    </div>
+    <div class="word-item">
+      <div><div class="en">keyboards</div><div class="ru">клавишные</div></div>
+      <button class="speak-btn" data-text="keyboards">🔊</button>
+    </div>
+    <div class="word-item">
+      <div><div class="en">keyboard player</div><div class="ru">клавишник</div></div>
+      <button class="speak-btn" data-text="keyboard player">🔊</button>
+    </div>
+    <div class="word-item">
+      <div><div class="en">vocals</div><div class="ru">вокал</div></div>
+      <button class="speak-btn" data-text="vocals">🔊</button>
+    </div>
+    <div class="word-item">
+      <div><div class="en">vocalist</div><div class="ru">вокалист</div></div>
+      <button class="speak-btn" data-text="vocalist">🔊</button>
+    </div>
+    <div class="word-item">
+      <div><div class="en">guitar</div><div class="ru">гитара</div></div>
+      <button class="speak-btn" data-text="guitar">🔊</button>
+    </div>
+    <div class="word-item">
+      <div><div class="en">guitarist</div><div class="ru">гитарист</div></div>
+      <button class="speak-btn" data-text="guitarist">🔊</button>
+    </div>
+    <div class="word-item">
+      <div><div class="en">bass guitar</div><div class="ru">бас-гитара</div></div>
+      <button class="speak-btn" data-text="bass guitar">🔊</button>
+    </div>
+    <div class="word-item">
+      <div><div class="en">bass guitarist</div><div class="ru">бас-гитарист</div></div>
+      <button class="speak-btn" data-text="bass guitarist">🔊</button>
+    </div>
+    <div class="word-item">
+      <div><div class="en">piano</div><div class="ru">пианино</div></div>
+      <button class="speak-btn" data-text="piano">🔊</button>
+    </div>
+    <div class="word-item">
+      <div><div class="en">pianist</div><div class="ru">пианист</div></div>
+      <button class="speak-btn" data-text="pianist">🔊</button>
+    </div>
+    <div class="word-item">
+      <div><div class="en">recorder</div><div class="ru">блокфлейта</div></div>
+      <button class="speak-btn" data-text="recorder">🔊</button>
+    </div>
+    <div class="word-item">
+      <div><div class="en">recorder player</div><div class="ru">флейтист</div></div>
+      <button class="speak-btn" data-text="recorder player">🔊</button>
+    </div>
+  </div>
+
+  <!-- Mini quiz 1 -->
+  <div class="mini-quiz" data-quiz="1">
+    <div class="q">🎯 Проверь себя: кто играет на <strong>drums</strong>?</div>
+    <div class="opts">
+      <button class="opt" data-correct="false">drummist</button>
+      <button class="opt" data-correct="true">drummer</button>
+      <button class="opt" data-correct="false">drumman</button>
+    </div>
+    <div class="result" id="res1"></div>
+  </div>
+
+  <!-- ============ SECTION 2 ============ -->
+  <h2><span class="icon">📝</span> 2. Present Simple (Настоящее простое время)</h2>
+
+  <div class="rule-box">
+    <strong>Когда используем:</strong>
+    <ul>
+      <li>Привычки и рутина: <em>I play the piano every day.</em></li>
+      <li>Факты и общие истины: <em>She lives in Moscow.</em></li>
+      <li>Расписания: <em>The concert starts at 7 pm.</em></li>
+    </ul>
+  </div>
+
+  <h3>📌 Утвердительная форма</h3>
+  <div class="example">
+    <div class="en">I / You / We / They <strong>play</strong> the guitar.<span class="ru">Я / Ты / Мы / Они играют на гитаре.</span></div>
+    <button class="speak-btn" data-text="I play the guitar">🔊</button>
+  </div>
+  <div class="example">
+    <div class="en">He / She / It <strong>plays</strong> the guitar.<span class="ru">Он / Она / Оно играет на гитаре.</span></div>
+    <button class="speak-btn" data-text="He plays the guitar">🔊</button>
+  </div>
+
+  <div class="rule-box">
+    <strong>Правило -s / -es в 3-м лице ед.ч.:</strong>
+    <ul>
+      <li>Обычно +<strong>s</strong>: play → play<strong>s</strong>, like → like<strong>s</strong></li>
+      <li>Согласная + y → <strong>ies</strong>: study → stud<strong>ies</strong>, tidy → tid<strong>ies</strong></li>
+      <li>ch, sh, ss, x, o → +<strong>es</strong>: watch → watch<strong>es</strong>, go → go<strong>es</strong>, wash → wash<strong>es</strong></li>
+      <li>Особые: have → <strong>has</strong>, be → <strong>is</strong></li>
+    </ul>
+  </div>
+
+  <h3>📌 Отрицательная форма</h3>
+  <div class="example">
+    <div class="en">I / You / We / They <strong>don't play</strong> the saxophone.<span class="ru">Я / Ты / Мы / Они не играют на саксофоне.</span></div>
+    <button class="speak-btn" data-text="I don't play the saxophone">🔊</button>
+  </div>
+  <div class="example">
+    <div class="en">He / She / It <strong>doesn't play</strong> the saxophone.<span class="ru">Он / Она / Оно не играет на саксофоне.</span></div>
+    <button class="speak-btn" data-text="He doesn't play the saxophone">🔊</button>
+  </div>
+
+  <h3>📌 Вопросительная форма</h3>
+  <div class="example">
+    <div class="en"><strong>Do</strong> I / you / we / they <strong>play</strong> the drums?<span class="ru">Я / Ты / Мы / Они играют на барабанах?</span></div>
+    <button class="speak-btn" data-text="Do you play the drums?">🔊</button>
+  </div>
+  <div class="example">
+    <div class="en"><strong>Does</strong> he / she / it <strong>play</strong> the drums?<span class="ru">Он / Она / Оно играет на барабанах?</span></div>
+    <button class="speak-btn" data-text="Does she play the drums?">🔊</button>
+  </div>
+
+  <h3>📌 Краткие ответы</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Вопрос</th><th>Да</th><th>Нет</th></tr>
+      <tr><td>Do you play?</td><td>Yes, I do.</td><td>No, I don't.</td></tr>
+      <tr><td>Does he play?</td><td>Yes, he does.</td><td>No, he doesn't.</td></tr>
+      <tr><td>Do they play?</td><td>Yes, they do.</td><td>No, they don't.</td></tr>
+    </table>
+  </div>
+
+  <!-- Mini quiz 2 -->
+  <div class="mini-quiz" data-quiz="2">
+    <div class="q">🎯 Выберите правильную форму: <em>She ______ (study) music at school.</em></div>
+    <div class="opts">
+      <button class="opt" data-correct="false">study</button>
+      <button class="opt" data-correct="false">studys</button>
+      <button class="opt" data-correct="true">studies</button>
+    </div>
+    <div class="result" id="res2"></div>
+  </div>
+
+  <!-- ============ SECTION 3 ============ -->
+  <h2><span class="icon">📊</span> 3. Наречия частоты (Frequency Adverbs)</h2>
+
+  <p style="font-size:.9rem;color:var(--muted);margin-bottom:.8rem;">Шкала от 0% до 100%:</p>
+
+  <div class="table-wrap">
+    <table>
+      <tr><th>%</th><th>Наречие</th><th>Перевод</th><th>🔊</th></tr>
+      <tr><td>0%</td><td><strong>never</strong></td><td>никогда</td><td><button class="speak-btn" data-text="never">🔊</button></td></tr>
+      <tr><td>10%</td><td><strong>hardly ever</strong></td><td>почти никогда</td><td><button class="speak-btn" data-text="hardly ever">🔊</button></td></tr>
+      <tr><td>50%</td><td><strong>sometimes</strong></td><td>иногда</td><td><button class="speak-btn" data-text="sometimes">🔊</button></td></tr>
+      <tr><td>70%</td><td><strong>often</strong></td><td>часто</td><td><button class="speak-btn" data-text="often">🔊</button></td></tr>
+      <tr><td>90%</td><td><strong>usually</strong></td><td>обычно</td><td><button class="speak-btn" data-text="usually">🔊</button></td></tr>
+      <tr><td>100%</td><td><strong>always</strong></td><td>всегда</td><td><button class="speak-btn" data-text="always">🔊</button></td></tr>
+    </table>
+  </div>
+
+  <div class="rule-box">
+    <strong>Куда ставить наречие?</strong>
+    <ul>
+      <li><strong>Перед</strong> смысловым глаголом: <em>He <strong>often</strong> studies in the library.</em></li>
+      <li><strong>После</strong> глагола be: <em>I am <strong>never</strong> late for school.</em></li>
+    </ul>
+  </div>
+
+  <div class="example">
+    <div class="en">She <strong>always</strong> listens to music in the morning.<span class="ru">Она всегда слушает музыку по утрам.</span></div>
+    <button class="speak-btn" data-text="She always listens to music in the morning">🔊</button>
+  </div>
+  <div class="example">
+    <div class="en">They are <strong>sometimes</strong> late for gigs.<span class="ru">Они иногда опаздывают на концерты.</span></div>
+    <button class="speak-btn" data-text="They are sometimes late for gigs">🔊</button>
+  </div>
+
+  <!-- Mini quiz 3 -->
+  <div class="mini-quiz" data-quiz="3">
+    <div class="q">🎯 Где правильно стоит наречие?</div>
+    <div class="opts">
+      <button class="opt" data-correct="false">I listen always to music.</button>
+      <button class="opt" data-correct="true">I always listen to music.</button>
+      <button class="opt" data-correct="false">Always I listen to music.</button>
+    </div>
+    <div class="result" id="res3"></div>
+  </div>
+
+  <!-- ============ SECTION 4 ============ -->
+  <h2><span class="icon">🎶</span> 4. like / love / hate + -ing</h2>
+
+  <div class="rule-box">
+    <strong>Правило:</strong> после глаголов <strong>love, like, don't mind, don't like, hate</strong> ставим глагол с окончанием <strong>-ing</strong>.
+  </div>
+
+  <div class="example">
+    <div class="en">I <strong>love composing</strong> music.<span class="ru">Я люблю сочинять музыку.</span></div>
+    <button class="speak-btn" data-text="I love composing music">🔊</button>
+  </div>
+  <div class="example">
+    <div class="en">I <strong>like playing</strong> the drums.<span class="ru">Мне нравится играть на барабанах.</span></div>
+    <button class="speak-btn" data-text="I like playing the drums">🔊</button>
+  </div>
+  <div class="example">
+    <div class="en">I <strong>don't mind singing</strong> in choirs.<span class="ru">Я не против петь в хоре.</span></div>
+    <button class="speak-btn" data-text="I don't mind singing in choirs">🔊</button>
+  </div>
+  <div class="example">
+    <div class="en">I <strong>don't like listening</strong> to rap music.<span class="ru">Я не люблю слушать рэп.</span></div>
+    <button class="speak-btn" data-text="I don't like listening to rap music">🔊</button>
+  </div>
+  <div class="example">
+    <div class="en">I <strong>hate performing</strong> in concerts.<span class="ru">Я ненавижу выступать на концертах.</span></div>
+    <button class="speak-btn" data-text="I hate performing in concerts">🔊</button>
+  </div>
+
+  <!-- Mini quiz 4 -->
+  <div class="mini-quiz" data-quiz="4">
+    <div class="q">🎯 Выберите правильную форму: <em>She hates ______ in front of people.</em></div>
+    <div class="opts">
+      <button class="opt" data-correct="false">perform</button>
+      <button class="opt" data-correct="true">performing</button>
+      <button class="opt" data-correct="false">to perform</button>
+    </div>
+    <div class="result" id="res4"></div>
+  </div>
+
+  <!-- ============ SECTION 5 ============ -->
+  <h2><span class="icon">💬</span> 5. Прилагательные мнения и полезные выражения</h2>
+
+  <div class="word-grid">
+    <div class="word-item"><div><div class="en">strange</div><div class="ru">странный</div></div><button class="speak-btn" data-text="strange">🔊</button></div>
+    <div class="word-item"><div><div class="en">boring</div><div class="ru">скучный</div></div><button class="speak-btn" data-text="boring">🔊</button></div>
+    <div class="word-item"><div><div class="en">loud</div><div class="ru">громкий</div></div><button class="speak-btn" data-text="loud">🔊</button></div>
+    <div class="word-item"><div><div class="en">quiet</div><div class="ru">тихий</div></div><button class="speak-btn" data-text="quiet">🔊</button></div>
+    <div class="word-item"><div><div class="en">slow</div><div class="ru">медленный</div></div><button class="speak-btn" data-text="slow">🔊</button></div>
+    <div class="word-item"><div><div class="en">traditional</div><div class="ru">традиционный</div></div><button class="speak-btn" data-text="traditional">🔊</button></div>
+    <div class="word-item"><div><div class="en">cheerful</div><div class="ru">весёлый</div></div><button class="speak-btn" data-text="cheerful">🔊</button></div>
+    <div class="word-item"><div><div class="en">sad</div><div class="ru">грустный</div></div><button class="speak-btn" data-text="sad">🔊</button></div>
+    <div class="word-item"><div><div class="en">lively</div><div class="ru">живой</div></div><button class="speak-btn" data-text="lively">🔊</button></div>
+    <div class="word-item"><div><div class="en">annoying</div><div class="ru">раздражающий</div></div><button class="speak-btn" data-text="annoying">🔊</button></div>
+    <div class="word-item"><div><div class="en">great</div><div class="ru">отличный</div></div><button class="speak-btn" data-text="great">🔊</button></div>
+    <div class="word-item"><div><div class="en">terrible</div><div class="ru">ужасный</div></div><button class="speak-btn" data-text="terrible">🔊</button></div>
+  </div>
+
+  <h3>💡 Полезные выражения для диалога</h3>
+  <div class="example">
+    <div class="en">What do you think of ...?<span class="ru">Что ты думаешь о ...?</span></div>
+    <button class="speak-btn" data-text="What do you think of this song?">🔊</button>
+  </div>
+  <div class="example">
+    <div class="en">I really like ...<span class="ru">Мне очень нравится ...</span></div>
+    <button class="speak-btn" data-text="I really like classical music">🔊</button>
+  </div>
+  <div class="example">
+    <div class="en">I hate / can't stand ...<span class="ru">Я ненавижу / терпеть не могу ...</span></div>
+    <button class="speak-btn" data-text="I can't stand pop music">🔊</button>
+  </div>
+  <div class="example">
+    <div class="en">It's OK / not bad, I suppose.<span class="ru">Нормально / неплохо, я полагаю.</span></div>
+    <button class="speak-btn" data-text="It's OK, I suppose">🔊</button>
+  </div>
+  <div class="example">
+    <div class="en">What about ...?<span class="ru">А как насчёт ...?</span></div>
+    <button class="speak-btn" data-text="What about jazz?">🔊</button>
+  </div>
+  <div class="example">
+    <div class="en">Well, I prefer ...<span class="ru">Ну, я предпочитаю ...</span></div>
+    <button class="speak-btn" data-text="Well, I prefer jazz">🔊</button>
+  </div>
+
+  <!-- Mini quiz 5 -->
+  <div class="mini-quiz" data-quiz="5">
+    <div class="q">🎯 Что означает <strong>«I can't stand it»</strong>?</div>
+    <div class="opts">
+      <button class="opt" data-correct="false">Я не могу стоять</button>
+      <button class="opt" data-correct="true">Терпеть не могу</button>
+      <button class="opt" data-correct="false">Я не могу устоять</button>
+    </div>
+    <div class="result" id="res5"></div>
+  </div>
+
+  <!-- ============ SECTION 6 ============ -->
+  <h2><span class="icon">📚</span> 6. Словарь (Dictionary extra)</h2>
+
+  <div class="word-grid">
+    <div class="word-item"><div><div class="en">bagpipes</div><div class="ru">волынка</div></div><button class="speak-btn" data-text="bagpipes">🔊</button></div>
+    <div class="word-item"><div><div class="en">choir</div><div class="ru">хор</div></div><button class="speak-btn" data-text="choir">🔊</button></div>
+    <div class="word-item"><div><div class="en">compose</div><div class="ru">сочинять</div></div><button class="speak-btn" data-text="compose">🔊</button></div>
+    <div class="word-item"><div><div class="en">contact</div><div class="ru">связываться</div></div><button class="speak-btn" data-text="contact">🔊</button></div>
+    <div class="word-item"><div><div class="en">folk music</div><div class="ru">народная музыка</div></div><button class="speak-btn" data-text="folk music">🔊</button></div>
+    <div class="word-item"><div><div class="en">gig</div><div class="ru">концерт (выступление)</div></div><button class="speak-btn" data-text="gig">🔊</button></div>
+    <div class="word-item"><div><div class="en">influence</div><div class="ru">влияние</div></div><button class="speak-btn" data-text="influence">🔊</button></div>
+    <div class="word-item"><div><div class="en">kilt</div><div class="ru">килт (шотландская юбка)</div></div><button class="speak-btn" data-text="kilt">🔊</button></div>
+    <div class="word-item"><div><div class="en">mix</div><div class="ru">смешивать</div></div><button class="speak-btn" data-text="mix">🔊</button></div>
+    <div class="word-item"><div><div class="en">neighbour</div><div class="ru">сосед</div></div><button class="speak-btn" data-text="neighbour">🔊</button></div>
+    <div class="word-item"><div><div class="en">obligatory</div><div class="ru">обязательный</div></div><button class="speak-btn" data-text="obligatory">🔊</button></div>
+    <div class="word-item"><div><div class="en">optional</div><div class="ru">необязательный</div></div><button class="speak-btn" data-text="optional">🔊</button></div>
+    <div class="word-item"><div><div class="en">perform</div><div class="ru">выступать</div></div><button class="speak-btn" data-text="perform">🔊</button></div>
+  </div>
+
+  <div class="actions">
+    <button class="btn btn-primary" id="playAllBtn">🔊 Озвучить все слова раздела</button>
+    <button class="btn btn-outline" id="stopBtn">⏹ Остановить</button>
+    <button class="btn btn-outline" id="resetProgress">🔄 Сбросить прогресс</button>
+  </div>
+</main>
+<footer class="foot">
+  <div>Zadano © 2026 · Статья-тренажер</div>
+  <div><a href="#">главная</a> · <a href="#" id="toTop">наверх</a></div>
+</footer>
+<script>
+(function(){
+  // ===== SPEECH API =====
+  const synth = window.speechSynthesis;
+  let voices = [];
+  let currentUtterance = null;
+
+  const langSelect = document.getElementById('langSelect');
+  const speedRange = document.getElementById('speedRange');
+  const speedVal = document.getElementById('speedVal');
+  const voiceSelect = document.getElementById('voiceSelect');
+
+  function loadVoices(){
+    voices = synth.getVoices();
+    voiceSelect.innerHTML = '';
+    const filtered = voices.filter(v => v.lang.startsWith('en') || v.lang.startsWith('ru'));
+    if(filtered.length === 0){
+      voiceSelect.innerHTML = '<option>Нет доступных голосов</option>';
+      return;
+    }
+    filtered.forEach((v, i) => {
+      const opt = document.createElement('option');
+      opt.value = i;
+      opt.textContent = `${v.name} (${v.lang})`;
+      opt.dataset.voiceName = v.name;
+      voiceSelect.appendChild(opt);
+    });
+  }
+
+  if(synth.onvoiceschanged !== undefined){
+    synth.onvoiceschanged = loadVoices;
+  }
+  loadVoices();
+  setTimeout(loadVoices, 500);
+
+  speedRange.addEventListener('input', function(){
+    speedVal.textContent = parseFloat(this.value).toFixed(1) + '×';
+  });
+
+  function speak(text, btn){
+    if(!text) return;
+    // Останавливаем предыдущее
+    synth.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = langSelect.value;
+    utterance.rate = parseFloat(speedRange.value);
+    utterance.pitch = 1;
+
+    // Выбор голоса
+    const selectedIdx = voiceSelect.value;
+    const allVoices = synth.getVoices();
+    const filtered = allVoices.filter(v => v.lang.startsWith('en') || v.lang.startsWith('ru'));
+    if(filtered[selectedIdx]){
+      utterance.voice = filtered[selectedIdx];
+    }
+
+    // Подсветка кнопки
+    if(btn){
+      btn.classList.add('speaking');
+      utterance.onend = () => btn.classList.remove('speaking');
+      utterance.onerror = () => btn.classList.remove('speaking');
+    }
+
+    synth.speak(utterance);
+  }
+
+  // ===== ОБРАБОТКА КНОПОК ОЗВУЧКИ =====
+  document.querySelectorAll('.speak-btn').forEach(btn => {
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      const text = this.dataset.text;
+      speak(text, this);
+    });
+  });
+
+  // ===== МИНИ-ТЕСТЫ =====
+  document.querySelectorAll('.mini-quiz').forEach(quiz => {
+    const quizId = quiz.dataset.quiz;
+    const resultEl = document.getElementById('res'+quizId);
+    const opts = quiz.querySelectorAll('.opt');
+
+    opts.forEach(opt => {
+      opt.addEventListener('click', function(){
+        // Убираем подсветку у всех
+        opts.forEach(o => o.classList.remove('correct','wrong'));
+        const isCorrect = this.dataset.correct === 'true';
+        this.classList.add(isCorrect ? 'correct' : 'wrong');
+
+        // Если неправильно, подсветим правильный
+        if(!isCorrect){
+          opts.forEach(o => {
+            if(o.dataset.correct === 'true') o.classList.add('correct');
+          });
+        }
+
+        resultEl.classList.add('show');
+        resultEl.classList.toggle('ok', isCorrect);
+        resultEl.classList.toggle('no', !isCorrect);
+        resultEl.textContent = isCorrect ? '✓ Верно!' : '✗ Не совсем. Правильный ответ подсвечен.';
+
+        // Прогресс
+        markQuizDone(quizId);
+      });
+    });
+  });
+
+  // ===== ПРОГРЕСС =====
+  const doneQuizzes = new Set();
+  function markQuizDone(id){
+    doneQuizzes.add(id);
+    const total = 5;
+    const done = doneQuizzes.size;
+    const percent = Math.round((done/total)*100);
+    document.getElementById('progressBar').style.width = percent + '%';
+    document.getElementById('progressText').textContent = `Изучено разделов: ${done} из ${total}`;
+  }
+
+  // ===== ОЗВУЧИТЬ ВСЕ СЛОВА =====
+  document.getElementById('playAllBtn').addEventListener('click', function(){
+    const words = Array.from(document.querySelectorAll('.word-item .en')).map(el => el.textContent.trim());
+    let idx = 0;
+    function next(){
+      if(idx >= words.length) return;
+      const utterance = new SpeechSynthesisUtterance(words[idx]);
+      utterance.lang = langSelect.value;
+      utterance.rate = parseFloat(speedRange.value);
+      utterance.onend = () => { idx++; setTimeout(next, 300); };
+      synth.speak(utterance);
+    }
+    synth.cancel();
+    next();
+  });
+
+  document.getElementById('stopBtn').addEventListener('click', function(){
+    synth.cancel();
+    document.querySelectorAll('.speak-btn.speaking').forEach(b => b.classList.remove('speaking'));
+  });
+
+  document.getElementById('resetProgress').addEventListener('click', function(){
+    doneQuizzes.clear();
+    document.getElementById('progressBar').style.width = '0%';
+    document.getElementById('progressText').textContent = 'Изучено разделов: 0 из 5';
+    document.querySelectorAll('.mini-quiz .opt').forEach(o => o.classList.remove('correct','wrong'));
+    document.querySelectorAll('.mini-quiz .result').forEach(r => {
+      r.classList.remove('show','ok','no');
+      r.textContent = '';
+    });
+  });
+
+  document.getElementById('toTop')?.addEventListener('click', function(e){
+    e.preventDefault();
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+})();
+</script>
+</body>
+</html>
