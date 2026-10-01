@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>Интерактивный тренажер: Английский язык (Unit 1) | Zadano</title>
+<title>Тренажер: Английский язык (Unit 1) | Zadano</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%232563EB'/><text x='46' y='72' font-size='64' font-family='Arial,sans-serif' font-weight='900' fill='white' text-anchor='middle'>E</text><circle cx='78' cy='70' r='7' fill='%23F59E0B'/></svg>">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -46,32 +46,12 @@ h3{font-size:1.05rem;font-weight:600;margin:1.5rem 0 .8rem;color:var(--ink-2);}
 background:var(--accent-soft);border-left:3px solid var(--accent);border-radius:0 12px 12px 0;
 padding:1rem 1.2rem;margin-bottom:2rem;font-size:.92rem;color:var(--ink-2);
 }
-/* Progress bar */
-.progress-wrap{
-  background:var(--border-soft);border-radius:40px;height:8px;margin-bottom:1.5rem;overflow:hidden;
-}
-.progress-bar{
-  height:100%;background:var(--accent);width:0%;border-radius:40px;transition:width .4s ease;
-}
-.progress-text{
-  font-size:.8rem;color:var(--muted);text-align:right;margin-top:.3rem;margin-bottom:1rem;
-}
-/* Score panel */
-.score-panel{
-  display:flex;gap:1rem;flex-wrap:wrap;justify-content:space-between;align-items:center;
-  background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);
-  padding:.8rem 1.2rem;margin-bottom:1.5rem;font-size:.88rem;font-weight:600;
-}
-.score-panel .score-item{display:flex;align-items:center;gap:.5rem;color:var(--ink-2);}
-.score-panel .score-item .val{font-weight:800;color:var(--accent);font-size:1.1rem;}
-.score-panel .timer{color:var(--muted);font-weight:500;font-family:ui-monospace,monospace;}
 .quiz-item{
 background:#FAFCFF;border:1px solid var(--border-soft);border-radius:var(--radius-sm);
-padding:1.2rem 1.4rem;margin-bottom:1rem;transition:all .3s ease;
+padding:1.2rem 1.4rem;margin-bottom:1rem;transition:border-color .2s;
 }
 .quiz-item.correct{border-color:var(--success);background:var(--success-soft)}
 .quiz-item.wrong{border-color:var(--error);background:var(--error-soft)}
-.quiz-item.answered{opacity:1;}
 .q-text{font-weight:600;font-size:.95rem;color:var(--ink);margin-bottom:.8rem;display:flex;gap:.6rem}
 .q-text .q-num{
 font-family:ui-monospace,monospace;font-size:.78rem;font-weight:700;color:var(--accent);
@@ -91,9 +71,7 @@ font-size:.9rem;color:var(--ink-2);line-height:1.4;user-select:none;
 flex:1;min-width:200px;padding:.65rem .9rem;border:1px solid var(--border);border-radius:10px;
 font-family:inherit;font-size:.9rem;color:var(--ink);background:white;outline:none;transition:border-color .2s;
 }
-.input-row input[type="text"]:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft);}
-.input-row input[type="text"].correct{border-color:var(--success);background:var(--success-soft);}
-.input-row input[type="text"].wrong{border-color:var(--error);background:var(--error-soft);}
+.input-row input[type="text"]:focus{border-color:var(--accent)}
 .btn{
 display:inline-flex;align-items:center;justify-content:center;gap:.45rem;padding:.6rem 1.2rem;
 border-radius:40px;border:none;font-family:inherit;font-size:.85rem;font-weight:700;
@@ -105,20 +83,17 @@ cursor:pointer;transition:all .2s;background:var(--accent);color:white;
 .btn-check:hover{background:#1a2a52;box-shadow:0 4px 12px rgba(15,27,61,.2)}
 .btn-reset{background:transparent;color:var(--muted);border:1px solid var(--border)}
 .btn-reset:hover{background:var(--bg);color:var(--ink);border-color:var(--muted);box-shadow:none;transform:none}
-.btn-show{background:var(--accent-soft);color:var(--accent);border:1px solid var(--accent);}
-.btn-show:hover{background:var(--accent);color:white;}
 .feedback{font-size:.85rem;font-weight:600;display:none;align-items:center;gap:.4rem;margin-top:.4rem}
-.feedback.show{display:flex;animation:fadeIn .3s ease;}
+.feedback.show{display:flex}
 .feedback.ok{color:var(--success)}
 .feedback.no{color:var(--error)}
 .feedback .mark{font-size:1.1rem}
-@keyframes fadeIn{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:translateY(0);}}
 .quiz-result{
 display:none;margin-top:1.5rem;padding:1.2rem 1.5rem;border-radius:var(--radius-sm);
 background:var(--accent-soft);border:1px solid var(--accent);text-align:center;
 font-size:1rem;font-weight:700;color:var(--ink);
 }
-.quiz-result.show{display:block;animation:fadeIn .4s ease;}
+.quiz-result.show{display:block}
 .quiz-result .score{color:var(--accent);font-size:1.3rem}
 .quiz-actions{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.2rem;align-items:center}
 .foot{
@@ -138,7 +113,6 @@ h1{font-size:1.5rem}
 .quiz-item{padding:1rem 1rem}
 .option{font-size:.85rem;padding:.5rem .7rem}
 .input-row input[type="text"]{font-size:.85rem}
-.score-panel{font-size:.8rem;padding:.6rem .8rem;}
 }
 </style>
 </head>
@@ -149,27 +123,16 @@ h1{font-size:1.5rem}
 </div>
 <main class="doc">
   <div class="doc-head">
-    <div class="doc-eyebrow">Интерактивный тренажер · Английский язык</div>
+    <div class="doc-eyebrow">Тренажер · Английский язык</div>
     <h1>Unit 1: Music & Present Simple</h1>
     <div class="doc-meta">
       <span>7 класс</span>
-      <span>53 вопроса</span>
+      <span>7 заданий</span>
     </div>
   </div>
   <p class="doc-lead">
-    Выполните задания. Ответы проверяются автоматически. Вводите слова строчными буквами без лишних пробелов.
+    Выполните все задания и нажмите «Проверить». Ответы вводите строчными буквами без лишних пробелов.
   </p>
-
-  <!-- Progress -->
-  <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
-  <div class="progress-text" id="progressText">Выполнено: 0 из 53</div>
-
-  <!-- Score Panel -->
-  <div class="score-panel">
-    <div class="score-item">✅ Правильно: <span class="val" id="scoreCorrect">0</span></div>
-    <div class="score-item">❌ Ошибок: <span class="val" id="scoreWrong">0</span></div>
-    <div class="score-item timer">⏱️ <span id="timerDisplay">00:00</span></div>
-  </div>
 
   <!-- ЗАДАНИЕ 1 -->
   <h2>Задание 1. Инструменты и музыканты</h2>
@@ -456,8 +419,7 @@ h1{font-size:1.5rem}
   </div>
 
   <div class="quiz-actions">
-    <button class="btn btn-check" id="checkBtn">Проверить всё</button>
-    <button class="btn btn-show" id="showBtn">Показать ответы</button>
+    <button class="btn btn-check" id="checkBtn">Проверить</button>
     <button class="btn btn-reset" id="resetBtn">Сбросить</button>
   </div>
   <div class="quiz-result" id="quizResult"></div>
@@ -468,7 +430,7 @@ h1{font-size:1.5rem}
 </footer>
 <script>
 (function(){
-  // === КЛЮЧИ ОТВЕТОВ ===
+  // Ключи ответов (в нижнем регистре, без лишних пробелов)
   const answers = {
     q1:'saxophonist', q2:'drummer', q3:'keyboard player', q4:'vocalist',
     q5:'guitarist', q6:'bass guitarist', q7:'pianist', q8:'guitar',
@@ -545,228 +507,100 @@ h1{font-size:1.5rem}
     q53:'washes'
   };
 
-  const totalQuestions = 53;
-  const checkBtn = document.getElementById('checkBtn');
-  const showBtn = document.getElementById('showBtn');
-  const resetBtn = document.getElementById('resetBtn');
-  const quizResult = document.getElementById('quizResult');
-  const progressBar = document.getElementById('progressBar');
-  const progressText = document.getElementById('progressText');
-  const scoreCorrect = document.getElementById('scoreCorrect');
-  const scoreWrong = document.getElementById('scoreWrong');
-  const timerDisplay = document.getElementById('timerDisplay');
-  const quizItems = document.querySelectorAll('.quiz-item');
+  const checkBtn=document.getElementById('checkBtn');
+  const resetBtn=document.getElementById('resetBtn');
+  const quizResult=document.getElementById('quizResult');
+  const quizItems=document.querySelectorAll('.quiz-item');
 
-  let timerInterval = null;
-  let seconds = 0;
-  let isTimerRunning = false;
-  let correctTotal = 0;
-  let wrongTotal = 0;
-
-  // === ТАЙМЕР ===
-  function startTimer(){
-    if(isTimerRunning) return;
-    isTimerRunning = true;
-    timerInterval = setInterval(()=>{
-      seconds++;
-      const m = String(Math.floor(seconds/60)).padStart(2,'0');
-      const s = String(seconds%60).padStart(2,'0');
-      timerDisplay.textContent = `${m}:${s}`;
-    }, 1000);
-  }
-  function stopTimer(){
-    clearInterval(timerInterval);
-    isTimerRunning = false;
-  }
-  function resetTimer(){
-    stopTimer();
-    seconds = 0;
-    timerDisplay.textContent = '00:00';
-  }
-
-  // === НОРМАЛИЗАЦИЯ ===
   function normalize(str){
     return str.trim().toLowerCase().replace(/\s+/g, ' ');
   }
 
-  // === ОБНОВЛЕНИЕ ПРОГРЕССА И СЧЕТА ===
-  function updateProgress(){
-    let answered = 0;
-    let correct = 0;
-    let wrong = 0;
-    for(let i=1;i<=totalQuestions;i++){
-      const input = document.getElementById('q'+i+'-input');
-      if(!input) continue;
-      const item = input.closest('.quiz-item');
-      if(item.classList.contains('correct')){ correct++; answered++; }
-      else if(item.classList.contains('wrong')){ wrong++; answered++; }
-    }
-    const percent = Math.round((answered/totalQuestions)*100);
-    progressBar.style.width = percent + '%';
-    progressText.textContent = `Выполнено: ${answered} из ${totalQuestions}`;
-    scoreCorrect.textContent = correct;
-    scoreWrong.textContent = wrong;
-    correctTotal = correct;
-    wrongTotal = wrong;
-
-    if(answered > 0 && !isTimerRunning) startTimer();
-    if(answered === totalQuestions) stopTimer();
-  }
-
-  // === СБРОС ОДНОГО ЭЛЕМЕНТА ===
   function resetItem(item){
     item.classList.remove('correct','wrong');
-    const fb = item.querySelector('.feedback');
-    if(fb){ fb.classList.remove('show','ok','no'); fb.innerHTML=''; }
-    item.querySelectorAll('input[type="text"]').forEach(inp=>{
-      inp.classList.remove('correct','wrong');
-    });
-  }
-
-  // === ПРОВЕРКА ОДНОГО ВОПРОСА (мгновенная) ===
-  function checkSingle(i){
-    const input = document.getElementById('q'+i+'-input');
-    const item = document.querySelector(`.quiz-item[data-q="${i}"]`);
-    const fb = document.getElementById('fb'+i);
-    if(!input || !item || !fb) return;
-
-    const userAnswer = normalize(input.value);
-    if(!userAnswer){
-      // не проверяем пустое поле
-      item.classList.remove('correct','wrong');
+    const fb=item.querySelector('.feedback');
+    if(fb){
       fb.classList.remove('show','ok','no');
       fb.innerHTML='';
-      input.classList.remove('correct','wrong');
-      return;
     }
-
-    const correctAnswer = answers['q'+i];
-    const isCorrect = userAnswer === correctAnswer;
-
-    input.classList.toggle('correct', isCorrect);
-    input.classList.toggle('wrong', !isCorrect);
-    item.classList.toggle('correct', isCorrect);
-    item.classList.toggle('wrong', !isCorrect);
-
-    fb.classList.add('show');
-    if(isCorrect){
-      fb.classList.add('ok');
-      fb.classList.remove('no');
-      fb.innerHTML = '<span class="mark">✓</span> Верно!';
-    } else {
-      fb.classList.add('no');
-      fb.classList.remove('ok');
-      fb.innerHTML = '<span class="mark">✗</span> Правильно: <strong>' + explanations['q'+i] + '</strong>';
-    }
-    updateProgress();
   }
 
-  // === ПРОВЕРКА ВСЕХ ===
-  function checkAll(){
-    for(let i=1;i<=totalQuestions;i++){
-      checkSingle(i);
-    }
-    stopTimer();
-    showResult();
-  }
+  function checkAnswers(){
+    let correctCount=0;
+    let totalQuestions=53; // всего полей для проверки
 
-  // === ПОКАЗАТЬ РЕЗУЛЬТАТ ===
-  function showResult(){
-    const correct = correctTotal;
-    const percent = Math.round((correct/totalQuestions)*100);
-    let message = '';
-    if(percent === 100) message = 'Отлично! Вы отлично усвоили тему!';
-    else if(percent >= 80) message = 'Хорошо! Осталось совсем немного до идеала.';
-    else if(percent >= 50) message = 'Неплохо, но стоит повторить материал.';
-    else message = 'Попробуйте ещё раз — перечитайте конспект внимательнее.';
+    quizItems.forEach(item=>resetItem(item));
 
-    quizResult.classList.add('show');
-    quizResult.innerHTML = `
-      <div>Ваш результат: <span class="score">${correct} из ${totalQuestions}</span> (${percent}%)</div>
-      <div style="font-weight:500;font-size:.9rem;color:var(--ink-2);margin-top:.3rem;">${message}</div>
-      <div style="font-weight:500;font-size:.85rem;color:var(--muted);margin-top:.3rem;">Время: ${timerDisplay.textContent}</div>
-    `;
-  }
-
-  // === ПОКАЗАТЬ ВСЕ ОТВЕТЫ ===
-  function showAllAnswers(){
-    for(let i=1;i<=totalQuestions;i++){
+    for(let i=1;i<=53;i++){
+      const qKey = 'q'+i;
       const input = document.getElementById('q'+i+'-input');
       const item = document.querySelector(`.quiz-item[data-q="${i}"]`);
       const fb = document.getElementById('fb'+i);
+
       if(!input || !item || !fb) continue;
-      input.value = answers['q'+i];
-      checkSingle(i);
+
+      const userAnswer = normalize(input.value);
+
+      if(!userAnswer){
+        item.classList.add('wrong');
+        fb.classList.add('show','no');
+        fb.innerHTML='<span class="mark">✗</span> Вы не ввели ответ. Правильно: '+explanations[qKey];
+        continue;
+      }
+
+      if(userAnswer === answers[qKey]){
+        item.classList.add('correct');
+        fb.classList.add('show','ok');
+        fb.innerHTML='<span class="mark">✓</span> Верно! '+explanations[qKey];
+        correctCount++;
+      } else {
+        item.classList.add('wrong');
+        fb.classList.add('show','no');
+        fb.innerHTML='<span class="mark">✗</span> Неверно. Правильный ответ: '+explanations[qKey];
+      }
     }
-    stopTimer();
-    showResult();
+
+    // Специальная обработка для вопроса 6.1 (два поля в одном блоке)
+    // Уже обработано выше для q39 и q40
+    // Для 6.2: q41, q42, q43
+    // Для 6.3: q44, q45
+    // Все они уже проверены в цикле.
+
+    quizResult.classList.add('show');
+    const percent=Math.round((correctCount/totalQuestions)*100);
+    let message='';
+    if(percent===100) message='Отлично! Вы отлично усвоили тему!';
+    else if(percent>=80) message='Хорошо! Осталось совсем немного до идеала.';
+    else if(percent>=50) message='Неплохо, но стоит повторить материал.';
+    else message='Попробуйте ещё раз — перечитайте конспект внимательнее.';
+
+    quizResult.innerHTML=`<div>Ваш результат: <span class="score">${correctCount} из ${totalQuestions}</span> (${percent}%)</div>
+      <div style="font-weight:500;font-size:.9rem;color:var(--ink-2);margin-top:.3rem;">${message}</div>`;
   }
 
-  // === ПОЛНЫЙ СБРОС ===
   function resetAll(){
     document.querySelectorAll('.input-row input[type="text"]').forEach(inp=>{
       inp.value='';
-      inp.classList.remove('correct','wrong');
     });
     quizItems.forEach(item=>resetItem(item));
     quizResult.classList.remove('show');
     quizResult.innerHTML='';
-    resetTimer();
-    updateProgress();
   }
 
-  // === АВТОПЕРЕХОД ФОКУСА ===
-  function setupAutoFocus(){
-    const inputs = Array.from(document.querySelectorAll('.input-row input[type="text"]'));
-    inputs.forEach((inp, idx)=>{
-      inp.addEventListener('keydown', function(e){
-        if(e.key === 'Enter'){
-          e.preventDefault();
-          // проверяем текущее поле
-          const qid = this.id.replace('-input','');
-          const qnum = parseInt(qid.replace('q',''));
-          if(!isNaN(qnum)) checkSingle(qnum);
-          // переходим к следующему
-          if(idx < inputs.length - 1){
-            inputs[idx+1].focus();
-          } else {
-            // если последнее — показываем результат
-            checkAll();
-          }
-        }
-        // Автопроверка при потере фокуса
-      });
-      inp.addEventListener('blur', function(){
-        const qid = this.id.replace('-input','');
-        const qnum = parseInt(qid.replace('q',''));
-        if(!isNaN(qnum)) checkSingle(qnum);
-      });
-      // Автопроверка при вводе (с задержкой)
-      let debounceTimer;
-      inp.addEventListener('input', function(){
-        clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(()=>{
-          const qid = this.id.replace('-input','');
-          const qnum = parseInt(qid.replace('q',''));
-          if(!isNaN(qnum)) checkSingle(qnum);
-        }, 600);
-      });
-    });
-  }
+  checkBtn.addEventListener('click',checkAnswers);
+  resetBtn.addEventListener('click',resetAll);
 
-  // === ИНИЦИАЛИЗАЦИЯ ===
-  checkBtn.addEventListener('click', checkAll);
-  showBtn.addEventListener('click', showAllAnswers);
-  resetBtn.addEventListener('click', resetAll);
-
-  document.getElementById('toTop')?.addEventListener('click', function(e){
+  document.getElementById('toTop')?.addEventListener('click',function(e){
     e.preventDefault();
-    window.scrollTo({top:0, behavior:'smooth'});
+    window.scrollTo({top:0,behavior:'smooth'});
   });
 
-  // Запуск
-  setupAutoFocus();
-  updateProgress();
+  // Обработка нажатия Enter в полях ввода
+  document.querySelectorAll('.input-row input[type="text"]').forEach(inp=>{
+    inp.addEventListener('keydown',function(e){
+      if(e.key==='Enter'){e.preventDefault();checkAnswers();}
+    });
+  });
 })();
 </script>
 </body>
