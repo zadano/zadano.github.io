@@ -11,20 +11,20 @@
 <script src="/ga.js" async></script>
 <style>
 :root{
-  --bg:#F5F7FA;
-  --sch-bg:#EEF3FA;
+  --bg:#FAF8F5;
+  --sch-bg:#F7F2EC;
   --card:#FFFFFF;
-  --card-soft:#F7F9FC;
-  --border:#E1E8F0;
-  --border-soft:#EDF1F6;
-  --accent:#2563EB;
-  --accent-soft:#DBE7FB;
-  --accent-glow:rgba(37,99,235,.25);
-  --warm:#F59E0B;
-  --warm-soft:#FEF3C7;
-  --ink:#0F1B3D;
-  --ink-2:#2A3654;
-  --muted:#6B7A94;
+  --card-soft:#FBF8F4;
+  --border:#E8E0D6;
+  --border-soft:#F0EAE2;
+  --accent:#EA580C;
+  --accent-soft:#FDE8D7;
+  --accent-glow:rgba(234,88,12,.22);
+  --warm:#7C3AED;
+  --warm-soft:#EDE4FB;
+  --ink:#1F1633;
+  --ink-2:#3A2E4F;
+  --muted:#7E738F;
   --radius-lg:28px;
   --radius-md:20px;
   --radius-sm:14px;
@@ -51,7 +51,7 @@ body.no-scroll{overflow:hidden}
 .search-input:focus + .search-icon{stroke:var(--accent)}
 .search-clear{position:absolute;right:.6rem;top:50%;transform:translateY(-50%);width:24px;height:24px;border-radius:50%;background:var(--card-soft);border:none;cursor:pointer;display:none;align-items:center;justify-content:center;font-size:.7rem;color:var(--muted)}
 .search-clear.visible{display:flex}
-.search-results{display:none;position:absolute;top:calc(100% + 8px);left:0;right:0;background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:0 8px 30px rgba(15,27,61,.1);max-height:60vh;overflow-y:auto;z-index:200}
+.search-results{display:none;position:absolute;top:calc(100% + 8px);left:0;right:0;background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:0 8px 30px rgba(31,22,51,.1);max-height:60vh;overflow-y:auto;z-index:200}
 .search-results.visible{display:block}
 .search-result{padding:.8rem 1rem;border-bottom:1px solid var(--border-soft);cursor:pointer;font-size:.88rem;transition:background .15s}
 .search-result:last-child{border-bottom:none}
@@ -84,7 +84,6 @@ body.no-scroll{overflow:hidden}
 .wrap{max-width:1280px;margin:0 auto;display:flex;flex-direction:column;gap:1rem}
 
 .banner{background:var(--sch-bg);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.6rem 1.8rem 1.4rem;display:flex;flex-direction:column;gap:1rem;position:relative;overflow:hidden}
-.banner::before{content:'';position:absolute;top:-40%;right:-8%;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(37,99,235,.08),transparent 70%);pointer-events:none}
 .banner-inner{display:flex;gap:1.1rem;align-items:flex-start;position:relative;z-index:1}
 .banner-icon{width:52px;height:52px;flex-shrink:0;border-radius:16px;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:1.6rem;line-height:1}
 .banner-body{flex:1;min-width:0}
@@ -119,11 +118,10 @@ body.no-scroll{overflow:hidden}
 .banner-counter{font-size:.72rem;color:var(--muted);font-weight:700;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.04em}
 
 .schedule-bar{background:var(--sch-bg);color:var(--ink);border-radius:var(--radius-lg);padding:1.4rem 1.6rem 1.4rem;display:flex;flex-direction:column;gap:1rem;position:relative;overflow:hidden;border:1px solid var(--border)}
-.schedule-bar::before{content:'';position:absolute;top:-50%;right:-10%;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(37,99,235,.07),transparent 70%);pointer-events:none}
 .schedule-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;position:relative;z-index:1;padding-bottom:.9rem;border-bottom:1px solid var(--border)}
 .schedule-title{font-size:1rem;font-weight:800;letter-spacing:-.02em;display:flex;align-items:center;gap:.6rem;color:var(--ink)}
 .schedule-title .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--accent-soft);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 4px var(--accent-soft)}50%{box-shadow:0 0 0 8px rgba(37,99,235,.08)}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 4px var(--accent-soft)}50%{box-shadow:0 0 0 8px rgba(234,88,12,.08)}}
 .schedule-title .day-name{color:var(--accent);font-weight:700;font-size:.85rem}
 .schedule-tabs{display:flex;gap:.25rem;background:#fff;padding:.25rem;border-radius:30px;border:1px solid var(--border)}
 .schedule-tab{font-family:inherit;font-size:.78rem;font-weight:700;padding:.45rem .9rem;border-radius:20px;border:none;background:none;color:var(--muted);cursor:pointer;transition:all .2s;white-space:nowrap}
@@ -140,26 +138,26 @@ body.no-scroll{overflow:hidden}
 .lessons-strip{display:flex;gap:.6rem;overflow-x:auto;padding-bottom:.4rem;scroll-snap-type:x mandatory;scrollbar-width:none;position:relative;z-index:1}
 .lessons-strip::-webkit-scrollbar{display:none}
 .lesson-card{flex:0 0 auto;scroll-snap-align:start;background:#fff;border:1px solid var(--border);border-radius:16px;padding:.9rem 1.1rem;min-width:150px;display:flex;flex-direction:column;gap:.35rem;text-decoration:none;color:var(--ink);transition:all .22s var(--ease);position:relative;cursor:pointer}
-.lesson-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 6px 16px rgba(37,99,235,.12)}
+.lesson-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 6px 16px rgba(234,88,12,.12)}
 .lesson-card .time{font-size:.72rem;font-weight:700;letter-spacing:.03em;color:var(--accent);font-variant-numeric:tabular-nums;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
 .lesson-card .name{font-size:.95rem;font-weight:700;letter-spacing:-.01em;line-height:1.2;color:var(--ink)}
 .lesson-card .room{font-size:.7rem;color:var(--muted);font-weight:600;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
 .lesson-card.has-gdz{background:#fff;border-color:var(--warm);border-width:1.5px}
 .lesson-card.has-gdz::after{content:'';position:absolute;top:.75rem;right:.85rem;width:6px;height:6px;border-radius:50%;background:var(--warm)}
 .lesson-card .gdz-hint{position:absolute;bottom:.65rem;right:.85rem;font-size:.6rem;font-weight:800;color:var(--warm);letter-spacing:.02em}
-.lesson-card.current{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 6px 18px rgba(37,99,235,.25)}
+.lesson-card.current{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 6px 18px rgba(234,88,12,.25)}
 .lesson-card.current .time,.lesson-card.current .room{color:rgba(255,255,255,.75)}
 .lesson-card.current .name{color:#fff}
-.lesson-card.current .gdz-hint{color:#FEF3C7}
+.lesson-card.current .gdz-hint{color:#FDE8D7}
 .lesson-card.current::before{content:'идёт';position:absolute;top:-8px;left:12px;background:var(--accent);color:#fff;font-size:.58rem;font-weight:800;letter-spacing:.08em;padding:.2rem .5rem;border-radius:20px;text-transform:uppercase}
 .lesson-card.current.has-gdz{border-color:var(--accent);background:var(--accent)}
-.lesson-card.current.has-gdz::after{background:#FEF3C7}
+.lesson-card.current.has-gdz::after{background:#FDE8D7}
 .lesson-empty{padding:1.2rem;border-radius:16px;background:#fff;font-size:.82rem;color:var(--muted);text-align:center;width:100%;border:1px solid var(--border)}
 
 .bento{display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:minmax(140px,auto);gap:1rem}
 .tile{border-radius:var(--radius-lg);padding:1.6rem 1.8rem;position:relative;overflow:hidden;display:flex;flex-direction:column;transition:transform .3s var(--ease),box-shadow .3s;background:var(--card);border:1px solid var(--border)}
 .tile.clickable{cursor:pointer}
-.tile.clickable:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(15,27,61,.06)}
+.tile.clickable:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(31,22,51,.06)}
 .tile.latest{grid-column:span 3;grid-row:span 2;padding:1.6rem 1.6rem}
 .section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
 .section-title{font-size:1rem;font-weight:800;letter-spacing:-.02em;color:var(--ink)}
@@ -169,11 +167,11 @@ body.no-scroll{overflow:hidden}
 .latest-list{display:flex;flex-direction:column;gap:.5rem;flex:1}
 .latest-item{display:flex;align-items:center;gap:.7rem;padding:.65rem .8rem;background:var(--card-soft);border-radius:12px;text-decoration:none;color:var(--ink);transition:all .2s;border:1px solid var(--border-soft)}
 .latest-item:hover{background:var(--accent-soft);border-color:var(--accent-soft);transform:translateX(3px)}
-.latest-item .dot{width:8px;height:8px;border-radius:50%;background:var(--warm);flex-shrink:0}
+.latest-item .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0}
 .latest-item .info{flex:1;min-width:0}
 .latest-item .name{font-size:.85rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;color:var(--ink)}
 .latest-item .meta{font-size:.68rem;color:var(--muted);font-weight:500;display:block;margin-top:.1rem}
-.latest-item .task{font-size:.72rem;font-weight:800;color:#fff;background:var(--warm);padding:.2rem .5rem;border-radius:6px;flex-shrink:0}
+.latest-item .task{font-size:.72rem;font-weight:800;color:#fff;background:var(--accent);padding:.2rem .5rem;border-radius:6px;flex-shrink:0}
 .tile.subjects{grid-column:span 3;grid-row:span 2;padding:1.6rem 1.8rem}
 .subjects-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
 .subjects-title{font-size:1.1rem;font-weight:800;letter-spacing:-.02em;color:var(--ink)}
@@ -246,7 +244,7 @@ body.no-scroll{overflow:hidden}
 .solution-block .task-desc li,.article-body li{margin-bottom:.25rem}
 .solution-block .task-desc li::marker,.article-body li::marker{color:var(--muted)}
 .solution-block .task-desc code,.article-body code{background:var(--bg);padding:.1rem .35rem;border-radius:4px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;color:var(--ink)}
-.solution-block .task-desc pre,.article-body pre{background:#0F1B3D;color:#E8EEF9;padding:1rem 1.1rem;border-radius:10px;overflow-x:auto;margin:.8rem 0;font-size:.85rem;line-height:1.6}
+.solution-block .task-desc pre,.article-body pre{background:#1F1633;color:#F0EAE2;padding:1rem 1.1rem;border-radius:10px;overflow-x:auto;margin:.8rem 0;font-size:.85rem;line-height:1.6}
 .solution-block .task-desc pre code,.article-body pre code{background:none;color:inherit;padding:0}
 .solution-block .task-desc blockquote,.article-body blockquote{border-left:3px solid var(--accent);padding-left:1rem;color:var(--muted);margin:.8rem 0;font-style:italic}
 .solution-block .task-desc blockquote p{margin-bottom:.3rem}
@@ -265,17 +263,16 @@ body.no-scroll{overflow:hidden}
 .footer a{color:var(--muted);text-decoration:none;margin:0 .5rem;transition:color .2s}
 .footer a:hover{color:var(--accent)}
 
-/* RATING + FEEDBACK */
 .task-rating{margin-top:10px;font-size:.82rem;color:var(--muted);display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
 .stars{display:inline-flex;gap:2px;cursor:pointer;user-select:none}
 .stars .star{font-size:1.3rem;line-height:1;color:#d5d5d5;transition:color .15s,transform .1s}
-.stars .star.active{color:#F59E0B}
+.stars .star.active{color:#EA580C}
 .stars .star:active{transform:scale(1.15)}
 
 #fb-modal{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:1rem}
 #fb-modal[hidden]{display:none}
-.fb-backdrop{position:absolute;inset:0;background:rgba(15,27,61,.5);backdrop-filter:blur(3px);animation:fbFade .2s ease}
-.fb-dialog{position:relative;background:var(--card);border-radius:var(--radius-md);padding:1.6rem 1.7rem 1.4rem;width:100%;max-width:480px;box-shadow:0 24px 60px rgba(15,27,61,.25);animation:fbPop .25s var(--ease)}
+.fb-backdrop{position:absolute;inset:0;background:rgba(31,22,51,.5);backdrop-filter:blur(3px);animation:fbFade .2s ease}
+.fb-dialog{position:relative;background:var(--card);border-radius:var(--radius-md);padding:1.6rem 1.7rem 1.4rem;width:100%;max-width:480px;box-shadow:0 24px 60px rgba(31,22,51,.25);animation:fbPop .25s var(--ease)}
 @keyframes fbFade{from{opacity:0}to{opacity:1}}
 @keyframes fbPop{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
 .fb-dialog h3{margin:0 0 .8rem;font-size:1.15rem;font-weight:800;letter-spacing:-.02em;color:var(--ink);padding-right:2rem}
@@ -422,505 +419,7 @@ body.no-scroll{overflow:hidden}
     </form>
   </div>
 </div>
-<div id="sv" hidden>
-  <div class="sv-back"></div>
 
-  <div class="sv-card">
-    <button class="sv-x" aria-label="Закрыть">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-        <line x1="6" y1="6" x2="18" y2="18"/>
-        <line x1="18" y1="6" x2="6" y2="18"/>
-      </svg>
-    </button>
-
-    <div class="sv-head">
-      <div class="sv-logo">Zadano<span>.</span></div>
-      <div class="sv-eyebrow">Обратная связь · 20 сек</div>
-      <h2 class="sv-h2">Как вам сайт?</h2>
-      <p class="sv-lead">Помогите сделать его лучше</p>
-    </div>
-
-    <form id="sv-form">
-      <!-- 1. ОЦЕНКА -->
-      <div class="sv-q">
-        <div class="sv-q-label">Оцените от 1 до 5</div>
-        <div class="sv-rating" id="svRating">
-          <button type="button" data-v="1">1</button>
-          <button type="button" data-v="2">2</button>
-          <button type="button" data-v="3">3</button>
-          <button type="button" data-v="4">4</button>
-          <button type="button" data-v="5">5</button>
-        </div>
-        <input type="hidden" name="rating" id="svRatingVal" required>
-      </div>
-
-      <!-- 2. ЧТО ПОНРАВИЛОСЬ -->
-      <div class="sv-q">
-        <div class="sv-q-label">Что понравилось? <span>можно несколько</span></div>
-        <div class="sv-pills">
-          <label><input type="checkbox" name="like" value="fast_find"><span>Быстро нахожу задания</span></label>
-          <label><input type="checkbox" name="like" value="clear"><span>Понятные решения</span></label>
-          <label><input type="checkbox" name="like" value="mobile_ok"><span>Удобно с телефона</span></label>
-          <label><input type="checkbox" name="like" value="design_ok"><span>Красивый дизайн</span></label>
-          <label><input type="checkbox" name="like" value="articles"><span>Полезные статьи</span></label>
-          <label><input type="checkbox" name="like" value="all_good"><span>Всё нравится</span></label>
-        </div>
-      </div>
-
-      <!-- 3. ЧТО УЛУЧШИТЬ -->
-      <div class="sv-q">
-        <div class="sv-q-label">Что стоит улучшить? <span>можно несколько</span></div>
-        <div class="sv-pills">
-          <label><input type="checkbox" name="hate" value="search"><span>Не могу найти задание</span></label>
-          <label><input type="checkbox" name="hate" value="unclear"><span>Решения непонятные</span></label>
-          <label><input type="checkbox" name="hate" value="errors"><span>Ошибки в ответах</span></label>
-          <label><input type="checkbox" name="hate" value="mobile_bad"><span>Неудобно на телефоне</span></label>
-          <label><input type="checkbox" name="hate" value="slow"><span>Долго грузится</span></label>
-          <label><input type="checkbox" name="hate" value="subjects"><span>Не хватает предметов</span></label>
-          <label><input type="checkbox" name="hate" value="nothing"><span>Всё устраивает</span></label>
-        </div>
-      </div>
-
-      <!-- 4. ПОЖЕЛАНИЯ -->
-      <div class="sv-q">
-        <div class="sv-q-label">Пожелания <span>по желанию</span></div>
-        <textarea name="text" rows="2" maxlength="500" placeholder="Пара слов…"></textarea>
-      </div>
-
-      <button type="submit" class="sv-submit">
-        <span>Отправить</span>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="5" y1="12" x2="19" y2="12"/>
-          <polyline points="12 5 19 12 12 19"/>
-        </svg>
-      </button>
-
-      <div class="sv-status" id="svStatus"></div>
-    </form>
-  </div>
-</div>
-
-<style>
-/* ========== SURVEY ========== */
-#sv {
-  --sv-bg: #fff;
-  --sv-ink: #0A0F1F;
-  --sv-muted: #6E7686;
-  --sv-line: #EAECF0;
-  --sv-soft: #F7F8FA;
-  --sv-accent: #2563EB;
-  --sv-accent-soft: #EFF4FF;
-  --sv-radius: 20px;
-
-  position: fixed;
-  inset: 0;
-  z-index: 99999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  font-family: 'Inter', -apple-system, system-ui, sans-serif;
-  -webkit-font-smoothing: antialiased;
-}
-#sv[hidden] { display: none; }
-
-.sv-back {
-  position: absolute;
-  inset: 0;
-  background: rgba(10, 15, 31, .55);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  animation: svFade .25s ease;
-}
-
-.sv-card {
-  position: relative;
-  background: var(--sv-bg);
-  width: 100%;
-  max-width: 420px;
-  max-height: 92vh;
-  overflow-y: auto;
-  border-radius: var(--sv-radius);
-  padding: 1.6rem 1.5rem 1.4rem;
-  box-shadow:
-    0 1px 2px rgba(10,15,31,.04),
-    0 20px 50px -12px rgba(10,15,31,.35),
-    0 0 0 1px rgba(10,15,31,.04);
-  animation: svIn .35s cubic-bezier(.16,1,.3,1);
-}
-.sv-card::-webkit-scrollbar { width: 6px; }
-.sv-card::-webkit-scrollbar-thumb { background: #E5E7EB; border-radius: 3px; }
-
-@keyframes svFade { from { opacity: 0 } to { opacity: 1 } }
-@keyframes svIn {
-  from { opacity: 0; transform: translateY(16px) scale(.98) }
-  to   { opacity: 1; transform: translateY(0) scale(1) }
-}
-
-.sv-x {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  width: 30px;
-  height: 30px;
-  border-radius: 8px;
-  border: none;
-  background: transparent;
-  color: var(--sv-muted);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all .15s;
-}
-.sv-x:hover { background: var(--sv-soft); color: var(--sv-ink); }
-.sv-x:active { transform: scale(.92); }
-
-.sv-head { margin-bottom: 1.4rem; padding-right: 2rem; }
-
-.sv-logo {
-  font-size: 1rem;
-  font-weight: 900;
-  letter-spacing: -.03em;
-  color: var(--sv-ink);
-  margin-bottom: 1.1rem;
-}
-.sv-logo span { color: var(--sv-accent); }
-
-.sv-eyebrow {
-  font-size: .68rem;
-  font-weight: 700;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  color: var(--sv-accent);
-  margin-bottom: .5rem;
-}
-
-.sv-h2 {
-  font-size: 1.5rem;
-  font-weight: 800;
-  letter-spacing: -.03em;
-  line-height: 1.15;
-  color: var(--sv-ink);
-  margin: 0 0 .3rem;
-}
-
-.sv-lead {
-  font-size: .88rem;
-  color: var(--sv-muted);
-  margin: 0;
-  line-height: 1.4;
-}
-
-.sv-q { margin-bottom: 1.2rem; }
-
-.sv-q-label {
-  font-size: .82rem;
-  font-weight: 600;
-  color: var(--sv-ink);
-  margin-bottom: .55rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: .5rem;
-}
-.sv-q-label span {
-  font-size: .68rem;
-  font-weight: 500;
-  color: var(--sv-muted);
-}
-
-.sv-rating {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: .35rem;
-}
-.sv-rating button {
-  aspect-ratio: 1;
-  border: 1.5px solid var(--sv-line);
-  background: #fff;
-  border-radius: 10px;
-  font: inherit;
-  font-size: .95rem;
-  font-weight: 700;
-  color: var(--sv-muted);
-  cursor: pointer;
-  transition: all .15s cubic-bezier(.16,1,.3,1);
-}
-.sv-rating button:hover {
-  border-color: var(--sv-accent);
-  color: var(--sv-accent);
-  transform: translateY(-1px);
-}
-.sv-rating button.on {
-  background: var(--sv-ink);
-  border-color: var(--sv-ink);
-  color: #fff;
-  transform: scale(1.03);
-}
-.sv-rating button:active { transform: scale(.96); }
-
-.sv-pills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .35rem;
-}
-.sv-pills label { cursor: pointer; }
-.sv-pills input { position: absolute; opacity: 0; pointer-events: none; }
-.sv-pills span {
-  display: inline-flex;
-  align-items: center;
-  padding: .5rem .85rem;
-  border: 1.5px solid var(--sv-line);
-  border-radius: 10px;
-  font-size: .82rem;
-  font-weight: 600;
-  color: var(--sv-ink);
-  background: #fff;
-  transition: all .15s cubic-bezier(.16,1,.3,1);
-  user-select: none;
-}
-.sv-pills span:hover { border-color: #C9CFD8; }
-.sv-pills input:checked + span {
-  background: var(--sv-ink);
-  border-color: var(--sv-ink);
-  color: #fff;
-}
-.sv-pills input:focus-visible + span {
-  box-shadow: 0 0 0 3px var(--sv-accent-soft);
-}
-
-.sv-card textarea {
-  width: 100%;
-  padding: .75rem .9rem;
-  border: 1.5px solid var(--sv-line);
-  border-radius: 12px;
-  background: #fff;
-  font: inherit;
-  font-size: .88rem;
-  color: var(--sv-ink);
-  resize: vertical;
-  min-height: 60px;
-  transition: all .15s;
-  line-height: 1.5;
-  box-sizing: border-box;
-}
-.sv-card textarea::placeholder { color: #A5ACB8; }
-.sv-card textarea:focus {
-  outline: none;
-  border-color: var(--sv-accent);
-  box-shadow: 0 0 0 4px var(--sv-accent-soft);
-}
-
-.sv-submit {
-  width: 100%;
-  margin-top: .3rem;
-  padding: .85rem 1rem;
-  background: var(--sv-ink);
-  color: #fff;
-  border: 0;
-  border-radius: 12px;
-  font: inherit;
-  font-size: .9rem;
-  font-weight: 700;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: .5rem;
-  transition: all .15s cubic-bezier(.16,1,.3,1);
-  letter-spacing: -.01em;
-}
-.sv-submit:hover { background: var(--sv-accent); transform: translateY(-1px); }
-.sv-submit:active { transform: translateY(0); }
-.sv-submit:disabled { opacity: .5; cursor: default; transform: none; }
-.sv-submit svg { transition: transform .2s; }
-.sv-submit:hover svg { transform: translateX(3px); }
-
-.sv-status {
-  margin-top: .7rem;
-  font-size: .8rem;
-  text-align: center;
-  min-height: 1.1em;
-  color: var(--sv-muted);
-}
-.sv-status.ok { color: #059669; }
-.sv-status.err { color: #DC2626; }
-
-/* ===== МОБИЛЬНЫЕ ===== */
-@media (max-width: 640px) {
-  #sv { padding: 0; align-items: flex-end; }
-
-  .sv-card {
-    border-radius: 24px 24px 0 0;
-    max-height: 92vh;
-    max-width: 100%;
-    padding: 1.4rem 1.2rem calc(1.2rem + env(safe-area-inset-bottom)) 1.2rem;
-    animation: svSlideUp .35s cubic-bezier(.16,1,.3,1);
-  }
-
-  @keyframes svSlideUp {
-    from { transform: translateY(100%) }
-    to   { transform: translateY(0) }
-  }
-
-  .sv-head { padding-right: 2.5rem; }
-  .sv-h2 { font-size: 1.35rem; }
-  .sv-lead { font-size: .84rem; }
-
-  .sv-x {
-    width: 40px;
-    height: 40px;
-    top: .8rem;
-    right: .8rem;
-    background: var(--sv-soft);
-  }
-
-  .sv-rating { gap: .45rem; }
-  .sv-rating button {
-    min-height: 56px;
-    font-size: 1.1rem;
-    border-radius: 14px;
-  }
-
-  .sv-pills { gap: .45rem; }
-  .sv-pills span {
-    padding: .7rem 1rem;
-    font-size: .88rem;
-    border-radius: 12px;
-  }
-
-  .sv-card textarea {
-    font-size: 16px;
-    padding: .85rem 1rem;
-    border-radius: 14px;
-    min-height: 80px;
-  }
-
-  .sv-submit {
-    padding: 1rem;
-    font-size: 1rem;
-    border-radius: 14px;
-    min-height: 52px;
-  }
-
-  .sv-q { margin-bottom: 1.3rem; }
-  .sv-q-label { font-size: .86rem; }
-}
-
-#sv button,
-#sv span,
-#sv label {
-  touch-action: manipulation;
-}
-
-body.sv-open {
-  overflow: hidden;
-  position: fixed;
-  width: 100%;
-}
-</style>
-
-<script>
-(function(){
-  const KEY = "zadano_survey_v3";
-  const WORKER = "https://zadano-feedback.n7ycgcn5jd.workers.dev";
-  const sv = document.getElementById("sv");
-
-  function shouldShow(){
-    try {
-      const d = JSON.parse(localStorage.getItem(KEY) || "{}");
-      if (d.done) return false;
-      if (!d.ts) return true;
-      return Date.now() - d.ts > 7*24*60*60*1000;
-    } catch(e){ return true; }
-  }
-
-  function open(){
-    sv.hidden = false;
-    document.body.classList.add("sv-open");
-  }
-
-  function close(done){
-    sv.hidden = true;
-    document.body.classList.remove("sv-open");
-    try {
-      const prev = JSON.parse(localStorage.getItem(KEY) || "{}");
-      if (prev.done && !done) return;
-    } catch(e){}
-    localStorage.setItem(KEY, JSON.stringify({ done: !!done, ts: Date.now() }));
-  }
-
-  // Рейтинг
-  const ratingBox = document.getElementById("svRating");
-  const ratingVal = document.getElementById("svRatingVal");
-  ratingBox.addEventListener("click", e => {
-    const b = e.target.closest("button");
-    if(!b) return;
-    const v = Number(b.dataset.v);
-    ratingVal.value = v;
-    ratingBox.querySelectorAll("button").forEach(x => {
-      x.classList.toggle("on", Number(x.dataset.v) <= v);
-    });
-  });
-
-  // Отправка
-  document.getElementById("sv-form").addEventListener("submit", async e => {
-    e.preventDefault();
-    const status = document.getElementById("svStatus");
-    const btn = e.target.querySelector("button[type=submit]");
-
-    if(!ratingVal.value){
-      status.textContent = "Поставьте оценку";
-      status.className = "sv-status err";
-      return;
-    }
-
-    const fd = new FormData(e.target);
-    const payload = {
-      type: "survey",
-      rating: fd.get("rating"),
-      like: fd.getAll("like"),
-      hate: fd.getAll("hate"),
-      text: (fd.get("text") || "").trim(),
-      url: location.href
-    };
-
-    btn.disabled = true;
-    status.textContent = "Отправляем…";
-    status.className = "sv-status";
-
-    try {
-      const r = await fetch(WORKER, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      });
-      const j = await r.json();
-      if(!j.ok) throw new Error();
-      status.textContent = "Спасибо! 🙌";
-      status.className = "sv-status ok";
-      setTimeout(() => close(true), 1200);
-    } catch(err){
-      status.textContent = "Не удалось отправить";
-      status.className = "sv-status err";
-      btn.disabled = false;
-    }
-  });
-
-  // Закрытие
-  sv.querySelector(".sv-x").onclick = () => close(false);
-  sv.querySelector(".sv-back").onclick = () => close(false);
-  document.addEventListener("keydown", e => {
-    if(e.key === "Escape" && !sv.hidden) close(false);
-  });
-
-  // Показ
-  if(shouldShow() && !location.pathname.includes("admin")){
-    setTimeout(open, 1500);
-  }
-})();
-</script>
 <script>
 (function(){
   "use strict";
@@ -976,7 +475,7 @@ body.sv-open {
   let DATA = { gdz: [], articles: [], schedule: [], banners: [] };
 
   /* ============================================================
-     FRONTMATTER PARSER (исправленный)
+     FRONTMATTER PARSER
      ============================================================ */
   function parseFrontmatter(text){
     const m = text.match(/^---\s*\n([\s\S]*?)\n---\s*\n?([\s\S]*)$/);
@@ -995,8 +494,6 @@ body.sv-open {
       return v;
     }
 
-    // Читает блочный скаляр (| или >), начиная со строки startIdx (которая содержит "|")
-    // Возвращает строку и устанавливает i на первую строку ПОСЛЕ блока.
     function readBlockScalar(startIdx){
       const blockLines = [];
       let j = startIdx + 1;
@@ -1016,12 +513,11 @@ body.sv-open {
         const cur = line.match(/^(\s*)/)[1].length;
 
         if(indent === null){
-          if(cur === 0) break; // блок не начался
+          if(cur === 0) break;
           indent = cur;
         }
 
         if(cur < indent){
-          // закончился блок
           break;
         }
 
@@ -1030,30 +526,27 @@ body.sv-open {
         j++;
       }
 
-      // убираем пустые строки в конце
       while(blockLines.length && blockLines[blockLines.length-1] === "") blockLines.pop();
 
-      i = j; // ВАЖНО: сдвигаем указатель
+      i = j;
       return blockLines.join("\n");
     }
 
     while(i < lines.length){
       const line = lines[i];
       if(!line.trim()){ i++; continue; }
-      if(/^\s/.test(line)){ i++; continue; } // вложенные строки обрабатываются отдельно
+      if(/^\s/.test(line)){ i++; continue; }
       const idx = line.indexOf(":");
       if(idx === -1){ i++; continue; }
 
       const key = line.slice(0, idx).trim();
       let val = line.slice(idx + 1).trim();
 
-      // блочный скаляр как значение верхнего уровня
       if(val === "|" || val === ">" || val === "|-" || val === ">-" || val === "|+" || val === ">+"){
         meta[key] = readBlockScalar(i);
         continue;
       }
 
-      // пустое значение — возможно, вложенный объект или массив
       if(val === ""){
         i++;
         const items = [];
@@ -1065,10 +558,9 @@ body.sv-open {
           const cur = lines[i];
           if(cur.trim() === ""){ i++; continue; }
           const curIndent = cur.match(/^(\s*)/)[1].length;
-          if(curIndent === 0) break; // вернулись на верхний уровень
+          if(curIndent === 0) break;
 
           if(/^\s*-\s/.test(cur)){
-            // элемент массива
             if(!isArray){
               isArray = true;
             }
@@ -1077,10 +569,8 @@ body.sv-open {
             const itemContent = cur.replace(/^\s*-\s*/, "").trim();
 
             if(itemContent === ""){
-              // элемент-объект, поля идут ниже
               obj = {};
               i++;
-              // читаем поля объекта
               while(i < lines.length){
                 const nxt = lines[i];
                 if(nxt.trim() === ""){ i++; continue; }
@@ -1102,7 +592,6 @@ body.sv-open {
               continue;
             }
 
-            // элемент может быть "key: value" или просто значением
             const itemIdx = itemContent.indexOf(":");
             if(itemIdx === -1){
               items.push(unquote(itemContent));
@@ -1117,7 +606,6 @@ body.sv-open {
                 obj[firstKey] = unquote(firstVal);
                 i++;
               }
-              // остальные поля объекта
               while(i < lines.length){
                 const nxt = lines[i];
                 if(nxt.trim() === ""){ i++; continue; }
@@ -1140,7 +628,6 @@ body.sv-open {
             continue;
           }
 
-          // не массив — вложенный объект
           if(!isArray){
             if(obj === null) obj = {};
             const kIdx = cur.indexOf(":");
