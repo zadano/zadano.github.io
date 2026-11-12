@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>MemeArena — Demo</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #ffffff;
+      --dark: #0b0f19;
+      --primary: #1a4bff;
+      --text-muted: #667;
+      --border: rgba(0,0,0,0.08);
+      --like-red: #e63946;
+      --font-main: 'Inter', -apple-system, sans-serif;
+      --font-serif: Georgia, serif;
+      --gold: #f5a623;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body {
+      font-family: var(--font-main);
+      background: var(--bg);
+      color: var(--dark);
+      min-height: 100vh;
+      overflow-x: hidden;
+      padding-bottom: 110px;
+      user-select: none;
+    }
+
+    /* ===== СТАРТОВЫЙ ЭКРАН ДЕМО ===== */
+    #demoScreen {
+      position: fixed; inset: 0; background: #040814;
+      z-index: 10000; display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      padding: 32px; color: #fff; text-align: center;
+      transition: opacity 0.5s ease;
+      overflow-y: auto;
+    }
+    #demoScreen.hidden { opacity: 0; pointer-events: none; }
+    
+    .demo-badge {
+      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+      padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 600;
+      letter-spacing: 1px; text-transform: uppercase; color: #a0c4ff; margin-bottom: 24px;
+    }
+    .demo-title { font-size: 36px; font-weight: 400; line-height: 1.1; margin-bottom: 16px; letter-spacing: -1px; }
+    .demo-title em { font-style: italic; font-family: var(--font-serif); }
+    .demo-desc { font-size: 14px; color: #c0d4ff; max-width: 320px; line-height: 1.5; margin-bottom: 32px; }
+    
+    .demo-features { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 320px; margin-bottom: 40px; text-align: left; }
+    .demo-feature {
+      display: flex; align-items: center; gap: 12px;
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+      padding: 12px 16px; border-radius: 14px; font-size: 13px; color: #d0dbff;
+    }
+    .demo-feature svg { flex-shrink: 0; stroke: #7fb2ff; }
+    
+    .demo-actions { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 320px; }
+    .demo-btn-primary {
+      background: #fff; color: var(--dark); border: none;
+      padding: 16px 40px; border-radius: 24px; font-size: 16px; font-weight: 600;
+      cursor: pointer; transition: transform 0.2s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .demo-btn-primary:active { transform: scale(0.95); }
+    
+    .demo-btn-secondary {
+      background: transparent; color: #a0c4ff; border: 1px solid rgba(255,255,255,0.2);
+      padding: 14px 40px; border-radius: 24px; font-size: 14px; font-weight: 500;
+      cursor: pointer; transition: all 0.2s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      text-decoration: none;
+    }
+    .demo-btn-secondary:active { background: rgba(255,255,255,0.1); transform: scale(0.95); }
+
+    .demo-footer { margin-top: 32px; font-size: 11px; color: #667; display: flex; align-items: center; gap: 6px; }
+
+    /* ===== HERO ===== */
+    .hero {
+      background: linear-gradient(180deg, #040814 0%, #0a1e59 40%, #1a4bff 75%, #ffffff 100%);
+      padding: 24px 20px 32px; position: relative;
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; color: #fff; overflow: hidden; z-index: 10;
+    }
+    .hero::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background-image: radial-gradient(1px 1px at 20% 30%, #fff, transparent),
+                        radial-gradient(1px 1px at 80% 20%, #fff, transparent);
+      opacity: 0.3;
+    }
+    .top-nav { width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; position: relative; z-index: 2; }
+    .logo { font-size: 18px; font-weight: 500; display: flex; align-items: center; gap: 8px; }
+    .user-pill {
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+      padding: 4px 12px 4px 4px; border-radius: 20px; font-size: 13px; font-weight: 500;
+      backdrop-filter: blur(10px); cursor: pointer;
+    }
+    .user-pill img { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; }
+    .hero h1 { font-size: clamp(32px, 8vw, 48px); font-weight: 400; line-height: 1.05; letter-spacing: -1.5px; margin-bottom: 16px; z-index: 2; }
+    .hero h1 em { font-style: italic; font-family: var(--font-serif); font-weight: 300; }
+    .hero p { font-size: 14px; color: #d0dbff; max-width: 320px; line-height: 1.4; margin-bottom: 24px; z-index: 2; }
+
+    /* ===== ЛЕНТА ===== */
+    .feed-container { max-width: 600px; margin: 0 auto; padding: 20px 16px; position: relative; z-index: 5; }
+    .tabs { display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px; align-items: center; }
+    .tabs::-webkit-scrollbar { display: none; }
+    .tab {
+      background: transparent; border: 1px solid var(--border);
+      padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 500;
+      color: var(--text-muted); cursor: pointer; white-space: nowrap; transition: all 0.2s;
+    }
+    .tab.active { background: var(--dark); color: #fff; border-color: var(--dark); }
+    .btn-roulette {
+      margin-left: auto; background: var(--primary); color: #fff;
+      border: none; border-radius: 20px; padding: 8px 16px; font-size: 13px; font-weight: 600;
+      cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap;
+    }
+    .btn-roulette:active { transform: scale(0.95); }
+
+    /* ===== ФОРМА ПУБЛИКАЦИИ (всегда открыта в ленте) ===== */
+    .publish-card {
+      background: #fff; border-radius: 20px; padding: 16px;
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 30px rgba(10, 30, 89, 0.05);
+      display: flex; flex-direction: column; gap: 10px;
+      margin-bottom: 16px;
+      animation: cardIn 0.4s ease both;
+    }
+    .create-input {
+      width: 100%; border: 1px solid var(--border); background: #f9f9fb;
+      border-radius: 12px; padding: 12px 14px; font-size: 14px; color: var(--dark);
+      font-family: var(--font-main); outline: none; transition: border-color 0.2s;
+    }
+    .create-input:focus { border-color: var(--primary); background: #fff; }
+    .create-actions { display: flex; gap: 8px; }
+    .btn-submit {
+      flex: 1; background: var(--dark); color: #fff; border: none;
+      border-radius: 12px; padding: 14px; font-size: 14px; font-weight: 600;
+      cursor: pointer; transition: transform 0.1s;
+    }
+    .btn-submit:active { transform: scale(0.98); }
+    .btn-paste {
+      width: 48px; background: #f5f7fa; border: none; border-radius: 12px;
+      color: var(--dark); cursor: pointer; display: flex; justify-content: center; align-items: center;
+    }
+    
+    .file-upload-label {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      background: #f0f4ff; color: var(--primary); border: 1px dashed var(--primary);
+      border-radius: 12px; padding: 12px; font-size: 14px; font-weight: 500;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .file-upload-label:active { background: #e0e9ff; }
+    .file-upload-label input[type="file"] { display: none; }
+
+    .grid { display: flex; flex-direction: column; gap: 16px; }
+    .card {
+      background: #fff; border-radius: 18px; padding: 10px;
+      border: 1px solid var(--border); display: flex; flex-direction: column;
+      box-shadow: 0 4px 12px rgba(10, 30, 89, 0.03);
+      animation: cardIn 0.4s ease both;
+    }
+    @keyframes cardIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+    .card img { width: 100%; border-radius: 12px; aspect-ratio: 4/3; object-fit: cover; background: #eef2f6; margin-bottom: 10px; }
+    .card .title { font-size: 15px; font-weight: 600; margin: 0 4px 12px; line-height: 1.3; color: var(--dark); }
+    .card-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding: 0 4px; gap: 8px; }
+    .card-actions { display: flex; gap: 6px; }
+    .like-btn, .share-btn {
+      display: flex; align-items: center; gap: 6px;
+      background: #f5f7fa; border: none; border-radius: 12px;
+      padding: 8px 12px; font-size: 13px; font-weight: 600; color: var(--dark);
+      cursor: pointer; transition: all 0.2s;
+    }
+    .like-btn.liked { background: rgba(230, 57, 70, 0.1); color: var(--like-red); }
+    .like-btn.liked svg { fill: var(--like-red); stroke: var(--like-red); }
+    .share-btn { background: transparent; }
+    .share-btn:active { background: #eef2f6; }
+    .card-rank { font-size: 12px; color: var(--text-muted); font-weight: 600; }
+
+    /* ===== РЕКЛАМНЫЕ БАННЕРЫ ===== */
+    .ad-banner {
+      background: #f9f9fb; border: 1px dashed #d0d4dc;
+      border-radius: 16px; padding: 12px 16px;
+      display: flex; align-items: center; gap: 12px;
+      margin: 4px 0; animation: cardIn 0.4s ease both;
+    }
+    .ad-banner:hover { background: #f0f2f6; }
+    .ad-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: #e8edff; display: flex; justify-content: center; align-items: center;
+      flex-shrink: 0;
+    }
+    .ad-icon svg { stroke: var(--primary); }
+    .ad-content { flex: 1; min-width: 0; }
+    .ad-label {
+      font-size: 9px; font-weight: 700; color: #99a; text-transform: uppercase;
+      letter-spacing: 0.8px; margin-bottom: 2px;
+    }
+    .ad-title { font-size: 13px; font-weight: 600; color: var(--dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .ad-sub { font-size: 11px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .ad-arrow { color: #a0aabf; flex-shrink: 0; }
+    
+    /* Премиум-баннер */
+    .ad-premium {
+      background: linear-gradient(135deg, #0a1e59 0%, #1a4bff 100%);
+      border: none; color: #fff; border-radius: 16px; padding: 16px;
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 16px; cursor: pointer;
+      box-shadow: 0 8px 20px rgba(26, 75, 255, 0.2);
+    }
+    .ad-premium:active { transform: scale(0.98); }
+    .ad-premium .ad-icon { background: rgba(255,255,255,0.15); }
+    .ad-premium .ad-icon svg { stroke: #fff; }
+    .ad-premium .ad-label { color: #a0c4ff; }
+    .ad-premium .ad-title { color: #fff; font-size: 14px; }
+    .ad-premium .ad-sub { color: #c0d4ff; font-size: 12px; }
+    .ad-premium .ad-arrow { color: rgba(255,255,255,0.6); }
+
+    /* ===== ОСТАЛЬНЫЕ ЭКРАНЫ ===== */
+    .profile-view, .rating-view, .battle-view { display: none; padding: 20px 16px; max-width: 600px; margin: 0 auto; }
+    .profile-view.active, .rating-view.active, .battle-view.active { display: block; }
+
+    /* Профиль */
+    .profile-header {
+      background: #fff; border-radius: 24px; padding: 24px;
+      text-align: center; border: 1px solid var(--border);
+      margin-bottom: 16px; box-shadow: 0 4px 20px rgba(10, 30, 89, 0.05);
+      position: relative; overflow: hidden;
+    }
+    .profile-header::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 100px;
+      background: linear-gradient(180deg, #0a1e59 0%, #1a4bff 100%); z-index: 0;
+    }
+    .profile-avatar {
+      width: 80px; height: 80px; border-radius: 50%; border: 4px solid #fff; object-fit: cover;
+      position: relative; z-index: 1; margin-top: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+    .profile-name { font-size: 20px; font-weight: 700; margin-top: 12px; position: relative; z-index: 1; }
+    .profile-level {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #f5f7fa; padding: 4px 12px; border-radius: 20px;
+      font-size: 12px; font-weight: 600; margin-top: 8px; position: relative; z-index: 1;
+    }
+    .profile-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 16px; position: relative; z-index: 1; }
+    .stat-box { background: #f5f7fa; border-radius: 14px; padding: 12px 8px; text-align: center; }
+    .stat-value { font-size: 20px; font-weight: 700; color: var(--dark); }
+    .stat-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+
+    /* Достижения */
+    .achievements-section {
+      background: #fff; border-radius: 24px; padding: 20px;
+      border: 1px solid var(--border); margin-bottom: 16px;
+      box-shadow: 0 4px 20px rgba(10, 30, 89, 0.05);
+    }
+    .section-title { font-size: 16px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+    .achievements-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    
+    .achievement { display: flex; flex-direction: column; align-items: center; gap: 6px; opacity: 0.3; transition: all 0.3s; }
+    .achievement.unlocked { opacity: 1; }
+    .ach-icon {
+      width: 56px; height: 56px; border-radius: 50%;
+      display: flex; justify-content: center; align-items: center;
+      background: #f5f7fa; border: 2px solid #e0e4ea;
+      position: relative; transition: all 0.3s;
+    }
+    .achievement.unlocked .ach-icon {
+      background: linear-gradient(135deg, #fff7e6, #ffe4a1);
+      border-color: #f5a623;
+      box-shadow: 0 4px 12px rgba(245, 166, 35, 0.3);
+    }
+    .achievement.unlocked .ach-icon::after {
+      content: ''; position: absolute; inset: -3px; border-radius: 50%;
+      border: 2px solid rgba(245, 166, 35, 0.3); animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%,100% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(1.1); opacity: 0; } }
+    
+    .ach-icon svg { width: 26px; height: 26px; stroke: #a0aabf; fill: none; stroke-width: 2; transition: all 0.3s; }
+    .achievement.unlocked .ach-icon svg { stroke: #b8860b; fill: #f5a623; }
+    .ach-name { font-size: 10px; font-weight: 600; text-align: center; color: var(--text-muted); line-height: 1.2; }
+    .achievement.unlocked .ach-name { color: var(--dark); }
+
+    /* ===== СЕКЦИЯ КУБКА (Зал Славы) ===== */
+    .hall-of-fame {
+      background: #fff; border-radius: 24px; padding: 24px 20px;
+      margin-bottom: 20px; border: 1px solid var(--border);
+      box-shadow: 0 4px 20px rgba(10, 30, 89, 0.05);
+      text-align: center; position: relative; overflow: hidden;
+    }
+    
+    .trophy-wrapper { position: relative; display: inline-block; margin-bottom: 16px; z-index: 2; }
+    .trophy-glow {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 140px; height: 140px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(245, 166, 35, 0.25) 0%, transparent 70%);
+      animation: glow 3s ease-in-out infinite; z-index: -1;
+    }
+    @keyframes glow { 0%,100% { transform: translate(-50%,-50%) scale(1); opacity: 0.6; } 50% { transform: translate(-50%,-50%) scale(1.2); opacity: 1; } }
+    
+    .trophy-img {
+      width: 100px; height: 100px; object-fit: contain;
+      filter: drop-shadow(0 10px 20px rgba(245, 166, 35, 0.5));
+      animation: floatTrophy 3s ease-in-out infinite;
+      position: relative; z-index: 2;
+    }
+    @keyframes floatTrophy { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    
+    .trophy-title { font-size: 18px; font-weight: 700; color: var(--dark); margin-bottom: 4px; position: relative; z-index: 2; }
+    .trophy-subtitle { font-size: 12px; color: var(--text-muted); margin-bottom: 20px; position: relative; z-index: 2; }
+
+    /* Подиум */
+    .podium-scene { display: flex; justify-content: center; align-items: flex-end; gap: 6px; padding-bottom: 4px; position: relative; z-index: 1; }
+    .podium-item { display: flex; flex-direction: column; align-items: center; position: relative; width: 90px; flex: 1; max-width: 100px; }
+    .avatar-container { position: relative; margin-bottom: 10px; z-index: 2; }
+    .avatar { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; border: 3px solid #fff; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+    .badge { position: absolute; bottom: -4px; right: -4px; width: 20px; height: 20px; border-radius: 50%; color: #fff; font-size: 11px; font-weight: bold; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; }
+    .podium-name { font-size: 12px; font-weight: 600; margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 80px; }
+    .pillar { width: 100%; border-radius: 10px 10px 0 0; display: flex; justify-content: center; align-items: flex-start; padding-top: 10px; color: rgba(255,255,255,0.9); font-weight: bold; font-size: 14px; }
+    .item-2 .pillar { height: 80px; background: linear-gradient(180deg, #ff9900 0%, #fff4e5 100%); border: 1px solid #ffcc80; border-bottom: none; }
+    .item-2 .badge { background-color: #ff9900; }
+    .item-2 .avatar { border-color: #ff9900; }
+    .item-1 .pillar { height: 110px; background: linear-gradient(180deg, #9933ff 0%, #f0e6ff 100%); border: 1px solid #cc99ff; border-bottom: none; z-index: 1; }
+    .item-1 .badge { background-color: #9933ff; }
+    .item-1 .avatar { border-color: #9933ff; width: 60px; height: 60px; }
+    .item-1 .podium-name { font-size: 13px; }
+    .item-3 .pillar { height: 60px; background: linear-gradient(180deg, #3399ff 0%, #e5f2ff 100%); border: 1px solid #99ccff; border-bottom: none; }
+    .item-3 .badge { background-color: #3399ff; }
+    .item-3 .avatar { border-color: #3399ff; }
+
+    /* Рейтинг */
+    .rating-view .rating-hero {
+      background: linear-gradient(135deg, #0a1e59 0%, #1a4bff 100%);
+      border-radius: 24px; padding: 24px; color: #fff; margin-bottom: 20px; text-align: center;
+      box-shadow: 0 10px 30px rgba(26, 75, 255, 0.2); position: relative; overflow: hidden;
+    }
+    .rating-hero .label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #c0d4ff; margin-bottom: 8px; }
+    .rating-hero .value { font-size: 40px; font-weight: 700; }
+    .rating-hero .level { display: inline-block; background: rgba(255,255,255,0.15); padding: 4px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; margin-top: 8px; }
+
+    .season-toggle { display: flex; background: #fff; border-radius: 14px; padding: 4px; border: 1px solid var(--border); margin-bottom: 16px; }
+    .season-btn { flex: 1; padding: 10px; border: none; background: transparent; border-radius: 10px; font-size: 13px; font-weight: 600; color: var(--text-muted); cursor: pointer; transition: all 0.2s; }
+    .season-btn.active { background: var(--dark); color: #fff; }
+
+    .leaderboard { background: #fff; border-radius: 24px; padding: 8px; border: 1px solid var(--border); box-shadow: 0 4px 20px rgba(10, 30, 89, 0.05); }
+    .leader-row { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--border); }
+    .leader-row:last-child { border-bottom: none; }
+    .leader-row.me { background: rgba(26, 75, 255, 0.05); border-radius: 12px; }
+    .leader-rank { font-size: 15px; font-weight: 700; color: var(--text-muted); width: 24px; }
+    .leader-rank.top1 { color: #9933ff; }
+    .leader-rank.top2 { color: #ff9900; }
+    .leader-rank.top3 { color: #3399ff; }
+    .leader-avatar { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+    .leader-info { flex: 1; min-width: 0; }
+    .leader-name { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .leader-sub { font-size: 11px; color: var(--text-muted); }
+    .leader-likes { font-size: 14px; font-weight: 700; color: var(--dark); display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+
+    /* Баттл */
+    .battle-header { text-align: center; margin-bottom: 20px; }
+    .battle-header h2 { font-size: 22px; font-weight: 600; }
+    .battle-header p { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+    .battle-card { background: #fff; border-radius: 18px; padding: 12px; border: 1px solid var(--border); margin-bottom: 12px; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 12px rgba(10, 30, 89, 0.03); }
+    .battle-card:active { transform: scale(0.98); border-color: var(--primary); }
+    .battle-card img { width: 100%; border-radius: 12px; aspect-ratio: 4/3; object-fit: cover; margin-bottom: 8px; }
+    .battle-card .title { font-size: 14px; font-weight: 600; padding: 0 4px; }
+    .vs-text { text-align: center; font-weight: 800; font-style: italic; color: var(--primary); font-size: 20px; margin: 4px 0 12px; font-family: var(--font-serif); }
+
+    /* ===== НИЖНЕЕ МЕНЮ ===== */
+    .bottom-nav {
+      position: fixed; bottom: 15px; left: 15px; right: 15px;
+      background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 24px;
+      display: flex; justify-content: space-around; padding: 8px 0;
+      z-index: 100; box-shadow: 0 8px 32px rgba(10, 30, 89, 0.15);
+      max-width: 500px; margin: 0 auto;
+    }
+    .nav-item {
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+      background: none; border: none; color: var(--text-muted); font-size: 10px; font-weight: 500;
+      cursor: pointer; padding: 4px 12px; border-radius: 16px; transition: all 0.2s;
+    }
+    .nav-item.active { color: var(--primary); background: rgba(26, 75, 255, 0.08); }
+    .nav-item svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; }
+    .nav-item.active svg { fill: var(--primary); stroke: var(--primary); }
+
+    .toast-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 999; display: flex; flex-direction: column; gap: 8px; width: 90%; max-width: 400px; pointer-events: none; }
+    .toast { background: var(--dark); color: #fff; padding: 12px 20px; border-radius: 14px; font-size: 13px; font-weight: 500; text-align: center; animation: toastIn 0.3s ease; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+    @keyframes toastIn { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: none; } }
+
+    .empty { text-align: center; color: var(--text-muted); padding: 40px 20px; font-size: 14px; }
+  </style>
+</head>
+<body>
+
+  <!-- СТАРТОВЫЙ ЭКРАН (ДЕМО) -->
+  <div id="demoScreen">
+    <div class="demo-badge">DEMO VERSION</div>
+    <div class="demo-title">Добро пожаловать<br>в <em>MemeArena</em></div>
+    <div class="demo-desc">Это демонстрационная версия приложения. Мы активно разрабатываем новые фичи и будем рады вашей помощи!</div>
+
+    <div class="demo-features">
+      <div class="demo-feature">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20"/></svg>
+        <span>Создавай и лайкай мемы</span>
+      </div>
+      <div class="demo-feature">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 17.5L3 6V3h3l11.5 11.5M13 19l6-6M16 16l4 4M19 21l2-2M5 14l6 6M2 22l2-2"/></svg>
+        <span>Сражайся в мем-баттлах</span>
+      </div>
+      <div class="demo-feature">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 21h8M12 17v4M17 4H7v6a5 5 0 0 0 10 0V4zM5 4H3v3a4 4 0 0 0 4 4M19 4h2v3a4 4 0 0 1-4 4"/></svg>
+        <span>Покоряй Зал славы</span>
+      </div>
+    </div>
+
+    <div class="demo-actions">
+      <button class="demo-btn-primary" onclick="startDemo()">
+        Продолжить в демо
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+      
+      <a href="https://t.me/www_mono" target="_blank" class="demo-btn-secondary" onclick="if(tg) tg.HapticFeedback.impactOccurred('medium');">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        Присоединиться к разработке
+      </a>
+    </div>
+
+    <div class="demo-footer">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Связь с разработчиком: @www_mono
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="top-nav">
+      <div class="logo">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        MemeArena
+      </div>
+      <div class="user-pill" onclick="switchScreen('profile')">
+        <img id="tgAvatar" src="" style="display:none;" alt="A">
+        <span id="tgName">Гость</span>
+      </div>
+    </div>
+    <h1>Обмен мемами,<br><em>powered by AI</em></h1>
+    <p>Единая платформа для создания, оценки и продвижения вирального контента.</p>
+  </div>
+
+  <!-- ЛЕНТА -->
+  <div id="feedView" class="feed-container">
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('top', this)">Топ</button>
+      <button class="tab" onclick="switchTab('new', this)">Новые</button>
+      <button class="tab" onclick="switchTab('mine', this)">Мои</button>
+      <button class="btn-roulette" onclick="showRandomMeme()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
+        Рулетка
+      </button>
+    </div>
+
+    <!-- ФОРМА ПУБЛИКАЦИИ (ВСЕГДА ОТКРЫТА) -->
+    <div class="publish-card">
+      <input type="text" id="memeUrl" class="create-input" placeholder="Ссылка на картинку (URL)...">
+      <label class="file-upload-label">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+        Загрузить с устройства
+        <input type="file" id="memeFile" accept="image/*" onchange="handleFileUpload(event)">
+      </label>
+      <input type="text" id="memeTitle" class="create-input" placeholder="Название мема..." onkeypress="if(event.key==='Enter') addMeme()">
+      <div class="create-actions">
+        <button class="btn-paste" onclick="pasteFromClipboard()" title="Вставить URL">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg>
+        </button>
+        <button class="btn-submit" onclick="addMeme()">Опубликовать</button>
+      </div>
+    </div>
+
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <!-- РЕЙТИНГ -->
+  <div id="ratingView" class="rating-view">
+    <div class="rating-hero">
+      <div class="label">Твой рейтинг</div>
+      <div class="value" id="ratingValue">0</div>
+      <div class="level" id="ratingLevel">Новичок</div>
+    </div>
+
+    <div class="season-toggle">
+      <button class="season-btn active" onclick="switchSeason('all', this)">За всё время</button>
+      <button class="season-btn" onclick="switchSeason('week', this)">За неделю</button>
+    </div>
+
+    <div class="hall-of-fame">
+      <div class="trophy-wrapper">
+        <div class="trophy-glow"></div>
+        <img src="https://fs.oblakoteka.ru/d.fotovssylku.ru/2026/11/13/IMG_8666.png" 
+             alt="Кубок" 
+             class="trophy-img"
+             onerror="this.style.display='none'; document.getElementById('fallbackTrophy').style.display='block';">
+        <svg id="fallbackTrophy" style="display:none; width: 100px; height: 100px; filter: drop-shadow(0 10px 20px rgba(245, 166, 35, 0.5)); animation: floatTrophy 3s ease-in-out infinite; position: relative; z-index: 2;" viewBox="0 0 24 24" fill="none" stroke="#f5a623" stroke-width="1.5">
+          <path d="M8 21h8M12 17v4M17 4H7v6a5 5 0 0 0 10 0V4zM5 4H3v3a4 4 0 0 0 4 4M19 4h2v3a4 4 0 0 1-4 4"/>
+        </svg>
+      </div>
+      <div class="trophy-title">Зал славы</div>
+      <div class="trophy-subtitle">Лучшие мемеры сезона</div>
+      
+      <div class="podium-scene" id="podiumScene"></div>
+    </div>
+
+    <!-- РЕКЛАМНЫЙ БАННЕР (ПРЕМИУМ) -->
+    <a href="https://t.me/www_mono" target="_blank" class="ad-premium" onclick="if(tg) tg.HapticFeedback.impactOccurred('light');">
+      <div class="ad-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7h7l-5.5 4.5 2 7L12 16l-6.5 4.5 2-7L2 9h7z"/></svg>
+      </div>
+      <div class="ad-content">
+        <div class="ad-label">Спонсор</div>
+        <div class="ad-title">Стать спонсором сезона</div>
+        <div class="ad-sub">Ваш баннер увидят все участники</div>
+      </div>
+      <svg class="ad-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+    </a>
+
+    <div class="leaderboard" id="leaderboard"></div>
+  </div>
+
+  <!-- ПРОФИЛЬ -->
+  <div id="profileView" class="profile-view">
+    <div class="profile-header">
+      <img id="profileAvatar" class="profile-avatar" src="https://i.pravatar.cc/150?img=13" alt="Avatar">
+      <div class="profile-name" id="profileName">Гость</div>
+      <div class="profile-level" id="profileLevel">Новичок</div>
+      
+      <div class="profile-stats">
+        <div class="stat-box">
+          <div class="stat-value" id="statLikes">0</div>
+          <div class="stat-label">Лайков</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value" id="statPosts">0</div>
+          <div class="stat-label">Постов</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value" id="statBest">0</div>
+          <div class="stat-label">Рекорд</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="achievements-section">
+      <div class="section-title">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f5a623" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M9 14l-2 7 5-3 5 3-2-7"/></svg>
+        Достижения
+      </div>
+      <div class="achievements-grid" id="achievementsGrid"></div>
+    </div>
+
+    <!-- РЕКЛАМНЫЙ БАННЕР (СПОНСОР) -->
+    <a href="https://t.me/www_mono" target="_blank" class="ad-banner" onclick="if(tg) tg.HapticFeedback.impactOccurred('light');">
+      <div class="ad-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+      </div>
+      <div class="ad-content">
+        <div class="ad-label">Реклама</div>
+        <div class="ad-title">Хотите здесь свой баннер?</div>
+        <div class="ad-sub">Напишите нам — обсудим условия</div>
+      </div>
+      <svg class="ad-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+    </a>
+
+    <div class="profile-progress">
+      <div class="progress-header">
+        <span>До следующего уровня</span>
+        <span id="progressText">0/10</span>
+      </div>
+      <div class="progress-bar"><span id="profileProgressBar" style="width: 0%"></span></div>
+    </div>
+  </div>
+
+  <!-- БАТТЛ -->
+  <div id="battleView" class="battle-view">
+    <div class="battle-header">
+      <h2>Мем-Баттл</h2>
+      <p>Выбери лучший мем, чтобы отдать голос</p>
+    </div>
+    <div id="battlePair"></div>
+  </div>
+
+  <!-- МЕНЮ -->
+  <div class="bottom-nav">
+    <button class="nav-item active" id="navFeed" onclick="switchScreen('feed')">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+      <span>Лента</span>
+    </button>
+    <button class="nav-item" id="navBattle" onclick="switchScreen('battle')">
+      <svg viewBox="0 0 24 24"><path d="M14.5 17.5L3 6V3h3l11.5 11.5M13 19l6-6M16 16l4 4M19 21l2-2M5 14l6 6M2 22l2-2"/></svg>
+      <span>Баттл</span>
+    </button>
+    <button class="nav-item" id="navRating" onclick="switchScreen('rating')">
+      <svg viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M17 4H7v6a5 5 0 0 0 10 0V4zM5 4H3v3a4 4 0 0 0 4 4M19 4h2v3a4 4 0 0 1-4 4"/></svg>
+      <span>Рейтинг</span>
+    </button>
+    <button class="nav-item" id="navProfile" onclick="switchScreen('profile')">
+      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span>Профиль</span>
+    </button>
+  </div>
+
+  <div class="toast-container" id="toastBox"></div>
+
+<script>
+  // ===== TELEGRAM =====
+  const tg = window.Telegram?.WebApp;
+  if (tg) {
+    tg.ready(); tg.expand();
+    tg.setHeaderColor('#040814');
+    tg.setBackgroundColor('#ffffff');
+    tg.BackButton.onClick(() => switchScreen('feed'));
+  }
+
+  // ===== ДЕМО ЭКРАН =====
+  const DEMO_KEY = 'meme_arena_demo_seen_v1';
+  if (localStorage.getItem(DEMO_KEY)) {
+    document.getElementById('demoScreen').classList.add('hidden');
+  }
+  function startDemo() {
+    document.getElementById('demoScreen').classList.add('hidden');
+    localStorage.setItem(DEMO_KEY, 'true');
+    if (tg) tg.HapticFeedback.impactOccurred('medium');
+  }
+
+  // ===== USER =====
+  let userId = 'guest';
+  let userName = 'Гость';
+  let userAvatar = 'https://i.pravatar.cc/150?img=13';
+
+  if (tg && tg.initDataUnsafe?.user) {
+    const user = tg.initDataUnsafe.user;
+    userId = user.id;
+    userName = user.first_name;
+    if (user.photo_url) userAvatar = user.photo_url;
+    
+    document.getElementById('tgName').textContent = userName;
+    document.getElementById('tgAvatar').src = userAvatar;
+    document.getElementById('tgAvatar').style.display = 'block';
+    document.getElementById('profileName').textContent = userName;
+    document.getElementById('profileAvatar').src = userAvatar;
+  }
+
+  // ===== ДЕМО ДАННЫЕ =====
+  const DEMO_MEMES = [
+    { id: 1, title: 'Когда код работает с первого раза', img: 'https://i.imgflip.com/1e3f3x.jpg', likes: 142, mine: false, created: Date.now() - 500000, author: 'Kazimir' },
+    { id: 2, title: 'Мой план на выходные', img: 'https://i.imgflip.com/1otk96.jpg', likes: 98, mine: false, created: Date.now() - 400000, author: 'David' },
+    { id: 3, title: 'Дизайнер сказал "минимализм"', img: 'https://i.imgflip.com/1ur9b0.jpg', likes: 210, mine: false, created: Date.now() - 300000, author: 'Anya' },
+    { id: 4, title: 'Понедельник утром', img: 'https://i.imgflip.com/26jxvz.jpg', likes: 75, mine: false, created: Date.now() - 200000, author: 'Max' },
+    { id: 5, title: 'Я и дедлайн', img: 'https://i.imgflip.com/1bhk5x.jpg', likes: 180, mine: false, created: Date.now() - 100000, author: 'Sonya' }
+  ];
+
+  const STORAGE_KEY = 'meme_arena_final_v8_' + userId;
+  const PLACEHOLDER = 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop';
+  
+  let memes = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+  if (memes.length === 0) {
+    memes = [...DEMO_MEMES];
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(memes));
+  }
+
+  let currentTab = 'top';
+  let currentSeason = 'all';
+  let pendingImage = null;
+
+  function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(memes)); }
+  function haptic(type = 'light') { if (tg) tg.HapticFeedback.impactOccurred(type); }
+  
+  function toast(msg) {
+    const box = document.getElementById('toastBox');
+    const el = document.createElement('div');
+    el.className = 'toast'; el.textContent = msg;
+    box.appendChild(el);
+    setTimeout(() => el.remove(), 2500);
+  }
+
+  // ===== УРОВНИ =====
+  const LEVELS = [
+    { name: 'Новичок', min: 0, max: 10 },
+    { name: 'Мемер', min: 10, max: 50 },
+    { name: 'Мем-лорд', min: 50, max: 150 },
+    { name: 'Император', min: 150, max: 500 },
+    { name: 'Легенда', min: 500, max: Infinity }
+  ];
+
+  function getLevel(rating) {
+    return LEVELS.find(l => rating >= l.min && rating < l.max) || LEVELS[LEVELS.length - 1];
+  }
+
+  // ===== ДОСТИЖЕНИЯ =====
+  const ACHIEVEMENTS = [
+    { id: 'first', name: 'Первый мем', icon: '<path d="M12 2v20M2 12h20"/>', check: (s) => s.posts >= 1 },
+    { id: 'hundred', name: 'Сотка', icon: '<circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/>', check: (s) => s.best >= 100 },
+    { id: 'viral', name: 'Виральный', icon: '<path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>', check: (s) => s.best >= 200 },
+    { id: 'sniper', name: 'Снайпер', icon: '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>', check: (s) => s.rating >= 300 },
+    { id: 'legend', name: 'Легенда', icon: '<path d="M12 2l3 7h7l-5.5 4.5 2 7L12 16l-6.5 4.5 2-7L2 9h7z"/>', check: (s) => s.rating >= 500 },
+    { id: 'active', name: 'Активист', icon: '<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>', check: (s) => s.posts >= 5 },
+    { id: 'popular', name: 'Популярный', icon: '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>', check: (s) => s.rating >= 50 },
+    { id: 'god', name: 'Бог мемов', icon: '<path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>', check: (s) => s.rating >= 1000 }
+  ];
+
+  function updateProfile() {
+    const myMemes = memes.filter(m => m.mine);
+    const rating = myMemes.reduce((s, m) => s + m.likes, 0);
+    const posts = myMemes.length;
+    const best = myMemes.reduce((max, m) => Math.max(max, m.likes), 0);
+    
+    document.getElementById('statLikes').textContent = rating;
+    document.getElementById('statPosts').textContent = posts;
+    document.getElementById('statBest').textContent = best;
+    
+    const lvl = getLevel(rating);
+    document.getElementById('profileLevel').textContent = lvl.name;
+    
+    const progress = lvl.max === Infinity ? 100 : ((rating - lvl.min) / (lvl.max - lvl.min)) * 100;
+    document.getElementById('profileProgressBar').style.width = progress + '%';
+    document.getElementById('progressText').textContent = lvl.max === Infinity ? 'MAX' : `${rating - lvl.min}/${lvl.max - lvl.min}`;
+
+    const stats = { rating, posts, best };
+    const grid = document.getElementById('achievementsGrid');
+    grid.innerHTML = ACHIEVEMENTS.map(a => {
+      const unlocked = a.check(stats);
+      return `
+        <div class="achievement ${unlocked ? 'unlocked' : ''}" title="${a.name}">
+          <div class="ach-icon">
+            <svg viewBox="0 0 24 24">${a.icon}</svg>
+          </div>
+          <div class="ach-name">${a.name}</div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // ===== РЕЙТИНГ =====
+  function renderRating() {
+    const myRating = memes.filter(m => m.mine).reduce((s, m) => s + m.likes, 0);
+    document.getElementById('ratingValue').textContent = myRating;
+    document.getElementById('ratingLevel').textContent = getLevel(myRating).name;
+
+    const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+    const filteredMemes = currentSeason === 'week' ? memes.filter(m => m.created >= weekAgo) : memes;
+
+    const authorsMap = {};
+    filteredMemes.forEach(m => {
+      const name = m.mine ? userName : (m.author || 'Аноним');
+      const avatar = m.mine ? userAvatar : `https://i.pravatar.cc/150?img=${m.id % 70}`;
+      if (!authorsMap[name]) authorsMap[name] = { name, avatar, likes: 0, posts: 0, mine: m.mine };
+      authorsMap[name].likes += m.likes;
+      authorsMap[name].posts += 1;
+    });
+    const authors = Object.values(authorsMap).sort((a, b) => b.likes - a.likes);
+
+    const top3 = authors.slice(0, 3);
+    const scene = document.getElementById('podiumScene');
+    if (top3.length < 3) {
+      scene.innerHTML = '<div class="empty" style="padding:10px;">Мало данных</div>';
+    } else {
+      const order = [top3[1], top3[0], top3[2]];
+      const classes = ['item-2', 'item-1', 'item-3'];
+      const ranks = [2, 1, 3];
+      scene.innerHTML = order.map((a, i) => `
+        <div class="podium-item ${classes[i]}">
+          <div class="avatar-container">
+            <img class="avatar" src="${a.avatar}" alt="${a.name}">
+            <div class="badge">${ranks[i]}</div>
+          </div>
+          <div class="podium-name">${escapeHtml(a.name)}</div>
+          <div class="pillar"><span>${a.likes}</span></div>
+        </div>
+      `).join('');
+    }
+
+    const lb = document.getElementById('leaderboard');
+    lb.innerHTML = authors.map((a, i) => `
+      <div class="leader-row ${a.mine ? 'me' : ''}">
+        <div class="leader-rank ${i===0?'top1':i===1?'top2':i===2?'top3':''}">${i+1}</div>
+        <img class="leader-avatar" src="${a.avatar}" alt="">
+        <div class="leader-info">
+          <div class="leader-name">${escapeHtml(a.name)} ${a.mine ? '(вы)' : ''}</div>
+          <div class="leader-sub">${a.posts} мемов</div>
+        </div>
+        <div class="leader-likes">${a.likes} <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+      </div>
+    `).join('');
+  }
+
+  function switchSeason(season, btn) {
+    currentSeason = season;
+    document.querySelectorAll('.season-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    haptic();
+    renderRating();
+  }
+
+  // ===== ДЕЙСТВИЯ =====
+  function handleFileUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      pendingImage = e.target.result;
+      document.getElementById('memeUrl').value = '';
+      document.getElementById('memeUrl').placeholder = 'Картинка загружена с устройства';
+      toast('Картинка загружена! Введите название и нажмите Опубликовать');
+      haptic();
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function addMeme() {
+    const urlInput = document.getElementById('memeUrl');
+    const titleInput = document.getElementById('memeTitle');
+    const urlVal = urlInput.value.trim();
+    const titleVal = titleInput.value.trim();
+    
+    if (!titleVal) { toast('Введите название мема'); return; }
+    const finalImg = pendingImage || (urlVal && /^https?:\/\//.test(urlVal) ? urlVal : PLACEHOLDER);
+
+    memes.push({
+      id: Date.now(),
+      title: titleVal.slice(0, 50),
+      img: finalImg,
+      likes: 0, liked: false, mine: true, created: Date.now()
+    });
+    
+    urlInput.value = '';
+    urlInput.placeholder = 'Ссылка на картинку (URL)...';
+    titleInput.value = '';
+    pendingImage = null;
+    document.getElementById('memeFile').value = '';
+    
+    save(); render(); haptic('medium');
+    toast('Мем опубликован!');
+  }
+
+  function pasteFromClipboard() {
+    navigator.clipboard.readText().then(text => {
+      document.getElementById('memeUrl').value = text;
+      haptic();
+    }).catch(() => toast('Нет доступа к буферу'));
+  }
+
+  function toggleLike(id) {
+    const m = memes.find(x => x.id === id);
+    if (!m) return;
+    m.liked ? m.likes-- : m.likes++;
+    m.liked = !m.liked;
+    haptic(m.liked ? 'medium' : 'light');
+    save(); render();
+  }
+
+  function shareMeme(id) {
+    const m = memes.find(x => x.id === id);
+    if (!m) return;
+    haptic();
+    const url = window.location.href;
+    const text = `Смотри какой мем: "${m.title}"`;
+    if (tg) {
+      tg.openTelegramLink(`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`);
+    } else {
+      navigator.clipboard.writeText(`${text} ${url}`);
+      toast('Ссылка скопирована!');
+    }
+  }
+
+  function showRandomMeme() {
+    if (memes.length === 0) return;
+    haptic('medium');
+    const random = memes[Math.floor(Math.random() * memes.length)];
+    const sorted = [...memes].sort((a,b) => b.likes - a.likes);
+    const idx = sorted.findIndex(m => m.id === random.id);
+    const cards = document.querySelectorAll('.card');
+    if (cards[idx]) {
+      cards[idx].scrollIntoView({ behavior: 'smooth', block: 'center' });
+      cards[idx].style.boxShadow = '0 0 0 3px #1a4bff, 0 8px 24px rgba(26,75,255,0.3)';
+      setTimeout(() => cards[idx].style.boxShadow = '', 1500);
+    }
+  }
+
+  // ===== НАВИГАЦИЯ =====
+  function switchScreen(screen) {
+    haptic();
+    document.getElementById('feedView').style.display = screen === 'feed' ? 'block' : 'none';
+    document.getElementById('battleView').classList.toggle('active', screen === 'battle');
+    document.getElementById('ratingView').classList.toggle('active', screen === 'rating');
+    document.getElementById('profileView').classList.toggle('active', screen === 'profile');
+    
+    document.getElementById('navFeed').classList.toggle('active', screen === 'feed');
+    document.getElementById('navBattle').classList.toggle('active', screen === 'battle');
+    document.getElementById('navRating').classList.toggle('active', screen === 'rating');
+    document.getElementById('navProfile').classList.toggle('active', screen === 'profile');
+    
+    if (tg) {
+      if (screen !== 'feed') tg.BackButton.show();
+      else tg.BackButton.hide();
+    }
+    
+    if (screen === 'battle') startBattle();
+    if (screen === 'feed') render();
+    if (screen === 'rating') renderRating();
+    if (screen === 'profile') updateProfile();
+  }
+
+  function switchTab(tab, btn) {
+    currentTab = tab;
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    haptic();
+    render();
+  }
+
+  // ===== БАТТЛ =====
+  function startBattle() {
+    const container = document.getElementById('battlePair');
+    if (memes.length < 2) {
+      container.innerHTML = '<div class="empty">Нужно минимум 2 мема</div>';
+      return;
+    }
+    const shuffled = [...memes].sort(() => Math.random() - 0.5);
+    const [a, b] = shuffled;
+    
+    container.innerHTML = `
+      <div class="battle-card" onclick="vote(${a.id})">
+        <img src="${a.img}" onerror="this.src='${PLACEHOLDER}'">
+        <div class="title">${escapeHtml(a.title)}</div>
+      </div>
+      <div class="vs-text">VS</div>
+      <div class="battle-card" onclick="vote(${b.id})">
+        <img src="${b.img}" onerror="this.src='${PLACEHOLDER}'">
+        <div class="title">${escapeHtml(b.title)}</div>
+      </div>
+    `;
+  }
+
+  function vote(winnerId) {
+    const w = memes.find(m => m.id === winnerId);
+    if (w) { w.likes++; save(); }
+    haptic('heavy');
+    toast('Голос засчитан!');
+    startBattle();
+  }
+
+  // ===== РЕНДЕР ЛЕНТЫ =====
+  function render() {
+    updateProfile();
+    const grid = document.getElementById('grid');
+    let list = [...memes];
+    
+    if (currentTab === 'top') list.sort((a,b) => b.likes - a.likes);
+    if (currentTab === 'new') list.sort((a,b) => b.created - a.created);
+    if (currentTab === 'mine') list = list.filter(m => m.mine).sort((a,b) => b.likes - a.likes);
+
+    if (!list.length) {
+      grid.innerHTML = '<div class="empty">Пока пусто. Загрузите первый мем!</div>';
+      return;
+    }
+
+    // Вставляем нативный баннер после 2-го мема
+    let html = '';
+    list.forEach((m, i) => {
+      html += `
+        <div class="card" style="animation-delay:${i * 50}ms">
+          <img src="${m.img}" onerror="this.src='${PLACEHOLDER}'" loading="lazy">
+          <div class="title">${escapeHtml(m.title)}</div>
+          <div class="card-bottom">
+            <div class="card-actions">
+              <button class="like-btn ${m.liked ? 'liked' : ''}" onclick="toggleLike(${m.id})">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="${m.liked ? 'var(--like-red)' : 'none'}" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                ${m.likes}
+              </button>
+              <button class="share-btn" onclick="shareMeme(${m.id})">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>
+              </button>
+            </div>
+            ${currentTab === 'top' ? `<span class="card-rank">#${i+1}</span>` : ''}
+          </div>
+        </div>
+      `;
+      
+      // Вставляем рекламный баннер после 2-го мема (только если мемов больше 2)
+      if (i === 1 && list.length > 2) {
+        html += `
+          <a href="https://t.me/www_mono" target="_blank" class="ad-banner" onclick="if(tg) tg.HapticFeedback.impactOccurred('light');">
+            <div class="ad-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7h7l-5.5 4.5 2 7L12 16l-6.5 4.5 2-7L2 9h7z"/></svg>
+            </div>
+            <div class="ad-content">
+              <div class="ad-label">Реклама</div>
+              <div class="ad-title">Хотите свой мем в топе?</div>
+              <div class="ad-sub">Продвиньте его через спонсорство</div>
+            </div>
+            <svg class="ad-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+          </a>
+        `;
+      }
+    });
+    
+    grid.innerHTML = html;
+  }
+
+  function escapeHtml(s) {
+    return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  // INIT
+  render();
+</script>
+</body>
+</html>
