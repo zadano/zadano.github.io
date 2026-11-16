@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no, maximum-scale=1.0">
+    <meta name="theme-color" content="#0a0a0c">
+    <title>Screp Master</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #000;
+            overscroll-behavior: none;
+            position: fixed;
+            inset: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        /* === ЭКРАН ЗАГРУЗКИ === */
+        .loader-screen {
+            position: fixed;
+            inset: 0;
+            background-image: url('https://raw.githubusercontent.com/zadano/zadano.github.io/main/Green%20Beam.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-color: #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 28px;
+            z-index: 100;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+        }
+
+        .loader-screen::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 40%, transparent 0%, rgba(0,0,0,0.45) 70%, rgba(0,0,0,0.85) 100%);
+            pointer-events: none;
+        }
+
+        .loader-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-logo {
+            width: 170px;
+            height: auto;
+            position: relative;
+            z-index: 1;
+            filter: drop-shadow(0 8px 32px rgba(0,0,0,0.6));
+        }
+
+        .loader-bar {
+            width: 100px;
+            height: 3px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 99px;
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+        }
+
+        .loader-bar::after {
+            content: '';
+            display: block;
+            width: 40%;
+            height: 100%;
+            background: #ff2d55;
+            border-radius: 99px;
+            animation: loadSlide 1.1s ease-in-out infinite;
+        }
+
+        @keyframes loadSlide {
+            0% { transform: translateX(-120%); }
+            100% { transform: translateX(350%); }
+        }
+
+        /* === СТАРТОВЫЙ ЭКРАН === */
+        .screen {
+            position: absolute;
+            inset: 0;
+            background: var(--tg-theme-bg-color, #0a0a0c);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            /* Учитываем safe-area + Telegram viewport */
+            padding-top: calc(max(24px, env(safe-area-inset-top)) + var(--tg-safe-top, 0px));
+            padding-bottom: calc(max(30px, env(safe-area-inset-bottom)) + var(--tg-safe-bottom, 0px));
+            padding-left: max(24px, env(safe-area-inset-left));
+            padding-right: max(24px, env(safe-area-inset-right));
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+            transform: translateX(30px) scale(0.98);
+            z-index: 1;
+            height: 100%;
+        }
+
+        .screen::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 50% at 50% 0%, rgba(255,45,85,0.12) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 40% at 50% 100%, rgba(255,45,85,0.06) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .screen.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(0) scale(1);
+        }
+
+        /* Верхняя строка */
+        .top-bar {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            position: relative;
+            z-index: 1;
+            animation: fadeDown 0.6s ease 0.1s both;
+        }
+
+        @keyframes fadeDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .logo {
+            width: 92px;
+            height: auto;
+        }
+
+        /* Центр */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 22px;
+            flex: 1;
+            justify-content: center;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+            min-height: 0;
+        }
+
+        /* Профиль */
+        .profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            animation: fadeUp 0.6s ease 0.2s both;
+        }
+
+        .avatar-wrap {
+            position: relative;
+        }
+
+        .avatar {
+            width: 88px;
+            height: 88px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff2d55, #ff6b81);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 34px;
+            font-weight: 700;
+            color: #fff;
+            overflow: hidden;
+            box-shadow: 0 0 0 3px rgba(255,45,85,0.15), 0 12px 36px rgba(255,45,85,0.25);
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .badge {
+            position: absolute;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #ff2d55, #ff4757);
+            color: #fff;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            padding: 3px 9px;
+            border-radius: 99px;
+            box-shadow: 0 4px 12px rgba(255,45,85,0.35);
+            border: 2px solid var(--tg-theme-bg-color, #0a0a0c);
+            white-space: nowrap;
+        }
+
+        .username {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--tg-theme-text-color, #fff);
+            letter-spacing: -0.4px;
+            margin-top: 6px;
+        }
+
+        /* Заголовок */
+        .headline {
+            text-align: center;
+            animation: fadeUp 0.6s ease 0.3s both;
+        }
+
+        .headline h1 {
+            font-size: 28px;
+            font-weight: 800;
+            line-height: 1.2;
+            color: var(--tg-theme-text-color, #fff);
+            letter-spacing: -0.6px;
+        }
+
+        .headline h1 span {
+            color: #ff2d55;
+        }
+
+        /* Текст */
+        .path-text {
+            text-align: center;
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--tg-theme-hint-color, rgba(255,255,255,0.55));
+            max-width: 280px;
+            font-weight: 500;
+            animation: fadeUp 0.6s ease 0.4s both;
+        }
+
+        .path-text strong {
+            color: #ff2d55;
+            font-weight: 700;
+        }
+
+        /* Низ */
+        .bottom-section {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+            animation: fadeUp 0.6s ease 0.5s both;
+            padding-top: 12px;
+        }
+
+        .btn {
+            width: 100%;
+            max-width: 320px;
+            padding: 18px;
+            background: linear-gradient(135deg, #ff2d55, #ff4757);
+            border: none;
+            border-radius: 99px;
+            color: #fff;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.15s ease, box-shadow 0.2s ease;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 28px rgba(255,45,85,0.35);
+            letter-spacing: 0.3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            touch-action: manipulation;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 50%);
+            border-radius: 99px;
+            pointer-events: none;
+        }
+
+        .btn:active {
+            transform: scale(0.96);
+            box-shadow: 0 4px 16px rgba(255,45,85,0.3);
+        }
+
+        .btn .arrow-icon {
+            font-size: 18px;
+            transition: transform 0.2s ease;
+        }
+
+        .btn:active .arrow-icon {
+            transform: translateX(3px);
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(14px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Компактный режим для маленьких экранов / низкой высоты viewport */
+        @media (max-height: 640px) {
+            .hero { gap: 16px; }
+            .avatar { width: 72px; height: 72px; font-size: 28px; }
+            .username { font-size: 20px; }
+            .headline h1 { font-size: 24px; }
+            .path-text { font-size: 13px; }
+            .btn { padding: 16px; font-size: 16px; }
+            .logo { width: 80px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ЗАГРУЗКА -->
+    <div class="loader-screen" id="loader">
+        <img class="loader-logo" src="https://raw.githubusercontent.com/zadano/zadano.github.io/main/Content.svg" alt="Screp Master">
+        <div class="loader-bar"></div>
+    </div>
+
+    <!-- СТАРТОВЫЙ ЭКРАН -->
+    <div class="screen" id="screen1">
+        <div class="top-bar">
+            <img class="logo" src="https://raw.githubusercontent.com/zadano/zadano.github.io/main/Content.svg" alt="Screp Master">
+        </div>
+
+        <div class="hero">
+            <div class="profile">
+                <div class="avatar-wrap">
+                    <div class="avatar" id="avatar">?</div>
+                    <div class="badge">Новичок</div>
+                </div>
+                <div class="username" id="username">Username</div>
+            </div>
+
+            <div class="headline">
+                <h1>Скрепка → <span>Дом</span></h1>
+            </div>
+
+            <div class="path-text">
+                Начни со скрепки и через <strong>трейды</strong> дойди до дома мечты
+            </div>
+        </div>
+
+        <div class="bottom-section">
+            <button class="btn" id="startBtn" onclick="startJourney()">
+                Начать
+                <span class="arrow-icon">→</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // === Telegram Mini App инициализация ===
+        const tg = window.Telegram?.WebApp;
+        let tgUser = null;
+
+        function applyTheme() {
+            if (!tg) return;
+            const p = tg.themeParams || {};
+            const root = document.documentElement;
+
+            // Прокидываем тему в CSS-переменные
+            if (p.bg_color) root.style.setProperty('--tg-theme-bg-color', p.bg_color);
+            if (p.text_color) root.style.setProperty('--tg-theme-text-color', p.text_color);
+            if (p.hint_color) root.style.setProperty('--tg-theme-hint-color', p.hint_color);
+
+            // Держим body в тон теме (убирает белые/чёрные вспышки при overscroll)
+            document.body.style.backgroundColor = p.bg_color || '#0a0a0c';
+
+            // Цвет хедера Telegram под наш фон
+            if (tg.setHeaderColor) {
+                try { tg.setHeaderColor(p.bg_color || '#0a0a0c'); } catch (e) {}
+            }
+            if (tg.setBackgroundColor) {
+                try { tg.setBackgroundColor(p.bg_color || '#0a0a0c'); } catch (e) {}
+            }
+        }
+
+        function applyViewport() {
+            if (!tg) return;
+            // Учитываем высоту стабильного viewport (без учёта клавиатуры)
+            const h = tg.viewportStableHeight || window.innerHeight;
+            document.documentElement.style.setProperty('--tg-vh', h + 'px');
+
+            // Safe area из Telegram (если браузер не отдаёт env)
+            const safeTop = tg.contentSafeAreaInset?.top ?? 0;
+            const safeBottom = tg.contentSafeAreaInset?.bottom ?? 0;
+            document.documentElement.style.setProperty('--tg-safe-top', safeTop + 'px');
+            document.documentElement.style.setProperty('--tg-safe-bottom', safeBottom + 'px');
+        }
+
+        if (tg) {
+            tg.ready();
+            tg.expand();
+
+            // Отключаем вертикальные свайпы (шторка не закрывает игру случайно)
+            if (tg.disableVerticalSwipes) {
+                try { tg.disableVerticalSwipes(); } catch (e) {}
+            }
+
+            // Запрещаем закрытие по свайпу вниз (если доступно)
+            if (tg.enableClosingConfirmation) {
+                try { tg.enableClosingConfirmation(); } catch (e) {}
+            }
+
+            applyTheme();
+            applyViewport();
+
+            tg.onEvent('themeChanged', applyTheme);
+            tg.onEvent('viewportChanged', applyViewport);
+
+            if (tg.initDataUnsafe?.user) {
+                tgUser = tg.initDataUnsafe.user;
+            }
+        }
+
+        // Фолбэк для запуска вне Telegram
+        if (!tgUser) {
+            tgUser = { first_name: "Username", photo_url: null };
+        }
+
+        // === Профиль ===
+        document.getElementById("username").textContent = tgUser.first_name || "Игрок";
+        const avatarEl = document.getElementById("avatar");
+        if (tgUser.photo_url) {
+            avatarEl.innerHTML = `<img src="${tgUser.photo_url}" alt="">`;
+        } else {
+            avatarEl.textContent = (tgUser.first_name || "?").charAt(0).toUpperCase();
+        }
+
+        // === Загрузка ===
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+                document.getElementById('screen1').classList.add('active');
+            }, 2000);
+        });
+
+        // === Старт игры ===
+        function startJourney() {
+            if (tg) {
+                if (tg.HapticFeedback) {
+                    tg.HapticFeedback.impactOccurred('medium');
+                }
+                // Отправляем событие боту
+                try {
+                    tg.sendData(JSON.stringify({ action: "start" }));
+                } catch (e) {}
+                // Закрываем Mini App
+                tg.close();
+            } else {
+                alert("Игра началась! (демо)");
+            }
+        }
+    </script>
+</body>
+</html>
