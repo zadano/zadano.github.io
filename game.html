@@ -35,7 +35,7 @@
             position: relative;
         }
 
-        /* === ЭКРАН ЗАГРУЗКИ === */
+        /* === ЭКРАН ЗАГРУЗКИ — фон + лого === */
         .loader-screen {
             position: fixed;
             inset: 0;
@@ -54,11 +54,12 @@
             padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
         }
 
+        /* Лёгкое затемнение для читаемости лого */
         .loader-screen::before {
             content: '';
             position: absolute;
             inset: 0;
-            background: radial-gradient(ellipse at 50% 40%, transparent 0%, rgba(0,0,0,0.45) 70%, rgba(0,0,0,0.85) 100%);
+            background: radial-gradient(ellipse at 50% 40%, transparent 0%, rgba(0,0,0,0.4) 70%, rgba(0,0,0,0.75) 100%);
             pointer-events: none;
         }
 
@@ -100,7 +101,7 @@
             100% { transform: translateX(350%); }
         }
 
-        /* === СТАРТОВЫЙ ЭКРАН === */
+        /* === СТАРТОВЫЙ ЭКРАН — уверенные градиентные эллипсы === */
         .screen {
             position: absolute;
             inset: 0;
@@ -109,7 +110,6 @@
             flex-direction: column;
             align-items: center;
             justify-content: space-between;
-            /* Учитываем safe-area + Telegram viewport */
             padding-top: calc(max(24px, env(safe-area-inset-top)) + var(--tg-safe-top, 0px));
             padding-bottom: calc(max(30px, env(safe-area-inset-bottom)) + var(--tg-safe-bottom, 0px));
             padding-left: max(24px, env(safe-area-inset-left));
@@ -120,17 +120,46 @@
             transform: translateX(30px) scale(0.98);
             z-index: 1;
             height: 100%;
+            overflow: hidden;
+        }
+
+        .screen::before,
+        .screen::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
         }
 
         .screen::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background:
-                radial-gradient(ellipse 80% 50% at 50% 0%, rgba(255,45,85,0.12) 0%, transparent 60%),
-                radial-gradient(ellipse 60% 40% at 50% 100%, rgba(255,45,85,0.06) 0%, transparent 70%);
-            pointer-events: none;
-            z-index: 0;
+            width: 520px;
+            height: 520px;
+            top: -200px;
+            left: -180px;
+            background: radial-gradient(
+                circle at center,
+                rgba(255,45,85,0.55) 0%,
+                rgba(255,45,85,0.28) 30%,
+                rgba(255,45,85,0.08) 55%,
+                transparent 72%
+            );
+            filter: blur(40px);
+        }
+
+        .screen::after {
+            width: 480px;
+            height: 480px;
+            bottom: -180px;
+            right: -160px;
+            background: radial-gradient(
+                circle at center,
+                rgba(140,70,255,0.42) 0%,
+                rgba(140,70,255,0.2) 30%,
+                rgba(140,70,255,0.06) 55%,
+                transparent 72%
+            );
+            filter: blur(40px);
         }
 
         .screen.active {
@@ -199,7 +228,7 @@
             font-weight: 700;
             color: #fff;
             overflow: hidden;
-            box-shadow: 0 0 0 3px rgba(255,45,85,0.15), 0 12px 36px rgba(255,45,85,0.25);
+            box-shadow: 0 0 0 3px rgba(255,45,85,0.2), 0 12px 36px rgba(255,45,85,0.35);
         }
 
         .avatar img {
@@ -221,7 +250,7 @@
             text-transform: uppercase;
             padding: 3px 9px;
             border-radius: 99px;
-            box-shadow: 0 4px 12px rgba(255,45,85,0.35);
+            box-shadow: 0 4px 12px rgba(255,45,85,0.4);
             border: 2px solid var(--tg-theme-bg-color, #0a0a0c);
             white-space: nowrap;
         }
@@ -295,7 +324,7 @@
             flex-shrink: 0;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 8px 28px rgba(255,45,85,0.35);
+            box-shadow: 0 8px 28px rgba(255,45,85,0.4);
             letter-spacing: 0.3px;
             display: flex;
             align-items: center;
@@ -332,7 +361,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Компактный режим для маленьких экранов / низкой высоты viewport */
+        /* Компактный режим */
         @media (max-height: 640px) {
             .hero { gap: 16px; }
             .avatar { width: 72px; height: 72px; font-size: 28px; }
@@ -346,13 +375,13 @@
 </head>
 <body>
 
-    <!-- ЗАГРУЗКА -->
+    <!-- ЗАГРУЗКА — фон + лого -->
     <div class="loader-screen" id="loader">
         <img class="loader-logo" src="https://raw.githubusercontent.com/zadano/zadano.github.io/main/Content.svg" alt="Screp Master">
         <div class="loader-bar"></div>
     </div>
 
-    <!-- СТАРТОВЫЙ ЭКРАН -->
+    <!-- СТАРТОВЫЙ ЭКРАН — градиентные эллипсы -->
     <div class="screen" id="screen1">
         <div class="top-bar">
             <img class="logo" src="https://raw.githubusercontent.com/zadano/zadano.github.io/main/Content.svg" alt="Screp Master">
@@ -385,7 +414,6 @@
     </div>
 
     <script>
-        // === Telegram Mini App инициализация ===
         const tg = window.Telegram?.WebApp;
         let tgUser = null;
 
@@ -393,16 +421,10 @@
             if (!tg) return;
             const p = tg.themeParams || {};
             const root = document.documentElement;
-
-            // Прокидываем тему в CSS-переменные
             if (p.bg_color) root.style.setProperty('--tg-theme-bg-color', p.bg_color);
             if (p.text_color) root.style.setProperty('--tg-theme-text-color', p.text_color);
             if (p.hint_color) root.style.setProperty('--tg-theme-hint-color', p.hint_color);
-
-            // Держим body в тон теме (убирает белые/чёрные вспышки при overscroll)
             document.body.style.backgroundColor = p.bg_color || '#0a0a0c';
-
-            // Цвет хедера Telegram под наш фон
             if (tg.setHeaderColor) {
                 try { tg.setHeaderColor(p.bg_color || '#0a0a0c'); } catch (e) {}
             }
@@ -413,11 +435,6 @@
 
         function applyViewport() {
             if (!tg) return;
-            // Учитываем высоту стабильного viewport (без учёта клавиатуры)
-            const h = tg.viewportStableHeight || window.innerHeight;
-            document.documentElement.style.setProperty('--tg-vh', h + 'px');
-
-            // Safe area из Telegram (если браузер не отдаёт env)
             const safeTop = tg.contentSafeAreaInset?.top ?? 0;
             const safeBottom = tg.contentSafeAreaInset?.bottom ?? 0;
             document.documentElement.style.setProperty('--tg-safe-top', safeTop + 'px');
@@ -427,34 +444,25 @@
         if (tg) {
             tg.ready();
             tg.expand();
-
-            // Отключаем вертикальные свайпы (шторка не закрывает игру случайно)
             if (tg.disableVerticalSwipes) {
                 try { tg.disableVerticalSwipes(); } catch (e) {}
             }
-
-            // Запрещаем закрытие по свайпу вниз (если доступно)
             if (tg.enableClosingConfirmation) {
                 try { tg.enableClosingConfirmation(); } catch (e) {}
             }
-
             applyTheme();
             applyViewport();
-
             tg.onEvent('themeChanged', applyTheme);
             tg.onEvent('viewportChanged', applyViewport);
-
             if (tg.initDataUnsafe?.user) {
                 tgUser = tg.initDataUnsafe.user;
             }
         }
 
-        // Фолбэк для запуска вне Telegram
         if (!tgUser) {
             tgUser = { first_name: "Username", photo_url: null };
         }
 
-        // === Профиль ===
         document.getElementById("username").textContent = tgUser.first_name || "Игрок";
         const avatarEl = document.getElementById("avatar");
         if (tgUser.photo_url) {
@@ -463,7 +471,6 @@
             avatarEl.textContent = (tgUser.first_name || "?").charAt(0).toUpperCase();
         }
 
-        // === Загрузка ===
         window.addEventListener('load', () => {
             setTimeout(() => {
                 document.getElementById('loader').classList.add('hidden');
@@ -471,17 +478,14 @@
             }, 2000);
         });
 
-        // === Старт игры ===
         function startJourney() {
             if (tg) {
                 if (tg.HapticFeedback) {
                     tg.HapticFeedback.impactOccurred('medium');
                 }
-                // Отправляем событие боту
                 try {
                     tg.sendData(JSON.stringify({ action: "start" }));
                 } catch (e) {}
-                // Закрываем Mini App
                 tg.close();
             } else {
                 alert("Игра началась! (демо)");
