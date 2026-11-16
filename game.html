@@ -39,7 +39,7 @@
         .loader-screen {
             position: fixed;
             inset: 0;
-            background-image: url('https://raw.githubusercontent.com/zadano/zadano.github.io/main/Green%20Beam.png');
+            background-image: url('https://github.com/zadano/zadano.github.io/blob/main/Blueprint%20%E2%80%94%20Vector.png?raw=true');
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center center;
@@ -54,25 +54,17 @@
             padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
         }
 
-        /* Лёгкое затемнение для читаемости лого */
-        .loader-screen::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(ellipse at 50% 40%, transparent 0%, rgba(0,0,0,0.4) 70%, rgba(0,0,0,0.75) 100%);
-            pointer-events: none;
-        }
-
         .loader-screen.hidden {
             opacity: 0;
             visibility: hidden;
         }
 
         .loader-logo {
-            width: 170px;
+            width: 187px; /* 170px + 10% */
             height: auto;
             position: relative;
             z-index: 1;
+            top: 9px;
             filter: drop-shadow(0 8px 32px rgba(0,0,0,0.6));
         }
 
@@ -91,7 +83,7 @@
             display: block;
             width: 40%;
             height: 100%;
-            background: #ff2d55;
+            background: #006FFF;
             border-radius: 99px;
             animation: loadSlide 1.1s ease-in-out infinite;
         }
@@ -139,9 +131,9 @@
             left: -180px;
             background: radial-gradient(
                 circle at center,
-                rgba(255,45,85,0.55) 0%,
-                rgba(255,45,85,0.28) 30%,
-                rgba(255,45,85,0.08) 55%,
+                rgba(0,111,255,0.55) 0%,
+                rgba(0,111,255,0.28) 30%,
+                rgba(0,111,255,0.08) 55%,
                 transparent 72%
             );
             filter: blur(40px);
@@ -154,9 +146,9 @@
             right: -160px;
             background: radial-gradient(
                 circle at center,
-                rgba(140,70,255,0.42) 0%,
-                rgba(140,70,255,0.2) 30%,
-                rgba(140,70,255,0.06) 55%,
+                rgba(0,111,255,0.42) 0%,
+                rgba(0,111,255,0.2) 30%,
+                rgba(0,111,255,0.06) 55%,
                 transparent 72%
             );
             filter: blur(40px);
@@ -220,7 +212,7 @@
             width: 88px;
             height: 88px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #ff2d55, #ff6b81);
+            background: linear-gradient(135deg, #006FFF, #4DA6FF);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -228,7 +220,7 @@
             font-weight: 700;
             color: #fff;
             overflow: hidden;
-            box-shadow: 0 0 0 3px rgba(255,45,85,0.2), 0 12px 36px rgba(255,45,85,0.35);
+            box-shadow: 0 0 0 3px rgba(0,111,255,0.2), 0 12px 36px rgba(0,111,255,0.35);
         }
 
         .avatar img {
@@ -242,7 +234,7 @@
             bottom: -4px;
             left: 50%;
             transform: translateX(-50%);
-            background: linear-gradient(135deg, #ff2d55, #ff4757);
+            background: linear-gradient(135deg, #006FFF, #3A9BFF);
             color: #fff;
             font-size: 9px;
             font-weight: 800;
@@ -250,7 +242,7 @@
             text-transform: uppercase;
             padding: 3px 9px;
             border-radius: 99px;
-            box-shadow: 0 4px 12px rgba(255,45,85,0.4);
+            box-shadow: 0 4px 12px rgba(0,111,255,0.4);
             border: 2px solid var(--tg-theme-bg-color, #0a0a0c);
             white-space: nowrap;
         }
@@ -278,7 +270,7 @@
         }
 
         .headline h1 span {
-            color: #ff2d55;
+            color: #006FFF;
         }
 
         /* Текст */
@@ -293,7 +285,7 @@
         }
 
         .path-text strong {
-            color: #ff2d55;
+            color: #006FFF;
             font-weight: 700;
         }
 
@@ -313,7 +305,7 @@
             width: 100%;
             max-width: 320px;
             padding: 18px;
-            background: linear-gradient(135deg, #ff2d55, #ff4757);
+            background: linear-gradient(135deg, #006FFF, #3A9BFF);
             border: none;
             border-radius: 99px;
             color: #fff;
@@ -324,7 +316,7 @@
             flex-shrink: 0;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 8px 28px rgba(255,45,85,0.4);
+            box-shadow: 0 8px 28px rgba(0,111,255,0.4);
             letter-spacing: 0.3px;
             display: flex;
             align-items: center;
@@ -344,7 +336,7 @@
 
         .btn:active {
             transform: scale(0.96);
-            box-shadow: 0 4px 16px rgba(255,45,85,0.3);
+            box-shadow: 0 4px 16px rgba(0,111,255,0.3);
         }
 
         .btn .arrow-icon {
