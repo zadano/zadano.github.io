@@ -1,7 +1,6 @@
 /* ═══════════════════════════════════════════════════════════
    ADMIN LOGIN — OTP-style popup (ручной ввод)
-   Подключение в index.html:
-     в <head>:  <script src="/popup.js" defer></script>
+   Все CSS-переменные изолированы под .sys-backdrop
    Пароль: 123000
    Редирект: /admin.html
    ═══════════════════════════════════════════════════════════ */
@@ -13,46 +12,47 @@
   const REDIRECT    = "/admin.html";
   const N           = 6;
 
-  /* ─── СТИЛИ (Motion Studies tokens + OTP) ─── */
+  /* ─── СТИЛИ — все переменные scoped под .sys-backdrop ─── */
   const CSS = `
-:root{
-  --stage:#000;
-  --card:#171717;
-  --surface:#262626;
-  --fill-1:rgba(255,255,255,.05);
-  --fill-2:rgba(255,255,255,.09);
-  --fill-3:rgba(255,255,255,.14);
-  --line:rgba(255,255,255,.12);
-  --text:#fff;
-  --text-2:rgba(255,255,255,.78);
-  --muted:#9a9a9a;
-  --muted-2:#828282;
-  --green:#34d17a;
-  --green-text:#3ce085;
-  --red:#ff5a5f;
-  --blue:#3ec9ff;
-  --on-green:#04140a;
-  --font:Inter,"Helvetica Neue",Helvetica,Arial,sans-serif;
-  --fs-xs:12px;
-  --fs-sm:13px;
-  --fs-base:15px;
-  --fs-lg:16px;
-  --fw-regular:400;
-  --fw-medium:500;
-  --fw-bold:600;
-  --r-tile:14px;
-  --r-pill:999px;
-}
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
 .sys-backdrop{
+  /* ── изолированные токены (не протекают в :root) ── */
+  --sys-stage:#000;
+  --sys-card:#171717;
+  --sys-surface:#262626;
+  --sys-fill-1:rgba(255,255,255,.05);
+  --sys-fill-2:rgba(255,255,255,.09);
+  --sys-fill-3:rgba(255,255,255,.14);
+  --sys-line:rgba(255,255,255,.12);
+  --sys-text:#fff;
+  --sys-text-2:rgba(255,255,255,.78);
+  --sys-muted:#9a9a9a;
+  --sys-muted-2:#828282;
+  --sys-green:#34d17a;
+  --sys-green-text:#3ce085;
+  --sys-red:#ff5a5f;
+  --sys-blue:#3ec9ff;
+  --sys-on-green:#04140a;
+  --sys-font:Inter,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  --sys-fs-xs:12px;
+  --sys-fs-sm:13px;
+  --sys-fs-base:15px;
+  --sys-fs-lg:16px;
+  --sys-fw-regular:400;
+  --sys-fw-medium:500;
+  --sys-fw-bold:600;
+  --sys-r-tile:14px;
+  --sys-r-pill:999px;
+  --sys-r-card:28px;
+
   position:fixed;inset:0;z-index:2000;
   background:rgba(0,0,0,.55);
   backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
   display:flex;align-items:center;justify-content:center;
   padding:16px;
   animation:sysFade .22s ease;
-  font-family:var(--font);
+  font-family:var(--sys-font);
 }
 .sys-backdrop[hidden]{display:none}
 @keyframes sysFade{from{opacity:0}to{opacity:1}}
@@ -60,11 +60,11 @@
 .sys-card{
   position:relative;
   width:100%;max-width:340px;
-  background:var(--card);
-  border-radius:28px;
+  background:var(--sys-card);
+  border-radius:var(--sys-r-card);
   padding:32px 20px 28px;
   animation:sysPop .38s cubic-bezier(.34,1.56,.64,1);
-  color:var(--text);
+  color:var(--sys-text);
   user-select:none;-webkit-user-select:none;
 }
 @keyframes sysPop{
@@ -75,52 +75,52 @@
 .sys-close{
   position:absolute;top:16px;right:16px;
   width:28px;height:28px;
-  background:var(--fill-2);border:none;border-radius:var(--r-pill);
+  background:var(--sys-fill-2);border:none;border-radius:var(--sys-r-pill);
   display:flex;align-items:center;justify-content:center;
-  cursor:pointer;color:var(--muted);font-size:13px;line-height:1;
+  cursor:pointer;color:var(--sys-muted);font-size:13px;line-height:1;
   transition:background .18s,color .18s,transform .18s;
   font-family:inherit;-webkit-tap-highlight-color:transparent;
 }
-.sys-close:hover{background:var(--fill-3);color:var(--text)}
+.sys-close:hover{background:var(--sys-fill-3);color:var(--sys-text)}
 .sys-close:active{transform:scale(.9)}
 
-/* OTP-компонент — твой, без изменений */
-.otp{position:relative;width:100%;text-align:center}
-.hint{font-size:var(--fs-sm);color:var(--muted);margin-bottom:16px;line-height:1.5}
-.hint b{color:var(--text);font-weight:var(--fw-medium)}
-.boxes{position:relative;height:56px;margin:0 auto}
-.bx{
-  position:absolute;top:0;height:56px;border-radius:var(--r-tile);
-  background:var(--surface);display:grid;place-items:center;
-  font-size:24px;font-weight:var(--fw-bold);
-  font-variant-numeric:tabular-nums;color:var(--text);
+/* OTP-компонент */
+.sys-otp{position:relative;width:100%;text-align:center}
+.sys-hint{font-size:var(--sys-fs-sm);color:var(--sys-muted);margin-bottom:16px;line-height:1.5}
+.sys-hint b{color:var(--sys-text);font-weight:var(--sys-fw-medium)}
+.sys-boxes{position:relative;height:56px;margin:0 auto}
+.sys-bx{
+  position:absolute;top:0;height:56px;border-radius:var(--sys-r-tile);
+  background:var(--sys-surface);display:grid;place-items:center;
+  font-size:24px;font-weight:var(--sys-fw-bold);
+  font-variant-numeric:tabular-nums;color:var(--sys-text);
   will-change:transform,width,left;
 }
-.bx i{font-style:normal;display:block;will-change:transform,opacity}
-.bx .car{
+.sys-bx i{font-style:normal;display:block;will-change:transform,opacity}
+.sys-bx .sys-car{
   position:absolute;width:2px;height:24px;border-radius:1px;
-  background:var(--text);left:50%;top:16px;margin-left:-1px;
+  background:var(--sys-text);left:50%;top:16px;margin-left:-1px;
 }
-.ok{
+.sys-ok{
   position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-  gap:8px;font-size:var(--fs-lg);font-weight:var(--fw-bold);
-  color:var(--on-green);opacity:0;pointer-events:none;
+  gap:8px;font-size:var(--sys-fs-lg);font-weight:var(--sys-fw-bold);
+  color:var(--sys-on-green);opacity:0;pointer-events:none;
 }
-.ok svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
-#sysInput{
+.sys-ok svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.sys-input{
   position:absolute;inset:0;width:100%;height:100%;
-  opacity:0;border:0;font-size:var(--fs-lg);z-index:2;
+  opacity:0;border:0;font-size:var(--sys-fs-lg);z-index:2;
   cursor:text;caret-color:transparent;
 }
 
-.err{
+.sys-err{
   position:absolute;left:0;right:0;bottom:-28px;
-  text-align:center;font-size:var(--fs-xs);color:var(--red);
-  font-weight:var(--fw-medium);opacity:0;transition:opacity .2s;
+  text-align:center;font-size:var(--sys-fs-xs);color:var(--sys-red);
+  font-weight:var(--sys-fw-medium);opacity:0;transition:opacity .2s;
 }
-.err.show{opacity:1}
-.err.shake{animation:errShake .4s ease}
-@keyframes errShake{
+.sys-err.show{opacity:1}
+.sys-err.shake{animation:sysErrShake .4s ease}
+@keyframes sysErrShake{
   0%,100%{transform:translateX(0)}
   20%{transform:translateX(-6px)}
   40%{transform:translateX(6px)}
@@ -132,7 +132,7 @@
   .sys-backdrop{padding:0;align-items:flex-end}
   .sys-card{
     max-width:100%;
-    border-radius:28px 28px 0 0;
+    border-radius:var(--sys-r-card) var(--sys-r-card) 0 0;
     padding-bottom:calc(28px + env(safe-area-inset-bottom));
     animation:sysSlideUp .4s cubic-bezier(.34,1.56,.64,1);
   }
@@ -143,12 +143,12 @@
   /* ─── РАЗМЕТКА ─── */
   const HTML = `
 <button class="sys-close" id="sysClose" aria-label="Close" type="button">✕</button>
-<div class="otp">
-  <p class="hint">Введите пароль для входа в <b>админ-панель</b></p>
-  <div class="boxes" id="sysBoxes">
-    <input id="sysInput" inputmode="numeric" autocomplete="current-password" maxlength="6" aria-label="6 digit password">
+<div class="sys-otp">
+  <p class="sys-hint">Введите пароль для входа в <b>админ-панель</b></p>
+  <div class="sys-boxes" id="sysBoxes">
+    <input class="sys-input" id="sysInput" inputmode="numeric" autocomplete="current-password" maxlength="6" aria-label="6 digit password">
   </div>
-  <p class="err" id="sysError">Неверный пароль</p>
+  <p class="sys-err" id="sysError">Неверный пароль</p>
 </div>
   `;
 
@@ -171,8 +171,7 @@
   backdrop.appendChild(card);
   document.body.appendChild(backdrop);
 
-  /* ─── SPRING ENGINE (упрощённый Motion) ─── */
-  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  /* ─── SPRING ENGINE ─── */
   const S = (x, k = 400, c = 30) => ({ x, v: 0, t: x, k, c });
   const step = (s, dt) => {
     const a = -s.k * (s.x - s.t) - s.c * s.v;
@@ -204,13 +203,13 @@
   const closeBtn = backdrop.querySelector("#sysClose");
 
   const bx = [...Array(N)].map(() => {
-    const el = document.createElement("div"); el.className = "bx";
+    const el = document.createElement("div"); el.className = "sys-bx";
     const d = document.createElement("i"); el.appendChild(d);
-    const car = document.createElement("span"); car.className = "car"; el.appendChild(car);
+    const car = document.createElement("span"); car.className = "sys-car"; el.appendChild(car);
     boxes.insertBefore(el, inp);
     return { el, d, car, y: S(0, 520, 16), o: S(0, 400, 28), a: S(0, 300, 26) };
   });
-  const ok = document.createElement("div"); ok.className = "ok";
+  const ok = document.createElement("div"); ok.className = "sys-ok";
   ok.innerHTML = '<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Verified</span>';
   boxes.appendChild(ok);
 
@@ -357,9 +356,9 @@
 
         const a = clamp(b.a.x, 0, 1), g = clamp(G.x, 0, 1);
         b.el.style.background = g > .01
-          ? `color-mix(in srgb, var(--green) ${(g * 100).toFixed(1)}%, var(--surface))`
+          ? `color-mix(in srgb, var(--sys-green) ${(g * 100).toFixed(1)}%, var(--sys-surface))`
           : a > .01
-            ? `color-mix(in srgb, var(--fill-3) ${(a * 100).toFixed(1)}%, var(--surface))`
+            ? `color-mix(in srgb, var(--sys-fill-3) ${(a * 100).toFixed(1)}%, var(--sys-surface))`
             : "";
 
         b.d.style.opacity = (clamp(b.o.x, 0, 1) * (1 - g)).toFixed(3);
