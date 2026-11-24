@@ -1,106 +1,135 @@
 /* ═══════════════════════════════════════════════════════════
-   ADMIN LOGIN POPUP — всё в одном файле
+   ADMIN LOGIN POPUP — новый дизайн + пароль 123000
    Подключение в index.html:
      в <head>:  <script src="/popup.js" defer></script>
-   Пароль: cats
+   Пароль: 123000
    Редирект: /admin.html
    ═══════════════════════════════════════════════════════════ */
 (function(){
   "use strict";
 
-  const PASSWORD = "cats";
+  const PASSWORD = "123000";
   const STORAGE_KEY = "zadano_admin";
   const REDIRECT = "/admin.html";
 
-  /* ─── СТИЛИ ─── */
+  /* ─── СТИЛИ (Motion Studies style) ─── */
   const CSS = `
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
 .sys-backdrop{
   position:fixed;inset:0;z-index:2000;
-  background:rgba(0,0,0,.4);
-  display:flex;align-items:flex-end;justify-content:center;
-  padding:14px;
-  padding-bottom:calc(14px + env(safe-area-inset-bottom));
-  animation:sysFade .2s ease;
+  background:rgba(0,0,0,.55);
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+  display:flex;align-items:center;justify-content:center;
+  padding:16px;
+  animation:sysFade .22s ease;
 }
 .sys-backdrop[hidden]{display:none}
 @keyframes sysFade{from{opacity:0}to{opacity:1}}
 
 .system-popup{
-  width:100%;max-width:380px;
-  background:#f0f0f0;
-  border:1px solid #b0b0b0;
-  border-radius:8px;
-  box-shadow:0 8px 30px rgba(0,0,0,.3);
+  width:100%;max-width:360px;
+  background:#171717;
+  border-radius:28px;
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:0 24px 60px rgba(0,0,0,.5);
   overflow:hidden;
-  animation:sysSlideUp .25s ease-out;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  animation:sysPop .38s cubic-bezier(.34,1.56,.64,1);
+  font-family:'Inter','Helvetica Neue',Helvetica,Arial,sans-serif;
+  color:#fff;
+  user-select:none;
 }
-@keyframes sysSlideUp{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes sysPop{
+  from{transform:scale(.92) translateY(16px);opacity:0}
+  to{transform:scale(1) translateY(0);opacity:1}
+}
 
 .system-popup .popup-header{
   display:flex;justify-content:space-between;align-items:center;
-  padding:10px 14px;
-  background:linear-gradient(to bottom,#e8e8e8,#d8d8d8);
-  border-bottom:1px solid #b0b0b0;
+  padding:18px 20px 8px;
 }
 .system-popup .popup-title{
-  font-size:13px;font-weight:600;color:#333;letter-spacing:.2px;
+  font-size:13px;font-weight:600;color:rgba(255,255,255,.78);
+  letter-spacing:.4px;text-transform:uppercase;
 }
 .system-popup .close-btn{
-  width:22px;height:22px;
-  background:#e0e0e0;border:1px solid #a0a0a0;border-radius:4px;
+  width:28px;height:28px;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:999px;
   display:flex;align-items:center;justify-content:center;
-  cursor:pointer;color:#555;font-size:14px;line-height:1;
-  transition:background-color .15s;font-family:inherit;
-}
-.system-popup .close-btn:hover{background:#d0d0d0}
-.system-popup .close-btn:active{background:#c0c0c0}
-
-.system-popup .popup-content{padding:14px}
-.system-popup .popup-message{
-  font-size:14px;color:#333;margin-bottom:14px;line-height:1.4;
-}
-.system-popup .input-field{
-  width:100%;padding:10px 12px;
-  font-size:16px;font-family:inherit;
-  color:#333;background:#fff;
-  border:1px solid #b0b0b0;border-radius:4px;outline:none;
-  transition:border-color .15s,box-shadow .15s;
-}
-.system-popup .input-field:focus{
-  border-color:#0078d4;
-  box-shadow:0 0 0 2px rgba(0,120,212,.2);
-}
-.system-popup .input-field::placeholder{color:#999}
-
-.system-popup .popup-actions{
-  display:flex;justify-content:flex-end;
-  padding:14px;
-  background:#e8e8e8;
-  border-top:1px solid #d0d0d0;
-}
-.system-popup .btn{
-  padding:8px 20px;font-size:13px;font-family:inherit;font-weight:500;
-  border-radius:4px;cursor:pointer;transition:background-color .15s;
+  cursor:pointer;color:#9a9a9a;font-size:13px;line-height:1;
+  transition:background .18s,color .18s,transform .18s;
+  font-family:inherit;
   -webkit-tap-highlight-color:transparent;
 }
-.system-popup .btn-enter{
-  background:#0078d4;color:#fff;border:1px solid #0063b1;
+.system-popup .close-btn:hover{background:rgba(255,255,255,.09);color:#fff}
+.system-popup .close-btn:active{transform:scale(.9)}
+
+.system-popup .popup-content{padding:8px 20px 4px}
+.system-popup .popup-message{
+  font-size:15px;color:rgba(255,255,255,.78);
+  margin-bottom:16px;line-height:1.45;
 }
-.system-popup .btn-enter:hover{background:#0063b1}
-.system-popup .btn-enter:active{background:#005a9e}
+.system-popup .input-wrap{position:relative}
+.system-popup .input-field{
+  width:100%;padding:14px 16px;
+  font-size:16px;font-family:inherit;font-weight:500;
+  color:#fff;background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.12);border-radius:14px;
+  outline:none;letter-spacing:2px;
+  transition:border-color .18s,box-shadow .18s,background .18s;
+}
+.system-popup .input-field:focus{
+  border-color:#3ec9ff;
+  background:rgba(62,201,255,.06);
+  box-shadow:0 0 0 3px rgba(62,201,255,.18);
+}
+.system-popup .input-field::placeholder{color:#828282;letter-spacing:normal;font-weight:400}
 
 .system-popup .sys-error{
-  font-size:12px;color:#c00;font-weight:600;margin-top:8px;
+  font-size:12px;color:#ff5a5f;font-weight:500;margin-top:10px;
+  animation:sysShake .4s ease;
+}
+@keyframes sysShake{
+  0%,100%{transform:translateX(0)}
+  20%{transform:translateX(-6px)}
+  40%{transform:translateX(6px)}
+  60%{transform:translateX(-4px)}
+  80%{transform:translateX(4px)}
 }
 
+.system-popup .popup-actions{
+  padding:16px 20px 20px;
+}
+.system-popup .btn{
+  width:100%;
+  padding:14px 20px;font-size:15px;font-family:inherit;font-weight:600;
+  border-radius:14px;cursor:pointer;
+  transition:transform .18s cubic-bezier(.34,1.56,.64,1),background .18s,box-shadow .18s;
+  -webkit-tap-highlight-color:transparent;
+  border:none;
+}
+.system-popup .btn-enter{
+  background:#fff;color:#000;
+  box-shadow:0 4px 14px rgba(0,0,0,.35);
+}
+.system-popup .btn-enter:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,0,0,.45)}
+.system-popup .btn-enter:active{transform:scale(.97)}
+
 @media(max-width:480px){
-  .sys-backdrop{padding:0}
+  .sys-backdrop{padding:0;align-items:flex-end}
   .system-popup{
     max-width:100%;
-    border-radius:12px 12px 0 0;
+    border-radius:28px 28px 0 0;
     border-bottom:none;
     padding-bottom:env(safe-area-inset-bottom);
+    animation:sysSlideUp .4s cubic-bezier(.34,1.56,.64,1);
+  }
+  @keyframes sysSlideUp{
+    from{transform:translateY(100%)}
+    to{transform:translateY(0)}
   }
 }
   `;
@@ -115,7 +144,9 @@
   <form id="sysForm">
     <div class="popup-content">
       <div class="popup-message">Доступ в админ-панель. Введите пароль.</div>
-      <input type="password" class="input-field" id="sysInput" placeholder="Пароль..." autocomplete="current-password">
+      <div class="input-wrap">
+        <input type="password" class="input-field" id="sysInput" placeholder="Пароль..." autocomplete="current-password" inputmode="numeric">
+      </div>
       <p class="sys-error" id="sysError" hidden>Неверный пароль</p>
     </div>
     <div class="popup-actions">
@@ -144,7 +175,6 @@
   const error    = backdrop.querySelector("#sysError");
   const closeBtn = backdrop.querySelector("#sysClose");
 
-  // Автоматически создаём ссылку "Panel" в футере, если её нет
   function ensureFooterLink(){
     if(document.getElementById("panelLink")) return document.getElementById("panelLink");
     const footer = document.querySelector(".footer") || document.querySelector("footer");
@@ -164,14 +194,13 @@
     error.hidden = true;
     input.value = "";
     document.body.style.overflow = "hidden";
-    setTimeout(()=>input.focus(), 100);
+    setTimeout(()=>input.focus(), 120);
   }
   function closePopup(){
     backdrop.hidden = true;
     document.body.style.overflow = "";
   }
 
-  // Ждём, пока DOM прогрузится — для случая, если footer ещё не отрисован
   function bindLink(){
     const link = ensureFooterLink();
     if(link){
@@ -201,12 +230,14 @@
       location.href = REDIRECT;
     } else {
       error.hidden = false;
+      error.style.animation = "none";
+      void error.offsetWidth;
+      error.style.animation = "";
       input.value = "";
       input.focus();
       if(window.gtag) gtag('event', 'admin_login', { result: 'fail' });
     }
   });
 
-  // Экспортируем в глобал, если понадобится открыть программно
   window.openAdminPopup = openPopup;
 })();
